@@ -1199,28 +1199,6 @@ app.filter('subscriptionFilter',
 	}
 	]);
 
-app.directive('upload', ['UploadModel', function factory(UploadModel) {
-   'use strict';
-	return {
-		restrict: 'A',
-		link: function (scope, element, attrs) {
-			$(element).fileupload({
-				dataType: 'text',
-				add: function (e, data) {
-					UploadModel.add(data);
-				},
-				progressall: function (e, data) {
-					var progress = parseInt(data.loaded / data.total * 100, 10);
-					UploadModel.setProgress(progress);
-				},
-				done: function (e, data) {
-					UploadModel.setProgress(0);
-				}
-			});
-		}
-	};
-}]);
-
 /**
 * Model:
 * Description: Generates a random uid.
