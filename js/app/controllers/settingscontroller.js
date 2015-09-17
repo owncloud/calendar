@@ -44,7 +44,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		$scope.calendarAdded = function (elem) {
 			$scope.files = elem.files;
 			$scope.$apply();
-			DialogModel.initsmall('#importmodel');
+			DialogModel.initsmall('#importdialog');
+			DialogModel.open('#importdialog');
 		};
 
 		$scope.importcalendar = function (id) {
@@ -74,7 +75,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.removecalendar = function (index) {
-			$scope.files.splice(index,1);
+			console.log(Object.getOwnPropertyNames($scope.files));
 		};
 
 		//to send a patch to add a hidden event again
