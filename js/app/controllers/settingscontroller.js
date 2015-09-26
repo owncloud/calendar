@@ -53,13 +53,13 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 		};
 
 		$scope.pushcalendar = function (id, index) {
-				var importinput = document.getElementById('import');
-				var reader = new FileReader();
-      	$scope.filescontent = importinput.files[0];
-				reader.onload = function(e) {
-          $scope.filescontent = reader.result;
-				};
-      	reader.readAsText($scope.filescontent);
+			var importinput = document.getElementById('import');
+			var reader = new FileReader();
+			$scope.filescontent = importinput.files[0];
+			reader.onload = function(e) {
+				$scope.filescontent = reader.result;
+			};
+			reader.readAsText($scope.filescontent);
 			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
 				$scope.filescontent,
 				'import',
