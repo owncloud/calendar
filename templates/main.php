@@ -38,7 +38,6 @@ foreach ($styles as $style) {
 }
 
 $scripts = [
-	'../3rdparty/jquery-file-upload/js/jquery.fileupload',
 	'../3rdparty/jquery-timepicker/jquery.ui.timepicker',
 	'../3rdparty/ical/ical',
 	'../3rdparty/jstzdetect/jstz.min',
