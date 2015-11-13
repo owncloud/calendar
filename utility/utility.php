@@ -72,4 +72,19 @@ class Utility {
 		$class = get_class($entity);
 		return substr($class, strrpos( $class, '\\' ) + 1);
 	}
+
+	/**
+	 * Check if a given (utf-8 encoded) string contains any 4 byte characters
+	 * @param $string the string to check for 4 byte characters
+	 * @return true if given string contains any character using 4 bytes
+	 *         false otherwise
+	 */
+	function contains4ByteUTF8Char($string) // 13.1965 secs for 1.000.000 repetitions
+	{
+		return preg_match('%(?:
+			\xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+			| [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+			| \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+		)%xs', $string) === 1;
+	}
 }

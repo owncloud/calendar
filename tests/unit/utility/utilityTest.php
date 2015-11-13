@@ -46,4 +46,22 @@ class UtilityTest extends \PHPUnit_Framework_TestCase {
 	public function testSlugifyEmptyInput() {
 		$this->assertNotEmpty(Utility::slugify(''));
 	}
+	private static $testChars = array(
+		"a", "K", "(", "0",			// 1 byte
+		"ö", "ä",					// 2 byte
+		"€", "唧",					// 3 byte
+		"😱", "🅰",					// 4 byte
+	);
+	private static $expected  = array(
+		false, false, false, false,	// 1 byte
+		false, false,				// 2 byte
+		false, false,				// 3 byte
+		true, true					// 4 byte
+	);
+	public function testContains4ByteUTF8Char() {
+		foreach (self::$testChars as $i => $char)
+		{
+			$this->assertSame(Utility::contains4ByteUTF8Char($char), self::$expected[$i]);
+		}
+	}
 }

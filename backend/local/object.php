@@ -28,6 +28,7 @@ namespace OCA\Calendar\Backend\Local;
 use OCA\Calendar\Backend as BackendUtils;
 use OCA\Calendar\Db\ObjectFactory;
 use OCA\Calendar\Db\Permissions;
+use OCA\Calendar\Utility\Utility;
 use OCA\Calendar\Utility\ObjectUtility;
 use OCA\Calendar\Backend\Exception as BackendException;
 use OCA\Calendar\CorruptDataException;
@@ -213,6 +214,12 @@ class Object extends Local implements BackendUtils\IObjectAPI, BackendUtils\IObj
 	 * @return array
 	 */
 	private function getObjectSqlParams(IObject $object, $calendarId) {
+		if (Utility::contains4ByteUTF8Char($object->getCalendarData())) {
+			throw new BackendException('Data contains unsupported characters (4 Byte UTF-8 characters like emojis)!');
+		}
+		if (Utility::contains4ByteUTF8Char($object->getSummary())) {
+			throw new BackendException('Summary contains unsupported characters (4 Byte UTF-8 characters like emojis)!');
+		}
 		return [
 			$this->getType($object->getType(), 'string'),
 			$this->getUTCforMDB($object->getStartDate()),
