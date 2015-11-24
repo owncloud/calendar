@@ -48,34 +48,26 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'Restangular', 'Ca
 			DialogModel.open('#importdialog');
 		};
 
-		$scope.importcalendar = function (id) {
-			$scope.calendarid = id;
-		};
-
-		$scope.pushcalendar = function (id, index) {
-			var importinput = document.getElementById('import');
+		$scope.import = function (file) {
 			var reader = new FileReader();
-			$scope.filescontent = importinput.files[0];
-			reader.onload = function(e) {
-				$scope.filescontent = reader.result;
-			};
-			reader.readAsText($scope.filescontent);
-			Restangular.one('calendars', $scope.calendarid).withHttpConfig({transformRequest: angular.identity}).customPOST(
-				$scope.filescontent,
-				'import',
-				undefined,
-				{
-					'Content-Type': 'text/calendar'
-				}
-			).then( function () {
-				console.log($scope.files);
-			}, function (response) {
-				OC.Notification.show(t('calendar', response.data.message));
-			});
-		};
+			file.isImporting = true;
 
-		$scope.removecalendar = function (index) {
-			console.log(Object.getOwnPropertyNames($scope.files));
+			reader.onload = function() {
+				Restangular.one('calendars', file.importToCalendar).withHttpConfig({transformRequest: angular.identity}).customPOST(
+						reader.result,
+						'import',
+						undefined,
+						{
+							'Content-Type': 'text/calendar'
+						}
+				).then( function () {
+					file.done = true;
+				}, function (response) {
+					OC.Notification.show(t('calendar', response.data.message));
+				});
+			};
+
+			reader.readAsText(file);
 		};
 
 		//to send a patch to add a hidden event again

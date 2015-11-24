@@ -70,28 +70,34 @@
 	<div id="importdialog" class="dialog" title="<?php p($l->t("Import Calendars")); ?>">
 		<table class="table">
 			<tbody>
-				<tr ng-repeat="file in files">
+				<tr ng-repeat="file in files" ng-show="!file.done">
+					<td>
+						<i class="fa fa-spinner fa-spin" ng-show="file.isImporting"></i>
+					</td>
 					<td class="name">
 						<span>{{ file.name }}</span>
 					</td>
 					<td class="calendartype">
 						<select
 							class="settings-select"
-							ng-model="importedcalendar"
-							ng-change="importcalendar(importedcalendar.id)"
-							ng-options="calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']">
+							ng-init="file.importToCalendar = (calendars | eventFilter | calendarFilter)[0].id"
+							ng-model="file.importToCalendar"
+							ng-options="calendar.id as calendar.displayname for calendar in calendars | eventFilter | calendarFilter | orderBy:['order']"
+							ng-disabled="file.isImporting">
 						</select>
 					</td>
 					<td class="buttongroup">
 						<div class="pull-right">
 							<button
 								class="primary btn"
-								ng-click="pushcalendar(importcalendar.id, $index)">
+								ng-click="import(file, $index)"
+								ng-disabled="file.isImporting">
 								<i class="fa fa-check fa-1x"></i>
 							</button>
 							<button
 								class="btn"
-								ng-click="removecalendar($index)">
+								ng-click="file.done = true"
+								ng-disabled="file.isImporting">
 								<i class="fa fa-remove fa-1x"></i>
 							</button>
 						</div>
