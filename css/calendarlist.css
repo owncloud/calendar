@@ -207,7 +207,7 @@
 /* ColorPicker overrides. */
 .colorpicker {
   display: block;
-  height: 30px;
+  height: 18px;
 }
 .colorpicker .colorpicker-list {
   display: block;
@@ -216,7 +216,7 @@
 }
 .colorpicker .colorpicker-list li {
   height: 100%;
-  width: 29px !important;
+  width: 18px !important;
   float: left;
 }
 .colorpicker .colorpicker-list li.selected {
