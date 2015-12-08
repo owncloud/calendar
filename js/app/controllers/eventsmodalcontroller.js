@@ -35,6 +35,7 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		$scope.nameofattendee = '';
 		$scope.eventsinfoview = true;
 		$scope.selected = 1;
+		$scope.nolocation = [];
 
 		$scope.tabs = [{
 			title: t('Calendar', 'Events Info'), value: 1
@@ -129,8 +130,8 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 		DialogModel.multiselect('#weeklyselect');
 
 		$scope.getLocation = function(val) {
-			return Restangular.one('autocompletion').getList('location',
-					{ 'location': $scope.properties.location }).then(function(res) {
+			return Restangular.one('/autocompletion').getList('location',
+					{ 'location' : val }).then(function(res) {
 					var locations = [];
 					angular.forEach(res, function(item) {
 						locations.push(item.label);
@@ -162,16 +163,6 @@ app.controller('EventsModalController', ['$scope', '$templateCache','$rootScope'
 			{ displayname: t('Calendar', 'Copied for Info'), val : 'NON-PARTICIPANT' }
 		];
 
-		$scope.getLocation = function() {
-			return Restangular.one('autocompletion').getList('location',
-				{ 'location': $scope.properties.location }).then(function(res) {
-					var locations = [];
-					angular.forEach(res, function(item) {
-						locations.push(item.label);
-					});
-					return locations;
-				});
-		};
 
 		//$scope.changerecurrence = function (id) {
 		//	if (id==='4') {
