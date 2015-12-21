@@ -15,7 +15,7 @@ addons:
     packages:
       - nodejs
       - python3-jinja2
-      - python3-setuptools
+      - python3-pip
       - apache2
       - libapache2-mod-fastcgi
       - firefox
@@ -38,8 +38,8 @@ before_install:
 install:
   - cd ..
   - export CHROME_BIN=/usr/bin/chromium-browser
-  - pip install --user requests
-  - pip install --user ocdev
+  - pip3 install --user requests
+  - pip3 install --user ocdev
   # clone core
   - ocdev setup core --dir owncloud --branch $CORE_BRANCH --no-history
   - mv calendar-rework calendar
