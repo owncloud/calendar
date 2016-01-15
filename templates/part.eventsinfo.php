@@ -25,32 +25,49 @@
 
 
 <fieldset class="event-fieldset">
-  <input
-    class="event-input h2"
-    ng-model="properties.summary.value"
-    placeholder="<?php p($l->t('Title of the Event'));?>"
-    name="title" type="text"
-    autofocus="autofocus"
-  />
+	<input
+		class="event-input h2"
+		ng-model="properties.summary.value"
+		placeholder="<?php p($l->t('Title of the Event'));?>"
+		name="title" type="text"
+		autofocus="autofocus"
+	/>
 </fieldset>
 
 
 
 <fieldset class="event-time event-fieldset">
-  <div class="event-time-interior pull-left">
-    <input type="text" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
-    <input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="properties.allDay" />
-  </div>
-  <div class="event-time-interior pull-right">
-    <input type="text" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
-    <input type="text" name="totime" id="totime" ng-model="totimemodel" ng-disabled="properties.allDay" />
-  </div>
-  <div class="event-time-interior event-time-interior-allday pull-left">
-    <input type="checkbox" name="alldayeventcheckbox"
-      ng-model="properties.allDay"
-      id="alldayeventcheckbox" class="event-checkbox" />
-    <label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
-  </div>
+	<div class="event-time-interior pull-left">
+		<input type="text" name="from" id="from" ng-model="fromdatemodel" placeholder="<?php p($l->t('from'));?>" />
+		<input type="text" name="fromtime" id="fromtime" ng-model="fromtimemodel" ng-disabled="properties.allDay" />
+		<button class="button btn-default btn-timezone" ng-click="fromdatetimezone = !fromdatetimezone">
+			<span class="icon-timezone"></span>
+		</button>
+	</div>
+	<div class="event-time-interior pull-right">
+		<input type="text" name="to" id="to" ng-model="todatemodel" placeholder="<?php p($l->t('to'));?>" />
+		<input type="text" name="totime" id="totime" ng-model="totimemodel" ng-disabled="properties.allDay" />
+		<button class="button btn-default btn-timezone" ng-click="todatetimezone = !todatetimezone">
+			<span class="icon-timezone"></span>
+		</button>
+	</div>
+	<div class="event-time-interior event-time-interior-allday pull-left">
+		<input type="checkbox" name="alldayeventcheckbox"
+		  ng-model="properties.allDay"
+		  id="alldayeventcheckbox" class="event-checkbox" />
+		<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
+	</div>
+</fieldset>
+
+
+<fieldset ng-show="fromdatetimezone" class="event-fieldset">
+	<label class="label"><?php p($l->t('Event Start')); ?></label>
+	<select ng-options="timezone for timezone in timezones" ng-model="properties.dtstart.tzid"></select>
+</fieldset>
+
+<fieldset ng-show="todatetimezone" class="event-fieldset">
+	<label class="label"><?php p($l->t('Event End')); ?></label>
+	<select ng-options="timezone for timezone in timezones" ng-model="properties.dtend.tzid"></select>
 </fieldset>
 
 
@@ -65,9 +82,9 @@
 
 
 <fieldset>
-  <input ng-model="properties.categories.value" type="text" class="event-input"
-    placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
-  <textarea ng-model="properties.description.value" type="text" class="event-input event-textarea"
-    placeholder="<?php p($l->t('Description'));?>" name="description">
-  </textarea>
+  	<input ng-model="properties.categories.value" type="text" class="event-input"
+    	placeholder="<?php p($l->t('Separate Categories with comma'));?>" name="categories" />
+	<textarea ng-model="properties.description.value" type="text" class="event-input event-textarea"
+		placeholder="<?php p($l->t('Description'));?>" name="description">
+	</textarea>
 </fieldset>

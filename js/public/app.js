@@ -552,7 +552,9 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 
 		};
 
-		DialogModel.multiselect('#weeklyselect');
+		Restangular.one('timezones-list').getList().then(function(timezones) {
+			$scope.timezones = timezones;
+		});
 
 		$scope.getLocation = function(val) {
 			/*return Restangular.one('autocompletion').getList('location',
@@ -796,7 +798,7 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 				$scope.properties.dtstart.time = moment_start_time.format('HH:mm:ss');
 				$scope.properties.dtend.time = moment_end_time.format('HH:mm:ss');
 
-				//TODO - make sure the timezones are loaded!!!!1111OneOneEleven
+				//TODO - make sure the timezones are loaded
 			}
 			$scope.properties.dtstart.date = moment_start.format('YYYY-MM-DD');
 			$scope.properties.dtend.date = moment_end.format('YYYY-MM-DD');
