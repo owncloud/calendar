@@ -172,8 +172,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 								controller: 'EventsSidebarEditorController',
 								appendTo: angular.element('#app-content'),
 								resolve: {
-									event: function() {
-										return result.event;
+									fcEvent: function() {
+										return fcEvent;
+									},
+									isNew: function() {
+										return false;
 									}
 								},
 								scope: $scope
