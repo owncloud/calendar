@@ -1020,6 +1020,7 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 		$scope.isNew = isNew;
 		$scope.calendar = isNew ? null : fcEvent.calendar;
 		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.selected = 1;
 
 		$scope.save = function() {
 			//todo - generate Data
@@ -1089,6 +1090,28 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'e
 			angular.element('#from').datepicker('setDate', moment_start.toDate());
 			angular.element('#to').datepicker('setDate', moment_end.toDate());
 		});
+
+		$scope.tabs = [{
+			title: t('Calendar', 'Attendees'), value: 2
+		}, {
+			title: t('Calendar', 'Alarms'), value: 3
+		}];
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 2) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+			} else if (val === 3) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+			}
+
+		};
 	}
 ]);
 /**
