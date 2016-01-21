@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -149,10 +149,43 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var simpleData = fcEvent.event.getSimpleData(fcEvent);
-					$rootScope.$broadcast('initializeEventEditor', {
-						data: simpleData,
-						onSuccess: function(newData) {
+					var modal = $uibModal.open({
+						templateUrl: 'eventspopovereditor.html',
+						controller: 'EventsPopoverEditorController',
+						appendTo: angular.element(this).parent(),
+						resolve: {
+							fcEvent: function() {
+								return fcEvent;
+							},
+							isNew: function() {
+								return false;
+							}
+						},
+						scope: $scope
+					});
+
+					modal.result.then(function(result) {
+						if (result.action === 'save') {
+							VEventService.update(result.event);
+						} else if (result.action === 'proceed') {
+							var extendedModal = $uibModal.open({
+								templateUrl: 'eventssidebareditor.html',
+								controller: 'EventsSidebarEditorController',
+								appendTo: angular.element('#app-content'),
+								resolve: {
+									fcEvent: function() {
+										return fcEvent;
+									},
+									isNew: function() {
+										return false;
+									}
+								},
+								scope: $scope
+							});
+
+							extendedModal.result.then(function(event) {
+								VEventService.update(event);
+							});
 						}
 					});
 				},

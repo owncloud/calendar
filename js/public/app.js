@@ -46,8 +46,8 @@ app.run(['$rootScope', '$window',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'objectConverter', 'is', 'uiCalendarConfig', '$uibModal',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, objectConverter, is, uiCalendarConfig, $uibModal) {
 		'use strict';
 
 		$scope.calendars = [];
@@ -169,10 +169,43 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var simpleData = fcEvent.event.getSimpleData(fcEvent);
-					$rootScope.$broadcast('initializeEventEditor', {
-						data: simpleData,
-						onSuccess: function(newData) {
+					var modal = $uibModal.open({
+						templateUrl: 'eventspopovereditor.html',
+						controller: 'EventsPopoverEditorController',
+						appendTo: angular.element(this).parent(),
+						resolve: {
+							fcEvent: function() {
+								return fcEvent;
+							},
+							isNew: function() {
+								return false;
+							}
+						},
+						scope: $scope
+					});
+
+					modal.result.then(function(result) {
+						if (result.action === 'save') {
+							VEventService.update(result.event);
+						} else if (result.action === 'proceed') {
+							var extendedModal = $uibModal.open({
+								templateUrl: 'eventssidebareditor.html',
+								controller: 'EventsSidebarEditorController',
+								appendTo: angular.element('#app-content'),
+								resolve: {
+									fcEvent: function() {
+										return fcEvent;
+									},
+									isNew: function() {
+										return false;
+									}
+								},
+								scope: $scope
+							});
+
+							extendedModal.result.then(function(event) {
+								VEventService.update(event);
+							});
 						}
 					});
 				},
@@ -890,6 +923,207 @@ app.controller('EventsModalController', ['$scope', '$rootScope', '$routeParams',
 ]);
 
 /**
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
+
+app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+		'use strict';
+
+		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.isNew = isNew;
+		$scope.calendar = isNew ? null : fcEvent.calendar;
+		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+
+		// proceed to right sidebar
+		$scope.proceed = function() {
+			$uibModalInstance.close({
+				action: 'proceed',
+				event: null
+			});
+		};
+
+		$scope.save = function() {
+			$uibModalInstance.close({
+				action: 'save',
+				event: null
+			});
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			// TODO: revaluate current solution:
+			// moment.js and the datepicker use different formats to format a date.
+			// therefore we have to do some conversion-black-magic to make the moment.js
+			// local formats work with the datepicker.
+			// THIS HAS TO BE TESTED VERY CAREFULLY
+			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+			// maybe move setting the date format into a try catch block
+			var localeData = moment.localeData();
+			angular.element('#from').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+			angular.element('#to').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+
+			angular.element('#fromtime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+			angular.element('#totime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+
+			var moment_start = moment($scope.properties.dtstart.date, 'YYYY-MM-DD');
+			var moment_end = moment($scope.properties.dtend.date, 'YYYY-MM-DD');
+
+			var midnight = new Date('2000-01-01 00:00');
+			if ($scope.properties.dtstart.type === 'date') {
+				angular.element('#fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = new Date('2000-01-01 ' + $scope.properties.dtstart.time);
+				angular.element('#fromtime').timepicker('setTime', fromTime);
+			}
+
+			if ($scope.properties.dtend.type === 'date') {
+				moment_end.subtract(1, 'days');
+				angular.element('#totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = new Date('2000-01-01 ' + $scope.properties.dtend.time);
+				angular.element('#totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#from').datepicker('setDate', moment_start.toDate());
+			angular.element('#to').datepicker('setDate', moment_end.toDate());
+		});
+	}
+]);
+/**
+ * Controller: Events Dialog Controller
+ * Description: Takes care of anything inside the Events Modal.
+ */
+
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'eventEditorHelper', '$uibModalInstance', 'fcEvent', 'isNew',
+	function($scope, TimezoneService, eventEditorHelper, $uibModalInstance, fcEvent, isNew) {
+		'use strict';
+
+		$scope.properties = fcEvent.event.getSimpleData(fcEvent);
+		$scope.isNew = isNew;
+		$scope.calendar = isNew ? null : fcEvent.calendar;
+		$scope.oldCalendar = isNew ? null : fcEvent.calendar;
+		$scope.selected = 1;
+
+		$scope.save = function() {
+			//todo - generate Data
+			$uibModalInstance.resolve(null);
+		};
+
+		$uibModalInstance.rendered.then(function() {
+			// TODO: revaluate current solution:
+			// moment.js and the datepicker use different formats to format a date.
+			// therefore we have to do some conversion-black-magic to make the moment.js
+			// local formats work with the datepicker.
+			// THIS HAS TO BE TESTED VERY CAREFULLY
+			// WE NEED A SHORT UNIT TEST IDEALLY FOR ALL LANGUAGES SUPPORTED
+			// maybe move setting the date format into a try catch block
+			var localeData = moment.localeData();
+			angular.element('#from').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+			angular.element('#to').datepicker({
+				dateFormat : localeData.longDateFormat('L').toLowerCase().replace('yy', 'y').replace('yyy', 'yy'),
+				monthNames: moment.months(),
+				monthNamesShort: moment.monthsShort(),
+				dayNames: moment.weekdays(),
+				dayNamesMin: moment.weekdaysMin(),
+				dayNamesShort: moment.weekdaysShort(),
+				firstDay: localeData.firstDayOfWeek(),
+				minDate: null
+			});
+
+			angular.element('#fromtime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+			angular.element('#totime').timepicker({
+				showPeriodLabels: false,
+				showLeadingZero: true,
+				showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1)
+			});
+
+			var moment_start = moment($scope.properties.dtstart.date, 'YYYY-MM-DD');
+			var moment_end = moment($scope.properties.dtend.date, 'YYYY-MM-DD');
+
+			var midnight = new Date('2000-01-01 00:00');
+			if ($scope.properties.dtstart.type === 'date') {
+				angular.element('#fromtime').timepicker('setTime', midnight);
+			} else {
+				var fromTime = new Date('2000-01-01 ' + $scope.properties.dtstart.time);
+				angular.element('#fromtime').timepicker('setTime', fromTime);
+			}
+
+			if ($scope.properties.dtend.type === 'date') {
+				moment_end.subtract(1, 'days');
+				angular.element('#totime').timepicker('setTime', midnight);
+			} else {
+				var toTime = new Date('2000-01-01 ' + $scope.properties.dtend.time);
+				angular.element('#totime').timepicker('setTime', toTime);
+			}
+
+			angular.element('#from').datepicker('setDate', moment_start.toDate());
+			angular.element('#to').datepicker('setDate', moment_end.toDate());
+		});
+
+		$scope.tabs = [{
+			title: t('Calendar', 'Attendees'), value: 2
+		}, {
+			title: t('Calendar', 'Alarms'), value: 3
+		}];
+
+		$scope.tabopener = function (val) {
+			$scope.selected = val;
+			if (val === 2) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = true;
+				$scope.eventsalarmview = false;
+			} else if (val === 3) {
+				$scope.eventsinfoview = false;
+				$scope.eventsrepeatview = false;
+				$scope.eventsattendeeview = false;
+				$scope.eventsalarmview = true;
+			}
+
+		};
+	}
+]);
+/**
  * Controller: SettingController
  * Description: Takes care of the Calendar Settings.
  */
@@ -1190,6 +1424,31 @@ app.filter('calendarFilter',
 	}
 	]);
 
+app.filter('calendarSelectorFilter',
+	function () {
+		'use strict';
+
+		return function (calendars, calendar) {
+			var options = calendars.filter(function (c) {
+				return c.cruds.create;
+			});
+
+			if (calendar === null) {
+				return options;
+			}
+
+			if (!calendar.cruds.delete) {
+				return [calendar];
+			} else {
+				if (options.indexOf(calendar) === -1) {
+					options.push(calendar);
+				}
+
+				return options;
+			}
+		};
+	}
+);
 app.filter('datepickerFilter',
 	function () {
 		'use strict';
