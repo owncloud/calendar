@@ -34,6 +34,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		$scope.eventSources = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
+		$scope.eventModal = null;
 		var switcher = [];
 
 		var w = angular.element($window);
@@ -148,7 +149,11 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				firstDay: moment().startOf('week').format('d'),
 				select: $scope.newEvent,
 				eventClick: function(fcEvent, jsEvent, view) {
-					var modal = $uibModal.open({
+					if ($scope.eventModal !== null) {
+						$scope.eventModal.dismiss('superseded');
+					}
+
+					$scope.eventModal = $uibModal.open({
 						templateUrl: 'eventspopovereditor.html',
 						controller: 'EventsPopoverEditorController',
 						appendTo: angular.element(this).parent(),
@@ -163,7 +168,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 						scope: $scope
 					});
 
-					modal.result.then(function(result) {
+					$scope.eventModal.result.then(function(result) {
 						if (result.action === 'save') {
 							VEventService.update(result.event);
 						} else if (result.action === 'proceed') {
@@ -184,8 +189,13 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 
 							extendedModal.result.then(function(event) {
 								VEventService.update(event);
+								$scope.eventModal = null;
+							}, function(reason) {
+								$scope.eventModal = null;
 							});
 						}
+					}, function(reason) {
+						$scope.eventModal = null;
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
