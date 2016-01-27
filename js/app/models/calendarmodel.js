@@ -17,12 +17,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					vjournal: false,
 					vtodo: false
 				},
-				cruds: {
-					create: props.canWrite,
-					read: true,
-					update: props.canWrite,
-					delete: props.canWrite,
-					share: props.canWrite
+				writable: props.canWrite,
+				shareable: props.canWrite,
+				sharedWith: {
+					users: [ {displayname: 'Tom Needham', writeable: true} ],
+					groups: []
 				}
 			},
 			_updatedProperties: []
@@ -50,14 +49,17 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						});
 					});
 				},
-				editable: this._properties.cruds.update,
+				editable: this._properties.writable,
 				calendar: this
 			},
 			list: {
 				edit: false,
 				loading: this.enabled,
-				locked: false
-			}
+				locked: false,
+				editingShares: false
+			},
+			newSharee: null,
+			noResults: false
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -99,6 +101,12 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.color = color;
 			this._setUpdated('color');
 		},
+		get sharedWith() {
+			return this._properties.sharedWith;
+		},
+		set sharedWith(sharedWith) {
+			this._properties.sharedWith = sharedWith;
+		},
 		get textColor() {
 			var color = this.color;
 			var fallbackColor = '#fff';
@@ -139,8 +147,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get cruds() {
-			return this._properties.cruds;
+		get writable() {
+			return this._properties.writable;
+		},
+		get shareable() {
+			return this._properties.shareable;
 		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
@@ -164,6 +175,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		toggleSharesEditor: function() {
+			this.list.editingShares = !this.list.editingShares;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);

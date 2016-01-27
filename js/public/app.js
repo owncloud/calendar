@@ -260,7 +260,7 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('border-color', updatedCalendar.color);
 				angular.element('.fcCalendar-id-' + updatedCalendar.tmpId).css('color', updatedCalendar.textColor);
 			}
-			$scope.eventSource[url].editable = updatedCalendar.cruds.update;
+			$scope.eventSource[url].editable = updatedCalendar.writable;
 		});
 
 		/**
@@ -334,15 +334,99 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(url);
 		};
 
+		$scope.toggleSharesEditor = function (calendar) {
+			calendar.toggleSharesEditor();
+		}
+
 		$scope.prepareUpdate = function (calendar) {
 			calendar.prepareUpdate();
 		};
+
+		$scope.findSharee = function (val) {
+			$.get(
+				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
+				{
+					format: 'json',
+					search: val.trim(),
+					perPage: 200
+					/*itemType: view.model.get('itemType') */
+				},
+				function (result) {
+					console.log(result);
+					// Return the object list of users /  groups
+					if (result.ocs.meta.statuscode == 100) {
+						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
+						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
+						//var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes); // TODO do we handle remotes?
+
+						// Filter out current user
+						usersLength = users.length;
+						for (i = 0 ; i < usersLength; i++) {
+							if (users[i].value.shareWith === OC.currentUser) {
+								users.splice(i, 1);
+								break;
+							}
+						}
+
+						var userShares = calendar.sharedWith.users;
+						var groupShares = calendar.sharedWith.groups;
+						var userSharesLength = userShares.length;
+						var groupSharesLength = groupShares.length;
+
+						// Now filter out all sharees that are already shared with
+						for (i = 0; i < userSharesLength; i++) {
+							var share = userShares[i];
+							usersLength = users.length;
+							for (j = 0; j < usersLength; j++) {
+								if (users[j].value.shareWith === share.id) {
+									users.splice(j, 1);
+									break;
+								}
+							}
+						}
+
+						/*
+						 * Waiting until we know how these are returned by Calendar Model
+						for (i = 0; i < groupSharesLength; i++) {
+							var share = groupShares[i];
+							groupsLength = groups.length;
+							for (j = 0; j < groupsLength; j++) {
+								if (groups[j].value.shareWith === share.share_with) {
+									groups.splice(j, 1);
+									break;
+								}
+							}
+						}
+						*/
+
+						// Now return the suggestions
+						return users;
+					} else {
+						// Fail as well.
+					}
+				}).fail(function() {
+					// Return nothing??
+				});
+		}
 
 		$scope.cancelUpdate = function (calendar) {
 			calendar.resetToPreviousState();
 		};
 
 		$scope.performUpdate = function (calendar) {
+			CalendarService.update(calendar).then(function() {
+				calendar.dropPreviousState();
+				calendar.list.edit = false;
+				console.log(calendar);
+				$rootScope.$broadcast('updatedCalendar', calendar);
+				$rootScope.$broadcast('reloadCalendarList');
+			});
+		};
+
+		/**
+		 * Updates the shares of the calendar
+		 */
+		$scope.performUpdateShares = function (calendar) {
 			CalendarService.update(calendar).then(function() {
 				calendar.dropPreviousState();
 				calendar.list.edit = false;
@@ -1154,41 +1238,39 @@ app.directive('openDialog', function() {
 	};
 });
 
-app.filter('calendareventFilter',
-	[ function () {
+app.filter('calendareventFilter', [
+	function() {
 		'use strict';
-		var calendareventfilter = function (item) {
+		return function (item) {
 			var filter = [];
 			if (item.length > 0) {
 				for (var i = 0; i < item.length; i++) {
-					if (item[i].cruds.create === true) {
+					if (item[i].writable === true) {
 						filter.push(item[i]);
 					}
 				}
 			}
 			return filter;
 		};
-		return calendareventfilter;
-	}]
-);
-
-app.filter('calendarFilter',
-	[ function () {
-		'use strict';
-		var calendarfilter = function (item) {
-			var filter = [];
-			if (item.length > 0) {
-				for (var i = 0; i < item.length; i++) {
-					if (item[i].cruds.create === true || item[i].cruds.update === true || item[i].cruds.delete === true) {
-						filter.push(item[i]);
-					}
-				}
-			}
-			return filter;
-		};
-		return calendarfilter;
 	}
-	]);
+]);
+
+app.filter('calendarFilter', [
+	function() {
+		'use strict';
+		return function (item) {
+			var filter = [];
+			if (item.length > 0) {
+				for (var i = 0; i < item.length; i++) {
+					if (item[i].writable === true) {
+						filter.push(item[i]);
+					}
+				}
+			}
+			return filter;
+		};
+	}
+]);
 
 app.filter('datepickerFilter',
 	function () {
@@ -1321,7 +1403,7 @@ app.filter('subscriptionFilter',
 			var filter = [];
 			if (item.length > 0) {
 				for (var i = 0; i < item.length; i++) {
-					if (item[i].cruds.create === false && item[i].cruds.update === false && item[i].cruds.delete === false) {
+					if (item[i].writable === false) {
 						filter.push(item[i]);
 					}
 				}
@@ -1351,12 +1433,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 					vjournal: false,
 					vtodo: false
 				},
-				cruds: {
-					create: props.canWrite,
-					read: true,
-					update: props.canWrite,
-					delete: props.canWrite,
-					share: props.canWrite
+				writable: props.canWrite,
+				shareable: props.canWrite,
+				sharedWith: {
+					users: [ {displayname: 'Tom Needham', writeable: true} ],
+					groups: []
 				}
 			},
 			_updatedProperties: []
@@ -1384,14 +1465,17 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 						});
 					});
 				},
-				editable: this._properties.cruds.update,
+				editable: this._properties.writable,
 				calendar: this
 			},
 			list: {
 				edit: false,
 				loading: this.enabled,
-				locked: false
-			}
+				locked: false,
+				editingShares: false
+			},
+			newSharee: null,
+			noResults: false
 		});
 
 		var components = props['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
@@ -1433,6 +1517,12 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.color = color;
 			this._setUpdated('color');
 		},
+		get sharedWith() {
+			return this._properties.sharedWith;
+		},
+		set sharedWith(sharedWith) {
+			this._properties.sharedWith = sharedWith;
+		},
 		get textColor() {
 			var color = this.color;
 			var fallbackColor = '#fff';
@@ -1473,8 +1563,11 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			this._properties.order = order;
 			this._setUpdated('order');
 		},
-		get cruds() {
-			return this._properties.cruds;
+		get writable() {
+			return this._properties.writable;
+		},
+		get shareable() {
+			return this._properties.shareable;
 		},
 		_setUpdated: function(propName) {
 			if (this._updatedProperties.indexOf(propName) === -1) {
@@ -1498,6 +1591,9 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 		},
 		dropPreviousState: function() {
 			this._propertiesBackup = {};
+		},
+		toggleSharesEditor: function() {
+			this.list.editingShares = !this.list.editingShares;
 		},
 		_generateTextColor: function(r,g,b) {
 			var brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000);
@@ -1590,6 +1686,9 @@ app.factory('VEvent', ['$filter', 'fcHelper', 'objectConverter', function($filte
 
 app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
 	'use strict';
+
+	this.SHARING_USER = 0;
+	this.SHARING_GROUP = 1;
 
 	var _this = this;
 
@@ -1817,6 +1916,22 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return false;
 			}
 		});
+	};
+
+	this.share = function(calendar, shareType, shareWith, writable) {
+		if (shareType === this.SHARING_USER) {
+			calendar.sharedWith.users.push({
+				id: shareWith,
+				displayname: shareWith,
+				writable: writable
+			});
+		} else if (shareType === this.SHARING_GROUP) {
+			calendar.sharedWith.groups.push({
+				id: shareWith,
+				displayname: shareWith,
+				writable: writable
+			});
+		}
 	};
 
 	this._createXMLForProperty = function(xmlDoc, propName, value) {
@@ -2169,7 +2284,7 @@ app.factory('fcHelper', function () {
 	 */
 	function addCalendarDataToFCData(fcData, calendar) {
 		fcData.calendar = calendar;
-		fcData.editable = calendar.cruds.update;
+		fcData.editable = calendar.editable;
 		fcData.backgroundColor = calendar.color;
 		fcData.borderColor = calendar.color;
 		fcData.textColor = calendar.textColor;
