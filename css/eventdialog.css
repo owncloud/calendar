@@ -178,7 +178,7 @@ button.delete:hover, button.delete:focus {
 }
 
 .advanced .pull-half {
-	width: 48%;
+	width: 48% !important;
 }
 
 
@@ -228,3 +228,44 @@ button.delete:hover, button.delete:focus {
 .dropdown-menu li a:hover {
 	background: #eee;
 }
+
+.advanced--fieldset table {
+	width: 100%;
+}
+
+.advanced--fieldset table td {
+	text-align: center;
+}
+
+.advanced--fieldset table td.four-rows {
+	width: 25%;
+}
+
+.advanced--fieldset table td.seven-rows {
+	width: 14%;
+}
+
+.advanced--fieldset table label {
+	display: block;
+	width: 100%;
+	background-color: rgba(240,240,240,.9);
+	padding: 0.5em 0 0.5em 0;
+}
+
+.repeat_checkboxtable_checkbox:checked + .repeat_checkboxtable_label {
+	background-color: rgba(190,190,190,.9);
+}
+
+.advanced--fieldset table input {
+	display: none;
+}
+
+.advanced--fieldset input[type="number"] {
+	width: 3em;
+}
+
+.advanced--fieldset label.inline-label {
+	padding: 7px 6px 5px 0;
+	display: block;
+}
+

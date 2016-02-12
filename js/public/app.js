@@ -46,8 +46,8 @@ app.run(['$rootScope', '$window',
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal', 'LocalizationService',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal, LocalizationService) {
 		'use strict';
 
 		is.loading = true;
@@ -354,39 +354,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		/**
 		 * Calendar UI Configuration.
 		*/
-		var i;
-
-		var monthNames = [];
-		var monthNamesShort = [];
-		for (i = 0; i < 12; i++) {
-			monthNames.push(moment.localeData().months(moment([0, i]), ''));
-			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
-		}
-
-		var dayNames = [];
-		var dayNamesShort = [];
-		var momentWeekHelper = moment().startOf('week');
-		momentWeekHelper.subtract(momentWeekHelper.format('d'));
-		for (i = 0; i < 7; i++) {
-			dayNames.push(moment.localeData().weekdays(momentWeekHelper));
-			dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
-			momentWeekHelper.add(1, 'days');
-		}
-
 		$scope.uiConfig = {
 			calendar: {
 				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
 				lang: moment.locale(),
-				monthNames: monthNames,
-				monthNamesShort: monthNamesShort,
-				dayNames: dayNames,
-				dayNamesShort: dayNamesShort,
+				monthNames: LocalizationService.monthNames(),
+				monthNamesShort: LocalizationService.shortMonthNames(),
+				dayNames: LocalizationService.weekdayNames(),
+				dayNamesShort: LocalizationService.shortWeekdayNames(),
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: false,
-				firstDay: moment().startOf('week').format('d'),
+				firstDay: LocalizationService.firstDayOfWeek(),
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
@@ -834,6 +815,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			$scope.showTimezone = true;
 		}
 
+		console.log($scope.properties);
+
 		$scope.close = function(action) {
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
 			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
@@ -973,8 +956,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
  * Description: Takes care of anything inside the Events Modal.
  */
 
-app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
-	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, vevent, recurrenceId, isNew, properties, emailAddress) {
+app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'AutoCompletionService', 'eventEditorHelper', '$window', '$uibModalInstance', 'LocalizationService', 'vevent', 'recurrenceId', 'isNew', 'properties', 'emailAddress',
+	function($scope, TimezoneService, AutoCompletionService, eventEditorHelper, $window, $uibModalInstance, LocalizationService, vevent, recurrenceId, isNew, properties, emailAddress) {
 		'use strict';
 
 		$scope.properties = properties;
@@ -985,6 +968,9 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 		$scope.selected = 1;
 		$scope.timezones = [];
 		$scope.emailAddress = emailAddress;
+		$scope.rruleUnsupported = false;
+
+		console.log($scope.properties);
 
 		$scope.previousDtStartDate = null;
 		$scope.previousDtStartHour = null;
@@ -1188,13 +1174,79 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			$scope.previousDtStartMinute = angular.element('#advanced_fromtime').timepicker('getMinute');
 
 			$scope.tabopener(1);
+
+			if ($scope.properties.rrule.freq !== 'NONE') {
+				var partIds;
+				if (typeof $scope.properties.rrule.parameters !== 'undefined') {
+					partIds = Object.getOwnPropertyNames($scope.properties.rrule.parameters);
+				} else {
+					partIds = [];
+				}
+
+				var unsupportedFREQs = ['SECONDLY', 'MINUTELY', 'HOURLY'];
+				if (unsupportedFREQs.indexOf($scope.properties.rrule.freq) !== -1) {
+					$scope.rruleUnsupported = true;
+				}
+
+				var unsupportedParts = ['BYSECOND', 'BYMINUTE', 'BYHOUR', 'BYYEARDAY', 'BYWEEKNO'];
+				angular.forEach(unsupportedParts, function(unsupportedPart) {
+					if (partIds.indexOf(unsupportedPart) !== -1) {
+						$scope.rruleUnsupported = true;
+					}
+				});
+
+				if ($scope.rruleUnsupported) {
+					return;
+				}
+
+				if (typeof $scope.properties.rrule.interval === 'number') {
+					$scope.repeat.interval = $scope.properties.rrule.interval;
+				} else {
+					$scope.repeat.interval = 1;
+				}
+
+				$scope.repeat.freq = $scope.properties.rrule.freq;
+				if (partIds.length === 0 && $scope.repeat.interval === 1) {
+					$scope.repeat.simple = $scope.properties.rrule.freq;
+				} else {
+					$scope.repeat.simple = 'CUSTOM';
+
+					if ($scope.repeat.freq === 'DAILY' && partIds.length > 0) {
+						$scope.rruleUnsupported = true;
+					} else if ($scope.repeat.freq === 'WEEKLY') {
+						if (partIds.length === 0) {
+							$scope.repeat.weekly.weekdays = {
+								SU: true,
+								MO: true,
+								TU: true,
+								WE: true,
+								TH: true,
+								FR: true,
+								SA: true
+							};
+						} else if(partIds.length === 1 && partIds.indexOf('BYDAY') !== -1 || partIds.length === 2 && partIds.indexOf('BYDAY') !== -1 && partIds.indexOf('WKST') !== -1) {
+							angular.forEach($scope.properties.rrule.parameters.BYDAY, function (day) {
+								$scope.repeat.weekly.weekdays[day] = true;
+							});
+						} else {
+							$scope.rruleUnsupported = true;
+						}
+					} else if ($scope.repeat.freq === 'MONTHLY') {
+						console.log(partIds);
+
+					} else if ($scope.repeat.freq === 'YEARLY') {
+						console.log(partIds);
+
+					}
+				}
+			}
 		});
 
-		$scope.tabs = [{
-			title: t('Calendar', 'Attendees'), value: 1
-		}, {
-			title: t('Calendar', 'Reminders'), value: 2
-		}];
+		$scope.tabs = [
+			{title: t('Calendar', 'Attendees'), value: 1},
+			{title: t('Calendar', 'Reminders'), value: 2},
+			{title: t('Calendar', 'Repeating'), value: 3}
+		];
 
 		$scope.tabopener = function (val) {
 			$scope.selected = val;
@@ -1221,74 +1273,147 @@ app.controller('EventsSidebarEditorController', ['$scope', 'TimezoneService', 'A
 			$scope.properties.location.value = item.label;
 		};
 
-		$scope.repeater = [
-			{ val: 'doesnotrepeat' , displayname: t('Calendar', 'Does not repeat')},
-			{ val: 'daily' , displayname: t('Calendar', 'Daily')},
-			{ val: 'weekly' , displayname: t('Calendar', 'Weekly')},
-			{ val: 'weekday' , displayname: t('Calendar', 'Every Weekday')},
-			{ val: 'biweekly' , displayname: t('Calendar', 'Bi-weekly')},
-			{ val: 'monthly' , displayname: t('Calendar', 'Monthly')},
-			{ val: 'yearly' , displayname: t('Calendar', 'Yearly')},
-		];
-		$scope.repeatmodel = $scope.repeater[0].val;
-
-		$scope.ender = [
-			{ val: 'never', displayname: t('Calendar','never')},
-			{ val: 'count', displayname: t('Calendar','by occurances')},
-			{ val: 'date', displayname: t('Calendar','by date')},
-		];
-
-		$scope.monthdays = [
-			{ val: 'monthday', displayname: t('Calendar','by monthday')},
-			{ val: 'weekday', displayname: t('Calendar','by weekday')}
-		];
-		$scope.monthdaymodel = $scope.monthdays[0].val;
-
-		$scope.years = [
-			{ val: 'bydate', displayname: t('Calendar','by events date')},
-			{ val: 'byyearday', displayname: t('Calendar','by yearday(s)')},
-			{ val: 'byweekno', displayname: t('Calendar','by week no(s)')},
-			{ val: 'bydaymonth', displayname: t('Calendar','by day and month')}
-		];
-
-		$scope.weeks = [
-			{ val: 'mon', displayname: t('Calendar','Monday')},
-			{ val: 'tue', displayname: t('Calendar','Tuesday')},
-			{ val: 'wed', displayname: t('Calendar','Wednesday')},
-			{ val: 'thu', displayname: t('Calendar','Thursday')},
-			{ val: 'fri', displayname: t('Calendar','Friday')},
-			{ val: 'sat', displayname: t('Calendar','Saturday')},
-			{ val: 'sun', displayname: t('Calendar','Sunday')}
+		$scope.repeat = {
+			simple: 'NONE',
+			interval: 1,
+			freq: 'DAILY',
+			end: 'NEVER',
+			count: 1,
+			weekly: {
+				weekdays: {}
+			},
+			monthly: {
+				monthdays: {},
+				radio: 'on-days',
+				onthe_ordinal: 1,
+				onthe_day: 'DAY'
+			},
+			yearly: {
+				months: {},
+				onthe_ordinal: 1,
+				onthe_day: 'DAY'
+			},
+			//We will not support all crazy RRULEs in the first version
+			//when we can't deal with the RRULE, we'll show a warning in the editor
+			//instead of breaking the RRULE
+			unsupported: false
+		};
+		$scope.repeat_options_simple = [
+			{val: 'NONE', displayname: t('Calendar', 'None')},
+			{val: 'DAILY', displayname: t('Calendar', 'Every day')},
+			{val: 'WEEKLY', displayname: t('Calendar', 'Every week')},
+			{val: 'MONTHLY', displayname: t('Calendar', 'Every month')},
+			{val: 'YEARLY', displayname: t('Calendar', 'Every year')},
+			{val: 'CUSTOM', displayname: t('calendar', 'Custom')}
 		];
 
-		$scope.changerepeater = function (repeat) {
-			if (repeat.val === 'monthly') {
-				$scope.monthday = false;
-				$scope.yearly = true;
-				$scope.weekly = true;
-			} else if (repeat.val === 'yearly') {
-				$scope.yearly = false;
-				$scope.monthday = true;
-				$scope.weekly = true;
-			} else if (repeat.val === 'weekly') {
-				$scope.weekly = false;
-				$scope.monthday = true;
-				$scope.yearly = true;
-			} else {
-				$scope.weekly = true;
-				$scope.monthday = true;
-				$scope.yearly = true;
+		// This is not localized on purpose, because we'll pipe it thru a filter
+		$scope.repeat_options = [
+			{val: 'DAILY', displayname: 'days'},
+			{val: 'WEEKLY', displayname: 'weeks'},
+			{val: 'MONTHLY', displayname: 'months'},
+			{val: 'YEARLY', displayname: 'years'}
+		];
+
+		$scope.selected_repeat_end = 'NEVER';
+		$scope.repeat_end = [
+			{val: 'NEVER', displayname: t('Calendar', 'never')},
+			{val: 'COUNT', displayname: t('Calendar', 'after')},
+			{val: 'UNTIL', displayname: t('Calendar', 'on date')}
+		];
+
+		$scope.repeat_weekdays = [];
+		$scope.repeat_short_weekdays = [];
+		var weekdayNames = LocalizationService.weekdayNames();
+		var shortWeekdayNames = LocalizationService.shortWeekdayNames();
+		var firstDayOfWeek = LocalizationService.firstDayOfWeek();
+		var icalDays = ['SU', 'MO', 'TU', 'WE' , 'TH', 'FR', 'SA'];
+		for (var i=0; i < 7; i++) {
+			$scope.repeat_weekdays.push({
+				val: icalDays[(i + firstDayOfWeek) % 7],
+				displayname: weekdayNames[(i + firstDayOfWeek) % 7]
+			});
+			$scope.repeat_short_weekdays.push({
+				val: icalDays[(i + firstDayOfWeek) % 7],
+				displayname: shortWeekdayNames[(i + firstDayOfWeek) % 7]
+			});
+		}
+
+		$scope.repeat_weekdays.push({
+			val: 'DAY',
+			displayname: t('Calendar', 'day')
+		});
+		$scope.repeat_weekdays.push({
+			val: 'DAY_OF_WEEK',
+			displayname: t('Calendar', 'day of week')
+		});
+		$scope.repeat_weekdays.push({
+			val: 'DAY_OF_WEEKEND',
+			displayname: t('Calendar', 'day of weekend')
+		});
+
+		$scope.repeat_ordinal = [
+			{val: 0, displayname: t('calendar', 'each')},
+			{val: 1, displayname: t('calendar', 'first')},
+			{val: 2, displayname: t('calendar', 'second')},
+			{val: 3, displayname: t('calendar', 'third')},
+			{val: 4, displayname: t('calendar', 'fourth')},
+			{val: 5, displayname: t('calendar', 'fifth')},
+			{val: -1, displayname: t('calendar', 'last')}
+		];
+
+		$scope.repeat_month_groups = [];
+		var shortMonthNames = LocalizationService.shortMonthNames();
+		for (var j=0; j < 12; j++) {
+			var group = Math.floor(j/6);
+			var index = j % 6;
+
+			$scope.repeat_month_groups[group] = $scope.repeat_month_groups[group] || [];
+			$scope.repeat_month_groups[group][index] = {
+				val: j + 1,
+				displayname: shortMonthNames[j]
+			};
+		}
+
+		$scope.repeat_keep_one_checkbox_active = function(group, key) {
+			var isTrue = false;
+			angular.forEach(group, function(value) {
+				if (value) {
+					isTrue = true;
+				}
+			});
+
+			if (!isTrue) {
+				group[key] = true;
 			}
 		};
 
-		// First Day Dropdown
-		$scope.recurrenceSelect = [
-			{ val: t('calendar', 'Daily'), id: '0' },
-			{ val: t('calendar', 'Weekly'), id: '1' },
-			{ val: t('calendar', 'Monthly'), id: '2' },
-			{ val: t('calendar', 'Yearly'), id: '3' },
-			{ val: t('calendar', 'Other'), id: '4' }
-		];
+		$scope.repeat_did_prefill_already = {
+			DAILY: false,
+			WEEKLY: false,
+			MONTHLY: false,
+			YEARLY: false
+		};
+		$scope.repeat_change_freq = function(freq) {
+			if ($scope.repeat_did_prefill_already[freq]) {
+				//Don't prefill more than once
+				return;
+			}
+
+			$scope.repeat_did_prefill_already[freq] = true;
+			var date = angular.element('#advanced_from').datepicker('getDate');
+			if (freq === 'WEEKLY') {
+				var days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+				$scope.repeat.weekly.weekdays[days[date.getDay()]] = true;
+			} else if (freq === 'MONTHLY') {
+				$scope.repeat.monthly.monthdays[date.getDate()] = true;
+			} else if (freq === 'YEARLY') {
+				$scope.repeat.yearly.months[date.getMonth() + 1] = true;
+			}
+		};
+
+
+
 
 		$scope.cutstats = [
 			{ displayname: t('Calendar', 'Individual'), val : 'INDIVIDUAL' },
@@ -1961,6 +2086,22 @@ app.filter('datepickerFilter',
 	}
 );
 
+app.filter('daysFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'day', 'days', count);
+	};
+});
+
+app.filter('hoursFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'hour', 'hours', count);
+	};
+});
+
 app.filter('importCalendarFilter',
 	function () {
 		'use strict';
@@ -2011,6 +2152,30 @@ app.filter('importErrorFilter',
 	}
 );
 
+app.filter('minutesFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'minute', 'minutes', count);
+	};
+});
+
+app.filter('monthsFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'month', 'months', count);
+	};
+});
+
+app.filter('periodsFilter', ['$filter', function($filter) {
+	'use strict';
+
+	return function(label, count) {
+		return $filter(label + 'Filter')(count);
+	};
+}]);
+
 app.filter('simpleReminderDescription', function() {
 	'use strict';
 	var actionMapper = {
@@ -2060,6 +2225,14 @@ app.filter('simpleReminderDescription', function() {
 	};
 });
 
+app.filter('secondsFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'second', 'seconds', count);
+	};
+});
+
 app.filter('subscriptionFilter',
 	[ function () {
 		'use strict';
@@ -2078,6 +2251,14 @@ app.filter('subscriptionFilter',
 		return subscriptionfilter;
 	}
 	]);
+
+app.filter('timesFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'time', 'times', count);
+	};
+});
 
 app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
@@ -2105,6 +2286,22 @@ app.filter('timezoneWithoutContinentFilter', function() {
 		timezone = timezone.replace('St ', 'St. ');
 
 		return timezone.split('/').join(' - ');
+	};
+});
+
+app.filter('weeksFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'week', 'weeks', count);
+	};
+});
+
+app.filter('yearsFilter', function() {
+	'use strict';
+
+	return function(count) {
+		return n('calendar', 'year', 'years', count);
 	};
 });
 
@@ -3452,6 +3649,44 @@ app.factory('is', function () {
 	};
 });
 
+app.service('LocalizationService', function() {
+	'use strict';
+
+	var monthNames = [];
+	var monthNamesShort = [];
+	for (var i = 0; i < 12; i++) {
+		monthNames.push(moment.localeData().months(moment([0, i]), ''));
+		monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
+	}
+
+	var dayNames = [];
+	var dayNamesShort = [];
+	var momentWeekHelper = moment().startOf('week');
+	momentWeekHelper.subtract(momentWeekHelper.format('d'));
+	for (var j = 0; j < 7; j++) {
+		dayNames.push(moment.localeData().weekdays(momentWeekHelper));
+		dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
+		momentWeekHelper.add(1, 'days');
+	}
+
+	return {
+		monthNames: function() {
+			return monthNames;
+		},
+		shortMonthNames: function() {
+			return monthNamesShort;
+		},
+		weekdayNames: function() {
+			return dayNames;
+		},
+		shortWeekdayNames: function() {
+			return dayNamesShort;
+		},
+		firstDayOfWeek: function() {
+			return parseInt(moment().startOf('week').format('d'));
+		}
+	};
+});
 app.factory('objectConverter', function () {
 	'use strict';
 
@@ -3833,12 +4068,27 @@ app.factory('objectConverter', function () {
 		},
 		repeating: function(data, vevent) {
 			var iCalEvent = new ICAL.Event(vevent);
-
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.dates(data, vevent, 'rdate');
-			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.dates(data, vevent, 'exdate');
+			var rrule = vevent.getFirstPropertyValue('rrule');
+			if (rrule) {
+				data.rrule = {
+					count: rrule.count,
+					freq: rrule.freq,
+					interval: rrule.interval,
+					parameters: rrule.parts,
+					until: null
+				};
+
+				// TODO - handle until properly
+				//if (rrule.until) {
+				//	simpleParser.date(data.rrule, rrule, 'until');
+				//}
+			} else {
+				data.rrule = {
+					freq: 'NONE'
+				};
+			}
 		}
 	};
 
@@ -3946,16 +4196,17 @@ app.factory('objectConverter', function () {
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
 			if (newSimpleData.repeating === false) {
-				delete vevent.rdate;
-				delete vevent.rrule;
-				delete vevent.exdate;
+				vevent.removeAllProperties('rdate');
+				vevent.removeAllProperties('rrule');
+				vevent.removeAllProperties('exdate');
 
 				return;
 			}
 
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
-			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
+			//TODO - parse rrule
+			//simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
+			//simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
+			//simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
 		}
 	};
 
@@ -4013,7 +4264,7 @@ app.factory('objectConverter', function () {
 				parameters = simpleProperties[key].parameters;
 				if (oldSimpleData[key] !== newSimpleData[key]) {
 					if (newSimpleData === null) {
-						delete vevent[key];
+						vevent.removeAllProperties(key);
 					} else {
 						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
 					}

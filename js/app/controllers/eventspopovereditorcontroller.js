@@ -42,6 +42,8 @@ app.controller('EventsPopoverEditorController', ['$scope', 'TimezoneService', 'e
 			$scope.showTimezone = true;
 		}
 
+		console.log($scope.properties);
+
 		$scope.close = function(action) {
 			$scope.properties.dtstart.value = moment(angular.element('#from').datepicker('getDate'));
 			$scope.properties.dtend.value = moment(angular.element('#to').datepicker('getDate'));
