@@ -8,10 +8,11 @@ php:
 branches:
   only:
     - master
+    - /^stable\d+(\.\d+)?$/
 
 env:
   global:
-    - CORE_BRANCH=master
+    - CORE_BRANCH=stable9
   matrix:
     - DB=sqlite
 
