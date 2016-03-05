@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar-rework/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 
-**An calendar app for [ownCloud](https://owncloud.org).**  
+**A calendar app for [ownCloud](https://owncloud.org).**  
 
 It will replace the [old calendar app](https://github.com/owncloudarchive/calendar) with ownCloud 9.0, and is only the frontend for the new CalDAV-Backend which has moved into the [ownCloud Core](https://github.com/owncloud/core). 
 
