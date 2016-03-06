@@ -401,12 +401,27 @@ app.factory('objectConverter', function () {
 		},
 		repeating: function(data, vevent) {
 			var iCalEvent = new ICAL.Event(vevent);
-
 			data.repeating = iCalEvent.isRecurring();
-			simpleParser.dates(data, vevent, 'rdate');
-			simpleParser.string(data, vevent, 'rrule');
 
-			simpleParser.dates(data, vevent, 'exdate');
+			var rrule = vevent.getFirstPropertyValue('rrule');
+			if (rrule) {
+				data.rrule = {
+					count: rrule.count,
+					freq: rrule.freq,
+					interval: rrule.interval,
+					parameters: rrule.parts,
+					until: null
+				};
+
+				// TODO - handle until properly
+				//if (rrule.until) {
+				//	simpleParser.date(data.rrule, rrule, 'until');
+				//}
+			} else {
+				data.rrule = {
+					freq: 'NONE'
+				};
+			}
 		}
 	};
 
@@ -514,16 +529,17 @@ app.factory('objectConverter', function () {
 		repeating: function(vevent, oldSimpleData, newSimpleData) {
 			// We won't support exrule, because it's deprecated and barely used in the wild
 			if (newSimpleData.repeating === false) {
-				delete vevent.rdate;
-				delete vevent.rrule;
-				delete vevent.exdate;
+				vevent.removeAllProperties('rdate');
+				vevent.removeAllProperties('rrule');
+				vevent.removeAllProperties('exdate');
 
 				return;
 			}
 
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
-			simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
-			simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
+			//TODO - parse rrule
+			//simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'rdate');
+			//simpleReader.string(vevent, oldSimpleData, newSimpleData, 'rrule');
+			//simpleReader.dates(vevent, oldSimpleData, newSimpleData, 'exdate');
 		}
 	};
 
@@ -581,7 +597,7 @@ app.factory('objectConverter', function () {
 				parameters = simpleProperties[key].parameters;
 				if (oldSimpleData[key] !== newSimpleData[key]) {
 					if (newSimpleData === null) {
-						delete vevent[key];
+						vevent.removeAllProperties(key);
 					} else {
 						reader(vevent, oldSimpleData, newSimpleData, key, parameters);
 					}

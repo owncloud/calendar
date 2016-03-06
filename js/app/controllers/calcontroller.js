@@ -26,8 +26,8 @@
 * Description: The fullcalendar controller.
 */
 
-app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal',
-	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal) {
+app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarService', 'VEventService', 'SettingsService', 'TimezoneService', 'VEvent', 'is', 'uiCalendarConfig', '$uibModal', 'LocalizationService',
+	function ($scope, $rootScope, $window, CalendarService, VEventService, SettingsService, TimezoneService, VEvent, is, uiCalendarConfig, $uibModal, LocalizationService) {
 		'use strict';
 
 		is.loading = true;
@@ -334,39 +334,20 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 		/**
 		 * Calendar UI Configuration.
 		*/
-		var i;
-
-		var monthNames = [];
-		var monthNamesShort = [];
-		for (i = 0; i < 12; i++) {
-			monthNames.push(moment.localeData().months(moment([0, i]), ''));
-			monthNamesShort.push(moment.localeData().monthsShort(moment([0, i]), ''));
-		}
-
-		var dayNames = [];
-		var dayNamesShort = [];
-		var momentWeekHelper = moment().startOf('week');
-		momentWeekHelper.subtract(momentWeekHelper.format('d'));
-		for (i = 0; i < 7; i++) {
-			dayNames.push(moment.localeData().weekdays(momentWeekHelper));
-			dayNamesShort.push(moment.localeData().weekdaysShort(momentWeekHelper));
-			momentWeekHelper.add(1, 'days');
-		}
-
 		$scope.uiConfig = {
 			calendar: {
 				height: w.height() - angular.element('#header').height(),
 				editable: true,
 				selectable: true,
 				lang: moment.locale(),
-				monthNames: monthNames,
-				monthNamesShort: monthNamesShort,
-				dayNames: dayNames,
-				dayNamesShort: dayNamesShort,
+				monthNames: LocalizationService.monthNames(),
+				monthNamesShort: LocalizationService.shortMonthNames(),
+				dayNames: LocalizationService.weekdayNames(),
+				dayNamesShort: LocalizationService.shortWeekdayNames(),
 				timezone: $scope.defaulttimezone,
 				defaultView: angular.element('#fullcalendar').attr('data-defaultView'),
 				header: false,
-				firstDay: moment().startOf('week').format('d'),
+				firstDay: LocalizationService.firstDayOfWeek(),
 				select: $scope.newEvent,
 				eventLimit: true,
 				eventClick: function(fcEvent, jsEvent, view) {
