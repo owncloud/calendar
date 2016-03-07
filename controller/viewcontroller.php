@@ -65,6 +65,11 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index() {
+		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
+		if ($isAssetPipelineEnabled) {
+			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
+		}
+
 		$userId = $this->userSession->getUser()->getUID();
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
@@ -76,15 +81,6 @@ class ViewController extends Controller {
 			'defaultView' => $defaultView,
 			'emailAddress' => $emailAddress,
 		]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @return JSONResponse
-	 */
-	public function timezoneList() {
-		return new JSONResponse($this->getTimezoneList());
 	}
 
 	/**
