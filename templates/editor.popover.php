@@ -7,12 +7,13 @@
 					ng-model="properties.summary.value"
 					placeholder="<?php p($l->t('Title of the Event'));?>"
 					name="title" type="text"
-					autofocus="autofocus"
+                                        autofocus="autofocus"
+                                        tabindex="101"
 			/>
 			<select
 					ng-model="calendar"
 					ng-init="calendar = oldCalendar || calendars[0]"
-					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar" tabindex="102"></select>
 		</fieldset>
 
 		<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
@@ -31,7 +32,7 @@
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
 					   id="alldayeventcheckbox" class="event-checkbox"
-					   ng-change="toggledAllDay()" />
+					   ng-change="toggledAllDay()" tabindex="103"/>
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 		</fieldset>
@@ -40,32 +41,34 @@
 			<textarea ng-model="properties.location.value" type="text" class="events--input"
 				   placeholder="<?php p($l->t('Location'));?>" name="location"
 					  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
-					  typeahead-on-select="selectLocationFromTypeahead($item)"></textarea>
+					  typeahead-on-select="selectLocationFromTypeahead($item)" tabindex="105"></textarea>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-left" ng-show="!readOnly">
-			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete">
+			<button ng-click="delete()" ng-show="!is_new" class="events--button button btn delete" tabindex="109">
 				<?php p($l->t('Delete')); ?>
 			</button>
-			<button ng-click="cancel()" class="events--button button btn">
+			<button ng-click="cancel()" class="events--button button btn" tabindex="108">
 				<?php p($l->t('Cancel')); ?>
 			</button>
 		</fieldset>
 
 		<fieldset class="events--fieldset pull-right" ng-show="!readOnly">
-			<button ng-click="close('proceed')" class="events--button button btn">
+			<button ng-click="close('proceed')" class="events--button button btn" tabindex="106">
 				<?php p($l->t('More ...')); ?>
 			</button>
 			<button
 				class="events--button button btn primary"
 				ng-click="close('save')"
-				ng-show="is_new">
+                                ng-show="is_new"
+                                tabindex="107">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary"
 				ng-click="close('save')"
-				ng-show="!is_new">
+				ng-show="!is_new"
+                                tabindex="107">
 				<?php p($l->t('Update')); ?>
 			</button>
 		</fieldset>
