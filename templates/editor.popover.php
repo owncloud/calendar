@@ -16,6 +16,14 @@
 		</fieldset>
 
 		<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
+			<div class="events--checkbox pull-left">
+				<input type="checkbox" name="alldayeventcheckbox"
+					   ng-model="properties.allDay"
+					   id="alldayeventcheckbox" class="event-checkbox"
+					   ng-change="toggledAllDay()" />
+				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
+			</div>
+			<div class="clear-both"></div>	
 			<div class="event-time-interior pull-left">
 				<span><?php p($l->t('starts')); ?></span>
 				<ocdatetimepicker ng-model="properties.dtstart.value" disabletime="properties.allDay"></ocdatetimepicker>
@@ -25,14 +33,6 @@
 				<span><?php p($l->t('ends')); ?></span>
 				<ocdatetimepicker ng-model="properties.dtend.value" disabletime="properties.allDay"></ocdatetimepicker>
 				<span ng-show="showTimezone">{{ properties.dtend.parameters.zone | timezoneFilter }}</span>
-			</div>
-			<div class="clear-both"></div>
-			<div class="events--checkbox pull-left">
-				<input type="checkbox" name="alldayeventcheckbox"
-					   ng-model="properties.allDay"
-					   id="alldayeventcheckbox" class="event-checkbox"
-					   ng-change="toggledAllDay()" />
-				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 		</fieldset>
 
