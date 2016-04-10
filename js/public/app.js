@@ -1816,8 +1816,8 @@ app.directive('ocdatetimepicker', ["$compile", "$timeout", function($compile, $t
 			disabletime: '=disabletime'
 		},
 		link: function (scope, element, attrs, ngModelCtrl) {
-			var templateHTML = '<input type="text" ng-model="date" class="events--date" />';
-			templateHTML += '<input type="text" ng-model="time" class="events--time" ng-disabled="disabletime"/>';
+			var templateHTML = '<input type="text" ng-model="date" class="events--date" tabindex="104" />';
+			templateHTML += '<input type="text" ng-model="time" class="events--time" ng-disabled="disabletime" tabindex="104"/>';
 			var template = angular.element(templateHTML);
 
 			scope.date = null;

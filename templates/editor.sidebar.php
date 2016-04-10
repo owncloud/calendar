@@ -6,11 +6,12 @@
 					ng-model="properties.summary.value"
 					placeholder="<?php p($l->t('Title of the Event'));?>"
 					name="title" type="text"
-					autofocus="autofocus"/>
+                                        autofocus="autofocus"
+                                        tabindex="101"/>
 			<select
 					ng-model="calendar"
 					ng-init="calendar = oldCalendar || calendars[0]"
-					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar" tabindex="102"></select>
 		</fieldset>
 
 		<fieldset class="advanced--fieldset" ng-disabled="readOnly">
@@ -31,7 +32,7 @@
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
 					   id="alldayeventcheckbox" class="event-checkbox"
-					   ng-change="toggledAllDay()"/>
+					   ng-change="toggledAllDay()" tabindex="103"/>
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 			<div class="pull-right">
@@ -46,9 +47,9 @@
 				   placeholder="<?php p($l->t('Location'));?>" name="location"
 					  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
 					  typeahead-on-select="selectLocationFromTypeahead($item)"
-					  autocomplete="off" ></textarea>
+					  autocomplete="off" tabindex="105"></textarea>
   			<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
-					placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
+					placeholder="<?php p($l->t('Description'));?>" name="description" tabindex="106"></textarea>
 			<!--<select id="classSelector" ng-options="class.type as class.displayname for class in classSelect" ng-init="setClassToDefault()" ng-model="properties.class.value"></select>-->
 		</fieldset>
 
@@ -81,37 +82,43 @@
 			<button
 				class="events--button button btn delete btn-half pull-left"
 				ng-click="delete()"
-				ng-show="!is_new">
+				ng-show="!is_new"
+                                tabindex="110">
 				<?php p($l->t('Delete')); ?>
 			</button>
 			<button
 				class="evens--button button btn btn-half pull-right"
 				ng-click="cancel()"
-				ng-show="!is_new">
+				ng-show="!is_new"
+                                tabindex="108">
 				<?php p($l->t('Cancel')); ?>
 			</button>
 			<button
 				class="evens--button button btn btn-full"
 				ng-click="cancel()"
-				ng-show="is_new">
+				ng-show="is_new"
+                                tabindex="108">
 				<?php p($l->t('Cancel')); ?>
 			</button>
 			<button
 				class="evens--button button btn btn-full"
 				ng-click="export()"
-				ng-show="!is_new">
+				ng-show="!is_new"
+                                tabindex="109">
 				<?php p($l->t('Export')); ?>
 			</button>
 			<button
 				class="events--button button btn primary btn-full"
 				ng-click="save()"
-				ng-show="is_new">
+                                ng-show="is_new"
+                                tabindex="107">
 				<?php p($l->t('Create')); ?>
 			</button>
 			<button
 				class="evens--button button btn primary btn-full"
 				ng-click="save()"
-				ng-show="!is_new">
+				ng-show="!is_new"
+                                tabindex="107">
 				<?php p($l->t('Update')); ?>
 			</button>
 		</fieldset>
