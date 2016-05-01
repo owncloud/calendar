@@ -36,8 +36,8 @@
 	border: 0;
 }
 #app-navigation .close-button {
-	height: 30px;
-	width: 30px;
+	height: 32px;
+	width: 32px;
 	padding: 0;
 	position: relative;
 }
@@ -77,9 +77,7 @@
 #app-navigation .new-entity:hover {
 	color:#000;
 }
-#app-navigation .add-new .new-accept-button {
-	position: relative;
-}
+
 #app-navigation .add-new .color-button {
 	height: 25px;
 	border: 0;
@@ -89,7 +87,6 @@
 .add-new-subscription .calendarlist-fieldset input {
 	width: 130px;
 	margin-right: 2px;
-
 }
 
 .add-new-subscription .calendarlist-fieldset select {
@@ -142,13 +139,13 @@
 #app-navigation .app-navigation-list-item > a {
 	padding: 0 66px 0 44px !important;
 }
-#app-navigation .app-navigation-list-item .editfieldset {
+#app-navigation .editfieldset {
 	padding: 0 4px;
 }
-#app-navigation .app-navigation-list-item .editfieldset .calendartype {
+#app-navigation .calendartype {
 	width: 100%;
 }
-#app-navigation .buttongroups .accept-button {
+#app-navigation .accept-button {
 	width: 47%;
 	padding: 17px;
 	margin-right: 7px;
@@ -157,9 +154,12 @@
 	width: 47%;
 	padding: 17px;
 }
-#app-navigation .app-navigation-list-item .caldavURL input {
-	width: 75%;
+
+#app-navigation .webcal-input {
+	width: 180px;
+	display: inline-block;
 }
+
 #app-navigation .app-navigation-list-item .utils {
 	display: inline-block;
 }
@@ -247,38 +247,4 @@ ul.dropdown-menu  li {
 
 ul.dropdown-menu li > a:hover {
 	background-color: grey !important;
-}
-
-
-/* Fullcalendar modifications */
-
-.fc th,
-.fc .fc-axis,
-.fc-day-grid-event .fc-time,
-.fc-ltr .fc-basic-view .fc-day-number,
-.fc-time-grid-event .fc-time {
-	opacity: .4;
-	font-size: 80%;
-	font-weight: normal;
-}
-.fc-day-number.fc-other-month {
-	opacity: .1 !important;
-}
-
-.fc td.fc-widget-header {
-	border-top: none;
-}
-.fc th, .fc td {
-	border-left: none;
-	border-bottom: none;
-}
-.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover {
-	border-color: #f8f8f8;
-}
-
-/* properly size events */
-.fc-event {
-	font-size: 13px;
-	line-height: initial;
-	padding-left: 3px;
 }

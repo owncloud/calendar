@@ -88,8 +88,8 @@
 	</form>
 </fieldset>
 <fieldset ng-show="calendar.list.showCalDAVLink" class="editfieldset">
-	<input class="input-with-button-on-right-side" type="text" ng-model="calendar.caldav" readonly />
-	<button class="btn icon-close button-next-to-input" ng-click="hideCalDAVLink(calendar)"></button>
+	<input class="webcal-input pull-left" type="text" ng-model="calendar.caldav" readonly />
+	<button class="btn icon-close close-button" ng-click="hideCalDAVLink(calendar)"></button>
 </fieldset>
 <div ng-show="calendar.list.editingShares" class="calendarShares">
 	<i ng-show="loadingSharees" class="glyphicon glyphicon-refresh"></i>
