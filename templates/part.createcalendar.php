@@ -41,7 +41,7 @@
 			<colorpicker class="colorpicker" selected="selected"></colorpicker>
 			<button
 				id="submitnewCalendar"
-				class="primary accept-button new-accept-button"
+				class="primary accept-button new-accept-button full-width"
 				oc-click-slide-toggle="{
 					selector: '.add-new',
 					hideOnFocusLost: false,

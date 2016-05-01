@@ -31,7 +31,7 @@
 			<td class="name">
 				<span>{{ file.name }}</span>
 			</td>
-			<td class="calendartype">
+			<td class="calendartype full-width">
 				<span ng-show="file.state === -1">
 					<?php p($l->t('Import canceled')); ?>
 				</span>

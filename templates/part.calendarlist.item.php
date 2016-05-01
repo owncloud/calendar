@@ -77,7 +77,7 @@
 	</ul>
 </div>
 
-<fieldset ng-show="calendar.list.edit" class="editfieldset">
+<fieldset ng-show="calendar.list.edit" class="editfieldset fieldset">
 	<form ng-submit="performUpdate(calendar)">
 		<input class="app-navigation-input" type="text" ng-model="calendar.displayname" data-id="{{ calendar.id }}" />
 		<colorpicker class="colorpicker" selected="calendar.color"></colorpicker>
@@ -87,7 +87,7 @@
 		</div>
 	</form>
 </fieldset>
-<fieldset ng-show="calendar.list.showCalDAVLink" class="editfieldset">
+<fieldset ng-show="calendar.list.showCalDAVLink" class="fieldset">
 	<input class="webcal-input pull-left" type="text" ng-model="calendar.caldav" readonly />
 	<button class="btn icon-close close-button" ng-click="hideCalDAVLink(calendar)"></button>
 </fieldset>
