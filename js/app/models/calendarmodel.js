@@ -49,19 +49,18 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			url: url,
 			tmpId: RandomStringService.generate(),
 			fcEventSource: {
-				events: function (start, end, timezone, callback) {
+				events: function (start, end, timezone) {
+					var fcAPI = this;
 					TimezoneService.get(timezone).then(function(tz) {
 						self.list.loading = true;
 						self.fcEventSource.isRendering = true;
 						$rootScope.$broadcast('reloadCalendarList');
 
 						VEventService.getAll(self, start, end).then(function(events) {
-							var vevents = [];
 							for (var i = 0; i < events.length; i++) {
-								vevents = vevents.concat(events[i].getFcEvent(start, end, tz));
+								events[i].renderFcEvent(fcAPI.renderEvent, start, end, tz);
 							}
 
-							callback(vevents);
 							self.fcEventSource.isRendering = false;
 
 							self.list.loading = false;

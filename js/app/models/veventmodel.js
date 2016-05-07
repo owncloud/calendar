@@ -185,27 +185,12 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringSe
 		 * @returns {Array}
 		 */
 		getFcEvent: function(start, end, timezone) {
-			var iCalStart = ICAL.Time.fromJSDate(start.toDate());
-			var iCalEnd = ICAL.Time.fromJSDate(end.toDate());
-			var renderedEvents = [], self = this;
+			var events = [];
+			this.renderFcEvent(function(event) {
+				events.push(event);
+			}, start, end, timezone);
 
-			var vevents = this.comp.getAllSubcomponents('vevent');
-			angular.forEach(vevents, function (event) {
-				var iCalEvent = new ICAL.Event(event);
-
-				if (!event.hasProperty('dtstart')) {
-					return;
-				}
-
-				if (iCalEvent.isRecurring()) {
-					angular.extend(renderedEvents,
-						getTimeForRecurring(self, event, iCalStart, iCalEnd, timezone.jCal));
-				} else {
-					renderedEvents.push(getTime(self, event, timezone.jCal));
-				}
-			});
-
-			return renderedEvents;
+			return events;
 		},
 		/**
 		 *
@@ -224,6 +209,34 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringSe
 			});
 
 			return simpleEvent;
+		},
+		/**
+		 *
+		 * @param renderEvent
+		 * @param start
+		 * @param end
+		 * @param timezone
+		 * @returns {Array}
+		 */
+		renderFcEvent: function(renderEvent, start, end, timezone) {
+			var iCalStart = ICAL.Time.fromJSDate(start.toDate());
+			var iCalEnd = ICAL.Time.fromJSDate(end.toDate());
+			var self = this;
+
+			var vevents = this.comp.getAllSubcomponents('vevent');
+			angular.forEach(vevents, function (event) {
+				var iCalEvent = new ICAL.Event(event);
+
+				if (!event.hasProperty('dtstart')) {
+					return;
+				}
+
+				if (iCalEvent.isRecurring()) {
+					renderEvent(getTimeForRecurring(self, event, iCalStart, iCalEnd, timezone.jCal));
+				} else {
+					renderEvent(getTime(self, event, timezone.jCal));
+				}
+			});
 		}
 	};
 
