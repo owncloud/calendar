@@ -21,51 +21,32 @@
  *
  */
 
-#app-settings .settings-fieldset .settings-fieldset-interior input {
-	width: 90%;
+.settings-fieldset-interior li {
+	margin: 5px 0;
 }
-#app-settings .settings-fieldset .settings-fieldset-interior select {
-	width: 40%;
-}
-#app-settings .settings-fieldset .settings-upload {
-	position: absolute;
-	top: 12.5px;
+
+.settings-upload {
 	width: 100%;
 	display: block;
-	height: 25.88235px;
-	font-weight: 300;
+	padding: 10px 0;
 	font-size: 14px;
 	cursor: pointer;
 	z-index: 10;
-	padding: 7.33333px 0 0 0 !important;
 	text-align: center;
 	background-color: rgba(240,240,240,.9);
-	border: 1px solid rgba(240,240,240,.9);
-	background-position: 5%;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-ms-border-radius: 3px;
+	background-position: 10px;
 	border-radius: 3px;
 }
-#app-settings .settings-fieldset .settings-fieldset-interior-item:hover {
-	background: transparent;
-}
-#app-settings .settings-fieldset .settings-fieldset-interior-upload {
-	width: 95%;
+
+.settings-fieldset-interior-upload {
 	height: 55px;
 }
-#app-settings .settings-fieldset .settings-fieldset-interior-upload input {
-	position: absolute;
-	top: 18px;
-}
-#app-settings .settings-fieldset .settings-fieldset-interior  input[type="file"] {
-	top: 12.5px;
+
+.settings-fieldset-interior input[type="file"] {
+	top: 0;
 	position: absolute;
 	width: 100%;
-	height: 33.21569px;
-	padding: 0;
-	font-size: 16px;
-	margin-left: 0px;
+	height: 40px;
 	overflow: hidden;
 	z-index: 20;
 	opacity: 0;
@@ -137,7 +118,7 @@
 }
 
 #importdialog tr {
-	height: 38px;
+	height: 40px;
 }
 
 .import-backdrop {
