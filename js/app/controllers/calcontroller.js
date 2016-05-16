@@ -129,6 +129,32 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 			});
 		});
 
+		$scope.search = function(query) {
+			var promises = [TimezoneService.get($scope.defaulttimezone)];
+
+			angular.forEach($scope.calendars, function(calendar) {
+				promises.push(VEventService.search(calendar, query));
+			});
+
+			Promise.all(promises).then(function(results) {
+				var searchResults = [];
+				var tz = results[0].jCal;
+
+				results.shift();
+				angular.forEach(results, function(events) {
+					angular.forEach(events, function(event) {
+						var results = event.getSearchResults(tz);
+						angular.forEach(results, function(result) {
+							searchResults.push(result);
+						});
+					});
+				});
+				console.log(searchResults);
+			});
+		};
+
+		window.search = $scope.search;
+
 		$scope._calculatePopoverPosition = function(target, view) {
 			var clientRect = target.getClientRects()[0],
 				headerHeight = angular.element('#header').height(),

@@ -48,8 +48,8 @@ app.config(['$provide', '$routeProvider', '$httpProvider',
 	}
 ]);
 
-app.run(['$document', '$rootScope', '$window',
-	function ($document, $rootScope, $window) {
+app.run(['$document', '$rootScope', '$window', 'SearchIntegration',
+	function ($document, $rootScope, $window, SearchIntegration) {
 		'use strict';
 
 		$rootScope.baseUrl = $window.location.origin +
@@ -243,6 +243,32 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'CalendarSer
 				}
 			});
 		});
+
+		$scope.search = function(query) {
+			var promises = [TimezoneService.get($scope.defaulttimezone)];
+
+			angular.forEach($scope.calendars, function(calendar) {
+				promises.push(VEventService.search(calendar, query));
+			});
+
+			Promise.all(promises).then(function(results) {
+				var searchResults = [];
+				var tz = results[0].jCal;
+
+				results.shift();
+				angular.forEach(results, function(events) {
+					angular.forEach(events, function(event) {
+						var results = event.getSearchResults(tz);
+						angular.forEach(results, function(result) {
+							searchResults.push(result);
+						});
+					});
+				});
+				console.log(searchResults);
+			});
+		};
+
+		window.search = $scope.search;
 
 		$scope._calculatePopoverPosition = function(target, view) {
 			var clientRect = target.getClientRects()[0],
@@ -2131,6 +2157,50 @@ app.filter('timezoneWithoutContinentFilter', function() {
 	};
 });
 
+app.service('SearchIntegration', function() {
+	'use strict';
+
+	var Calendar = function() {
+		this.initialize();
+	};
+
+	/**
+	 * @memberof OCA.Search
+	 */
+	Calendar.prototype = {
+		initialize: function() {
+
+			var self = this;
+
+			this.renderEventResult = function($row, result) {
+
+			};
+
+			this.handleEventClick = function($row, result, event) {
+
+			};
+
+			OC.Plugins.register('OCA.Search', this);
+		},
+		attach: function(search) {
+			var self = this;
+			console.log(search);
+
+			//register dummy filter to display search bar
+			search.setFilter('calendar', function() {});
+
+			search.search = function(query, inApps, page, size) {
+				console.log(query, inApps, page, size);
+			};
+
+			search.setRenderer('file',   this.renderEventResult.bind(this));
+			search.setHandler('file',  this.handleEventClick.bind(this));
+		}
+	};
+
+	OCA.Search.Calendar = Calendar;
+	OCA.Search.calendar = new Calendar();
+});
 app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneService', 'RandomStringService', function($rootScope, $filter, VEventService, TimezoneService, RandomStringService) {
 	'use strict';
 
@@ -3117,7 +3187,7 @@ app.factory('Timezone',
 	}
 );
 
-app.factory('VEvent', ["FcEvent", "SimpleEvent", "ICalFactory", "RandomStringService", function(FcEvent, SimpleEvent, ICalFactory, RandomStringService) {
+app.factory('VEvent', ["FcEvent", "SimpleEvent", "VEventSearchResult", "ICalFactory", "RandomStringService", function(FcEvent, SimpleEvent, VEventSearchResult, ICalFactory, RandomStringService) {
 	'use strict';
 
 	/**
@@ -3320,7 +3390,30 @@ app.factory('VEvent', ["FcEvent", "SimpleEvent", "ICalFactory", "RandomStringSer
 			});
 
 			return simpleEvent;
+		},
+		getSearchResults: function(timezone) {
+			var searchResults = [];
+
+			var vevents = this.comp.getAllSubcomponents('vevent');
+			var self = this;
+			angular.forEach(vevents, function (event) {
+				if (!event.hasProperty('dtstart')) {
+					return;
+				}
+
+				var dtstart = event.getFirstPropertyValue('dtstart');
+				var dtend = calculateDTEnd(event);
+
+				var title = event.getFirstPropertyValue('summary');
+				var start = convertTimezoneIfNecessary(dtstart, timezone);
+				var end = convertTimezoneIfNecessary(dtend, timezone);
+
+				searchResults.push(new VEventSearchResult(self, title, start.toJSDate(), end.toJSDate()));
+			});
+
+			return searchResults;
 		}
+
 	};
 
 	/**
@@ -3378,6 +3471,21 @@ app.factory('VEvent', ["FcEvent", "SimpleEvent", "ICalFactory", "RandomStringSer
 
 	return VEvent;
 }]);
+
+app.factory('VEventSearchResult', function() {
+	'use strict';
+
+	function VEventSearchResult(vevent, title, start, end) {
+		angular.extend(this, {
+			vevent: vevent,
+			title: title,
+			start: start,
+			end: end
+		});
+	}
+
+	return VEventSearchResult;
+});
 
 app.service('AutoCompletionService', ['$rootScope', '$http',
 	function ($rootScope, $http) {
@@ -4790,6 +4898,119 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 
 			return vevents;
 		});
+	};
+
+	this.search = function(calendar, query) {
+		var url = calendar.url;
+		var headers = {
+			'Content-Type': 'application/xml; charset=utf-8',
+			'Depth': 1,
+			'requesttoken': OC.requestToken
+		};
+
+		var title = DavClient.request('REPORT', url, headers, this._simplePropFilter('SUMMARY', query));
+		var description = DavClient.request('REPORT', url, headers, this._simplePropFilter('DESCRIPTION', query));
+		var location = DavClient.request('REPORT', url, headers, this._simplePropFilter('LOCATION', query));
+		var attendeeName = DavClient.request('REPORT', url, headers, this._attendeeCNFilter(query));
+		var attendeeEMail = DavClient.request('REPORT', url, headers, this._simplePropFilter('ATTENDEE', query));
+
+		return Promise.all([title, description, location, attendeeName, attendeeEMail]).then(function(responses) {
+			var vevents = [];
+			angular.forEach(responses, function(response) {
+				if (!DavClient.wasRequestSuccessful(response.status)) {
+					//TODO - something went wrong
+					return;
+				}
+
+				for (var i in response.body) {
+					var object = response.body[i];
+					var properties = object.propStat[0].properties;
+
+					var data = properties['{urn:ietf:params:xml:ns:caldav}calendar-data'];
+					var etag = properties['{DAV:}getetag'];
+					var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
+
+					var vevent;
+					try {
+						vevent = new VEvent(calendar, data, etag, uri);
+					} catch(e) {
+						console.log(e);
+						continue;
+					}
+					vevents.push(vevent);
+				}
+			});
+
+			return vevents;
+		});
+	};
+
+	this._simpleCompFilter = function() {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cCalQuery = xmlDoc.createElement('c:calendar-query');
+		cCalQuery.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cCalQuery.setAttribute('xmlns:d', 'DAV:');
+		cCalQuery.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cCalQuery.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(cCalQuery);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		cCalQuery.appendChild(dProp);
+
+		var dGetEtag = xmlDoc.createElement('d:getetag');
+		dProp.appendChild(dGetEtag);
+
+		var cCalendarData = xmlDoc.createElement('c:calendar-data');
+		dProp.appendChild(cCalendarData);
+
+		var cFilter = xmlDoc.createElement('c:filter');
+		cCalQuery.appendChild(cFilter);
+
+		var cCompFilterVCal = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVCal.setAttribute('name', 'VCALENDAR');
+		cFilter.appendChild(cCompFilterVCal);
+
+		var cCompFilterVEvent = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVEvent.setAttribute('name', 'VEVENT');
+		cCompFilterVCal.appendChild(cCompFilterVEvent);
+
+		return [xmlDoc, cCalQuery, cCompFilterVEvent];
+	};
+
+	this._simplePropFilter = function(propName, query) {
+		var parts = this._simpleCompFilter();
+		var xmlDoc = parts[0], cCalQuery = parts[1], cCompFilterVEvent = parts[2];
+
+		var cPropFilter = xmlDoc.createElement('c:prop-filter');
+		cPropFilter.setAttribute('name', propName);
+		cCompFilterVEvent.appendChild(cPropFilter);
+
+		var cTextMatch = xmlDoc.createElement('c:text-match');
+		cTextMatch.setAttribute('collation', 'i;ascii-casemap');
+		cTextMatch.textContent = query;
+		cPropFilter.appendChild(cTextMatch);
+
+		return this._xmls.serializeToString(cCalQuery);
+	};
+
+	this._attendeeCNFilter = function(query) {
+		var parts = this._simpleCompFilter();
+		var xmlDoc = parts[0], cCalQuery = parts[1], cCompFilterVEvent = parts[2];
+
+		var cPropFilter = xmlDoc.createElement('c:prop-filter');
+		cPropFilter.setAttribute('name', 'ATTENDEE');
+		cCompFilterVEvent.appendChild(cPropFilter);
+
+		var cParamFilter = xmlDoc.createElement('c:param-filter');
+		cPropFilter.setAttribute('name', 'CN');
+		cPropFilter.appendChild(cParamFilter);
+
+		var cTextMatch = xmlDoc.createElement('c:text-match');
+		cTextMatch.setAttribute('collation', 'i;ascii-casemap');
+		cTextMatch.textContent = query;
+		cParamFilter.appendChild(cTextMatch);
+
+		return this._xmls.serializeToString(cCalQuery);
 	};
 
 	this.get = function(calendar, uri) {

@@ -21,16 +21,17 @@
  *
  */
 
-app.run(['$document', '$rootScope', '$window', 'SearchIntegration',
-	function ($document, $rootScope, $window, SearchIntegration) {
-		'use strict';
+app.factory('VEventSearchResult', function() {
+	'use strict';
 
-		$rootScope.baseUrl = $window.location.origin +
-			$window.location.pathname +
-			'v1/';
-
-		$document.click(function (event) {
-			$rootScope.$broadcast('documentClicked', event);
+	function VEventSearchResult(vevent, title, start, end) {
+		angular.extend(this, {
+			vevent: vevent,
+			title: title,
+			start: start,
+			end: end
 		});
 	}
-]);
+
+	return VEventSearchResult;
+});
