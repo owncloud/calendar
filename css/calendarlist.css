@@ -110,7 +110,10 @@
 	padding: 0 5px 0 0;
 }
 #app-navigation .app-navigation-list-item .utils .action span {
-	opacity: .3;
+	opacity: .2;
+}
+#app-navigation .app-navigation-list-item .utils .action.withitems span {
+	opacity: .4;
 }
 #app-navigation .app-navigation-list-item .utils .action:hover span {
 	opacity: 1;
@@ -158,6 +161,9 @@
 	width: 16px;
 	padding: 12px 6px 12px 6px;
 	cursor: pointer;
+}
+#app-navigation .app-navigation-list-item .utils .action span {
+	
 }
 
 #app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {
