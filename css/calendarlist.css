@@ -162,9 +162,6 @@
 	padding: 12px 6px 12px 6px;
 	cursor: pointer;
 }
-#app-navigation .app-navigation-list-item .utils .action span {
-	
-}
 
 #app-navigation .app-navigation-list-item:hover .calendar-share-list .utils .action span {
 	padding: 0;
