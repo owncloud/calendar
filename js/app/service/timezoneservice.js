@@ -49,7 +49,7 @@ app.service('TimezoneService', ['$rootScope', '$http', 'Timezone', 'TimezoneList
 
 			_this._timezones[tzid] = $http({
 				method: 'GET',
-				url: $rootScope.baseUrl + 'timezones/' + tzid + '.ics'
+				url: OC.generateUrl('/apps/calendar/v1/timezones/') + tzid + '.ics'
 			}).then(function (response) {
 				if (response.status >= 200 && response.status <= 299) {
 					var timezone = new Timezone(response.data);
