@@ -55,6 +55,14 @@ class Application extends App {
 
 			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config);
 		});
+
+		$container->registerService('PublicController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$userSession = $c->getServer()->getUserSession();
+			$config = $c->getServer()->getConfig();
+
+			return new Controller\PublicController($c->getAppName(), $request, $userSession, $config);
+		});
 	}
 
 	/**

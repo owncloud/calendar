@@ -35,5 +35,8 @@ return [
 		//Autocompletion
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'GET'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'GET'],
+
+		// Public
+		['name' => 'public#index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
 	]
 ];

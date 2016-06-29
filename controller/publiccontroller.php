@@ -28,11 +28,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 
-class ViewController extends Controller {
+class PublicController extends Controller {
 
 	/**
 	 * @var IConfig
@@ -58,96 +59,36 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * @return TemplateResponse
 	 */
-	public function index() {
+	public function index($calendar) {
+		
 		$runningOn = $this->config->getSystemValue('version');
-		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
-
-		$supportsClass = $runningOnServer91OrLater;
-		$assetPipelineBroken = !$runningOnServer91OrLater;
 
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
-		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
+		if ($isAssetPipelineEnabled) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
 
-		$user = $this->userSession->getUser();
-		$userId = $user->getUID();
-		$emailAddress = $user->getEMailAddress();
-
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
-		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
-		
-		return new TemplateResponse('calendar', 'main', [
+		$defaultView = $this->config->getUserValue(1, $this->appName, 'currentView', 'month');
+
+		$supportsClass = version_compare($runningOn, '9.1', '>=');
+
+		$response = new TemplateResponse('calendar', 'public', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
-			'emailAddress' => $emailAddress,
+			'emailAddress' => '',
 			'supportsClass' => $supportsClass
 		]);
-	}
+		$response->addHeader('X-Frame-Options', 'ALLOW');
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedScriptDomain('*');
+		$response->setContentSecurityPolicy($csp);
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $id
-	 * @return DataDisplayResponse
-	 */
-	public function getTimezone($id) {
-		if (!in_array($id, $this->getTimezoneList())) {
-			return new NotFoundResponse();
-		}
-
-		$tzData = file_get_contents(__DIR__ . '/../timezones/' . $id);
-
-		return new DataDisplayResponse($tzData, HTTP::STATUS_OK, [
-			'content-type' => 'text/calendar',
-		]);
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @param $region
-	 * @param $city
-	 * @return DataDisplayResponse
-	 */
-	public function getTimezoneWithRegion($region, $city) {
-		return $this->getTimezone($region . '-' . $city);
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param $region
-	 * @param $subregion
-	 * @param $city
-	 * @return DataDisplayResponse
-	 */
-	public function getTimezoneWithSubRegion($region, $subregion, $city) {
-		return $this->getTimezone($region . '-' . $subregion . '-' . $city);
-	}
-
-
-	/**
-	 * get a list of default timezones
-	 *
-	 * @return array
-	 */
-	private function getTimezoneList() {
-		$allFiles = scandir(__DIR__ . '/../timezones/');
-
-		return array_values(array_filter($allFiles, function($file) {
-			return (substr($file, -4) === '.ics');
-		}));
+		return $response;
 	}
 }

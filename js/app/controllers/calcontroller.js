@@ -130,19 +130,37 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 			$scope.uiConfig.calendar.timezone = 'UTC';
 		});
 
-		CalendarService.getAll().then(function(calendars) {
-			$scope.calendars = calendars;
-			is.loading = false;
-			// TODO - scope.apply should not be necessary here
-			$scope.$apply();
+		var url = window.location.toString();
+		if (url.endsWith('calendar/') || url.endsWith('calendar') || url.endsWith('calendar/#')) {
+			CalendarService.getAll().then(function (calendars) {
+				$scope.calendars = calendars;
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
 
-			angular.forEach($scope.calendars, function (calendar) {
-				$scope.eventSource[calendar.url] = calendar.fcEventSource;
-				if (calendar.enabled) {
-					showCalendar(calendar.url);
-				}
+				angular.forEach($scope.calendars, function (calendar) {
+					$scope.eventSource[calendar.url] = calendar.fcEventSource;
+					if (calendar.enabled) {
+						showCalendar(calendar.url);
+					}
+				});
 			});
-		});
+		} else {
+			var token = url.substr(url.lastIndexOf('/') + 1);
+
+			CalendarService.getPubUrl(OC.linkToRemoteBase('dav') + '/public-calendars/' + token).then(function(calendar) {
+				$scope.calendars = [calendar];
+				is.loading = false;
+				// TODO - scope.apply should not be necessary here
+				$scope.$apply();
+
+				angular.forEach($scope.calendars, function (calendar) {
+					$scope.eventSource[calendar.url] = calendar.fcEventSource;
+					calendar.enabled = true;
+					showCalendar(calendar.url);
+				});
+			});
+		}
 
 		$scope._calculatePopoverPositionByTarget = function(target, view) {
 			var clientRect = target.getClientRects()[0];
@@ -254,7 +272,9 @@ app.controller('CalController', ['$scope', '$rootScope', '$window', 'Calendar', 
 					});
 
 					if (writableCalendars.length === 0) {
-						OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						if ($scope.calendars[0].publicurl !== $window.location.href) {
+							OC.Notification.showTemporary(t('calendar', 'Please create a calendar first.'));
+						}
 						return;
 					}
 
