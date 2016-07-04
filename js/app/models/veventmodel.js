@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringService) {
+app.factory('VEvent', function(FcEvent, SimpleEvent, VEventSearchResult, ICalFactory, RandomStringService) {
 	'use strict';
 
 	/**
@@ -224,7 +224,30 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, RandomStringSe
 			});
 
 			return simpleEvent;
+		},
+		getSearchResults: function(timezone) {
+			var searchResults = [];
+
+			var vevents = this.comp.getAllSubcomponents('vevent');
+			var self = this;
+			angular.forEach(vevents, function (event) {
+				if (!event.hasProperty('dtstart')) {
+					return;
+				}
+
+				var dtstart = event.getFirstPropertyValue('dtstart');
+				var dtend = calculateDTEnd(event);
+
+				var title = event.getFirstPropertyValue('summary');
+				var start = convertTimezoneIfNecessary(dtstart, timezone);
+				var end = convertTimezoneIfNecessary(dtend, timezone);
+
+				searchResults.push(new VEventSearchResult(self, title, start.toJSDate(), end.toJSDate()));
+			});
+
+			return searchResults;
 		}
+
 	};
 
 	/**

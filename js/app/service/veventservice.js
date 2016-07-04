@@ -100,6 +100,119 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		});
 	};
 
+	this.search = function(calendar, query) {
+		var url = calendar.url;
+		var headers = {
+			'Content-Type': 'application/xml; charset=utf-8',
+			'Depth': 1,
+			'requesttoken': OC.requestToken
+		};
+
+		var title = DavClient.request('REPORT', url, headers, this._simplePropFilter('SUMMARY', query));
+		var description = DavClient.request('REPORT', url, headers, this._simplePropFilter('DESCRIPTION', query));
+		var location = DavClient.request('REPORT', url, headers, this._simplePropFilter('LOCATION', query));
+		var attendeeName = DavClient.request('REPORT', url, headers, this._attendeeCNFilter(query));
+		var attendeeEMail = DavClient.request('REPORT', url, headers, this._simplePropFilter('ATTENDEE', query));
+
+		return Promise.all([title, description, location, attendeeName, attendeeEMail]).then(function(responses) {
+			var vevents = [];
+			angular.forEach(responses, function(response) {
+				if (!DavClient.wasRequestSuccessful(response.status)) {
+					//TODO - something went wrong
+					return;
+				}
+
+				for (var i in response.body) {
+					var object = response.body[i];
+					var properties = object.propStat[0].properties;
+
+					var data = properties['{urn:ietf:params:xml:ns:caldav}calendar-data'];
+					var etag = properties['{DAV:}getetag'];
+					var uri = object.href.substr(object.href.lastIndexOf('/') + 1);
+
+					var vevent;
+					try {
+						vevent = new VEvent(calendar, data, etag, uri);
+					} catch(e) {
+						console.log(e);
+						continue;
+					}
+					vevents.push(vevent);
+				}
+			});
+
+			return vevents;
+		});
+	};
+
+	this._simpleCompFilter = function() {
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cCalQuery = xmlDoc.createElement('c:calendar-query');
+		cCalQuery.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cCalQuery.setAttribute('xmlns:d', 'DAV:');
+		cCalQuery.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cCalQuery.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		xmlDoc.appendChild(cCalQuery);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		cCalQuery.appendChild(dProp);
+
+		var dGetEtag = xmlDoc.createElement('d:getetag');
+		dProp.appendChild(dGetEtag);
+
+		var cCalendarData = xmlDoc.createElement('c:calendar-data');
+		dProp.appendChild(cCalendarData);
+
+		var cFilter = xmlDoc.createElement('c:filter');
+		cCalQuery.appendChild(cFilter);
+
+		var cCompFilterVCal = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVCal.setAttribute('name', 'VCALENDAR');
+		cFilter.appendChild(cCompFilterVCal);
+
+		var cCompFilterVEvent = xmlDoc.createElement('c:comp-filter');
+		cCompFilterVEvent.setAttribute('name', 'VEVENT');
+		cCompFilterVCal.appendChild(cCompFilterVEvent);
+
+		return [xmlDoc, cCalQuery, cCompFilterVEvent];
+	};
+
+	this._simplePropFilter = function(propName, query) {
+		var parts = this._simpleCompFilter();
+		var xmlDoc = parts[0], cCalQuery = parts[1], cCompFilterVEvent = parts[2];
+
+		var cPropFilter = xmlDoc.createElement('c:prop-filter');
+		cPropFilter.setAttribute('name', propName);
+		cCompFilterVEvent.appendChild(cPropFilter);
+
+		var cTextMatch = xmlDoc.createElement('c:text-match');
+		cTextMatch.setAttribute('collation', 'i;ascii-casemap');
+		cTextMatch.textContent = query;
+		cPropFilter.appendChild(cTextMatch);
+
+		return this._xmls.serializeToString(cCalQuery);
+	};
+
+	this._attendeeCNFilter = function(query) {
+		var parts = this._simpleCompFilter();
+		var xmlDoc = parts[0], cCalQuery = parts[1], cCompFilterVEvent = parts[2];
+
+		var cPropFilter = xmlDoc.createElement('c:prop-filter');
+		cPropFilter.setAttribute('name', 'ATTENDEE');
+		cCompFilterVEvent.appendChild(cPropFilter);
+
+		var cParamFilter = xmlDoc.createElement('c:param-filter');
+		cPropFilter.setAttribute('name', 'CN');
+		cPropFilter.appendChild(cParamFilter);
+
+		var cTextMatch = xmlDoc.createElement('c:text-match');
+		cTextMatch.setAttribute('collation', 'i;ascii-casemap');
+		cTextMatch.textContent = query;
+		cParamFilter.appendChild(cTextMatch);
+
+		return this._xmls.serializeToString(cCalQuery);
+	};
+
 	this.get = function(calendar, uri) {
 		var url = calendar.url + uri;
 		return DavClient.request('GET', url, {'requesttoken' : OC.requestToken}, '').then(function(response) {
