@@ -51,6 +51,8 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 			warnings: [],
 			fcEventSource: {
 				events: function (start, end, timezone, callback) {
+					var fcAPI = this;
+
 					TimezoneService.get(timezone).then(function(tz) {
 						self.list.loading = true;
 						self.fcEventSource.isRendering = true;
@@ -72,6 +74,7 @@ app.factory('Calendar', ['$rootScope', '$filter', 'VEventService', 'TimezoneServ
 							}
 
 							callback(vevents);
+							fcAPI.reportEvents(fcAPI.clientEvents());
 							self.fcEventSource.isRendering = false;
 
 							self.list.loading = false;
