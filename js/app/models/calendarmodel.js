@@ -47,7 +47,6 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 						}
 						vevents = vevents.concat(vevent);
 					}
-
 					callback(vevents);
 					context.fcEventSource.isRendering = false;
 
@@ -137,17 +136,20 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			url: {
 				get: function() {
 					return context.url;
-				}
+				},
+				configurable: true
 			},
 			caldav: {
 				get: function() {
 					return $window.location.origin + context.url;
-				}
+				},
+				configurable: true
 			},
 			fcEventSource: {
 				get: function() {
 					return context.fcEventSource;
-				}
+				},
+				configurable: true
 			},
 			shares: {
 				get: function() {

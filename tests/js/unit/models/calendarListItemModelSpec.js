@@ -28,12 +28,6 @@ describe('The calendarListItem factory', function () {
 		expect(CalendarListItem({})).toEqual(jasmine.any(Object));
 	});
 
-	it('should return null when it\'s not a calendar', function() {
-		Calendar.isCalendar = jasmine.createSpy().and.returnValue(false);
-
-		expect(CalendarListItem({})).toEqual(null);
-	});
-
 	it('should expose the calendar object', function() {
 		var calendar = {};
 		var item = CalendarListItem(calendar);

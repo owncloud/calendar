@@ -91,6 +91,23 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 			$window.open(url);
 		};
 
+		$scope.createSubscription = function (name, color, source) {
+			CalendarService.createSubscription(name, color, source). then(function(subscription) {
+				if (subscription) {
+					$scope.calendars.push(subscription);
+					$rootScope.$broadcast('createdCalendar', subscription);
+					$rootScope.$broadcast('reloadCalendarList');
+					OC.Notification.showTemporary(t('calendar', "The calendar has been added"));
+				} else {
+					OC.Notification.showTemporary(t('calendar', "The calendar can't be fetched"));
+				}
+			});
+
+			$scope.newSubscriptionName = '';
+			$scope.newSubscriptionUrl = '';
+			angular.element('#new-subscription-button').click();
+		};
+
 		$scope.toggleSharesEditor = function (calendar) {
 			calendar.toggleSharesEditor();
 		};

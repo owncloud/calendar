@@ -130,12 +130,14 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			var body = response.body;
 			if (body.propStat.length < 1) {
 				//TODO - something went wrong
+				OC.Notification.showTemporary(t('calendar', 'Something went wrong.'));
 				return;
 			}
 
 			var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
 			if (!DavClient.wasRequestSuccessful(responseCode)) {
 				//TODO - something went wrong
+				OC.Notification.showTemporary(t('calendar', 'Something went wrong.'));
 				return;
 			}
 
@@ -237,7 +239,12 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		calendar.resetUpdated();
 
-		var url = calendar.url;
+		var url;
+		if (Calendar.isCalendar(calendar)) {
+			url = calendar.url;
+		} else {
+			url = this._CALENDAR_HOME + calendar.displayname + '/';
+		}
 		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
@@ -250,12 +257,83 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	};
 
 	this.delete = function(calendar) {
-		return DavClient.request('DELETE', calendar.url, {'requesttoken': OC.requestToken}, '').then(function(response) {
+		var url;
+		if (Calendar.isCalendar(calendar)) {
+			url = calendar.url;
+		} else {
+			url = this._CALENDAR_HOME + calendar.displayname + '/';
+		}
+		return DavClient.request('DELETE', url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {
 				return true;
 			} else {
 				// TODO - handle error case
 				return false;
+			}
+		});
+	};
+
+	this.createSubscription = function(name, color, source) {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return self.createSubscription(name, color);
+			});
+		}
+
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cMkcalendar = xmlDoc.createElement('d:mkcol');
+		cMkcalendar.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cMkcalendar.setAttribute('xmlns:d', 'DAV:');
+		cMkcalendar.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cMkcalendar.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		cMkcalendar.setAttribute('xmlns:cs', 'http://calendarserver.org/ns/');
+		xmlDoc.appendChild(cMkcalendar);
+
+		var dSet = xmlDoc.createElement('d:set');
+		cMkcalendar.appendChild(dSet);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		dSet.appendChild(dProp);
+
+		var dResourceType = xmlDoc.createElement('d:resourcetype');
+		dProp.appendChild(dResourceType);
+
+		var dCollection = xmlDoc.createElement('d:collection');
+		dResourceType.appendChild(dCollection);
+
+		var dSubscribed = xmlDoc.createElement('cs:subscribed');
+		dResourceType.appendChild(dSubscribed);
+
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'source', source));
+
+		var body = this._xmls.serializeToString(cMkcalendar);
+
+		var url = this._CALENDAR_HOME + name + '/';
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			'requesttoken' : OC.requestToken
+		};
+
+		var bodyForIcs = { 'icsurl': source};
+		var headersForIcs = {
+			'Content-Type': 'application/json; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+
+		return DavClient.request('POST', window.location.toString() + '/v1/geticsfile', headersForIcs, JSON.stringify(bodyForIcs)).then(function (response) {
+			if (response.status === 200) {
+				return DavClient.request('MKCOL', url, headers, body).then(function (response) {
+					if (response.status === 201) {
+						self._takenUrls.push(url);
+						return self.get(url).then(function (calendar) {
+							calendar.enabled = true;
+							return self.update(calendar);
+						});
+					}
+				});
 			}
 		});
 	};
@@ -381,6 +459,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				var aColor = xmlDoc.createElement('a:calendar-color');
 				aColor.textContent = value;
 				return aColor;
+
+			case 'source':
+				var aSource = xmlDoc.createElement('cs:source');
+				var aSourceHref = xmlDoc.createElement('d:href');
+				aSourceHref.textContent = value;
+				aSource.appendChild(aSourceHref);
+				return aSource;
 
 			case 'components':
 				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
