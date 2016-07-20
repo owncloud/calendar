@@ -26,8 +26,8 @@
  * Description: Takes care of importing calendars
  */
 
-app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper',
-	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper) {
+app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper', 'uiCalendarConfig',
+	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper, uiCalendarConfig) {
 		'use strict';
 
 		$scope.rawFiles = files;
@@ -122,7 +122,23 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 				$scope.$apply();
 				$scope.closeIfNecessary();
 
-				//TODO - refetch calendar
+				CalendarService.getAll().then(function(calendars) {
+					$scope.calendars = calendars;
+					// TODO - scope.apply should not be necessary here
+					$scope.$apply();
+
+					angular.forEach($scope.calendars, function (calendar) {
+						$scope.eventSource[calendar.url] = calendar.fcEventSource;
+						if (calendar.enabled) {
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'removeEventSource',
+								$scope.eventSource[calendar.url]);
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'addEventSource',
+								$scope.eventSource[calendar.url]);
+						}
+					});
+				});
 			});
 
 			fileWrapper.register(ImportFileWrapper.hookErrorsChanged, function() {
