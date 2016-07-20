@@ -1054,9 +1054,11 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
  * Description: Takes care of importing calendars
  */
 
-app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper',
-	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper) {
+app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper', 'uiCalendarConfig',
+	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper, uiCalendarConfig) {
 		'use strict';
+
+		$scope.nameSize = 30;
 
 		$scope.rawFiles = files;
 		$scope.files = [];
@@ -1150,7 +1152,23 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 				$scope.$apply();
 				$scope.closeIfNecessary();
 
-				//TODO - refetch calendar
+				CalendarService.getAll().then(function(calendars) {
+					$scope.calendars = calendars;
+					// TODO - scope.apply should not be necessary here
+					$scope.$apply();
+
+					angular.forEach($scope.calendars, function (calendar) {
+						$scope.eventSource[calendar.url] = calendar.fcEventSource;
+						if (calendar.enabled) {
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'removeEventSource',
+								$scope.eventSource[calendar.url]);
+							uiCalendarConfig.calendars.calendar.fullCalendar(
+								'addEventSource',
+								$scope.eventSource[calendar.url]);
+						}
+					});
+				});
 			});
 
 			fileWrapper.register(ImportFileWrapper.hookErrorsChanged, function() {
@@ -1894,6 +1912,40 @@ app.directive('onToggleShow', function () {
 	};
 });
 
+app.filter('calendarListFilter', ["CalendarListItem", function(CalendarListItem) {
+	'use strict';
+
+	return function (calendarListItems) {
+		if (!Array.isArray(calendarListItems)) {
+			return [];
+		}
+
+		return calendarListItems.filter(function(item) {
+			if (!CalendarListItem.isCalendarListItem(item)) {
+				return false;
+			}
+			return item.calendar.isWritable();
+		});
+	};
+}]);
+
+app.filter('subscriptionListFilter', ["CalendarListItem", function(CalendarListItem) {
+	'use strict';
+
+	return function (calendarListItems) {
+		if (!Array.isArray(calendarListItems)) {
+			return [];
+		}
+
+		return calendarListItems.filter(function(item) {
+			if (!CalendarListItem.isCalendarListItem(item)) {
+				return false;
+			}
+			return !item.calendar.isWritable();
+		});
+	};
+}]);
+
 app.filter('attendeeFilter', function() {
 	'use strict';
 
@@ -1950,23 +2002,6 @@ app.filter('calendarFilter', function() {
 		});
 	};
 });
-
-app.filter('calendarListFilter', ["CalendarListItem", function(CalendarListItem) {
-	'use strict';
-
-	return function (calendarListItems) {
-		if (!Array.isArray(calendarListItems)) {
-			return [];
-		}
-
-		return calendarListItems.filter(function(item) {
-			if (!CalendarListItem.isCalendarListItem(item)) {
-				return false;
-			}
-			return item.calendar.isWritable();
-		});
-	};
-}]);
 
 app.filter('calendarSelectorFilter', function () {
 	'use strict';
@@ -2156,23 +2191,6 @@ app.filter('subscriptionFilter', function () {
 	};
 });
 
-app.filter('subscriptionListFilter', ["CalendarListItem", function(CalendarListItem) {
-	'use strict';
-
-	return function (calendarListItems) {
-		if (!Array.isArray(calendarListItems)) {
-			return [];
-		}
-
-		return calendarListItems.filter(function(item) {
-			if (!CalendarListItem.isCalendarListItem(item)) {
-				return false;
-			}
-			return !item.calendar.isWritable();
-		});
-	};
-}]);
-
 app.filter('timezoneFilter', ['$filter', function($filter) {
 	'use strict';
 
@@ -2205,6 +2223,161 @@ app.filter('timezoneWithoutContinentFilter', function() {
 		return timezone.split('/').join(' - ');
 	};
 });
+
+app.factory('ImportFileWrapper', ["Hook", "SplitterService", function(Hook, SplitterService) {
+	'use strict';
+
+	function ImportFileWrapper(file) {
+		const context = {
+			file: file,
+			splittedICal: null,
+			selectedCalendar: null,
+			state: 0,
+			errors: 0,
+			progress: 0,
+			progressToReach: 0
+		};
+		const iface = {
+			_isAImportFileWrapperObject: true
+		};
+
+		context.checkIsDone = function() {
+			if (context.progress === context.progressToReach) {
+				context.state = ImportFileWrapper.stateDone;
+				iface.emit(ImportFileWrapper.hookDone);
+			}
+		};
+
+		Object.defineProperties(iface, {
+			file: {
+				get: function() {
+					return context.file;
+				}
+			},
+			splittedICal: {
+				get: function() {
+					return context.splittedICal;
+				}
+			},
+			selectedCalendar: {
+				get: function() {
+					return context.selectedCalendar;
+				},
+				set: function(selectedCalendar) {
+					context.selectedCalendar = selectedCalendar;
+				}
+			},
+			state: {
+				get: function() {
+					return context.state;
+				},
+				set: function(state) {
+					if (typeof state === 'number') {
+						context.state = state;
+					}
+				}
+			},
+			errors: {
+				get: function() {
+					return context.errors;
+				},
+				set: function(errors) {
+					if (typeof errors === 'number') {
+						var oldErrors = context.errors;
+						context.errors = errors;
+						iface.emit(ImportFileWrapper.hookErrorsChanged, errors, oldErrors);
+					}
+				}
+			},
+			progress: {
+				get: function() {
+					return context.progress;
+				},
+				set: function(progress) {
+					if (typeof progress === 'number') {
+						var oldProgress = context.progress;
+						context.progress = progress;
+						iface.emit(ImportFileWrapper.hookProgressChanged, progress, oldProgress);
+
+						context.checkIsDone();
+					}
+				}
+			},
+			progressToReach: {
+				get: function() {
+					return context.progressToReach;
+				}
+			}
+		});
+
+		iface.wasCanceled = function() {
+			return context.state === ImportFileWrapper.stateCanceled;
+		};
+
+		iface.isAnalyzing = function() {
+			return context.state === ImportFileWrapper.stateAnalyzing;
+		};
+
+		iface.isAnalyzed = function() {
+			return context.state === ImportFileWrapper.stateAnalyzed;
+		};
+
+		iface.isScheduled = function() {
+			return context.state === ImportFileWrapper.stateScheduled;
+		};
+
+		iface.isImporting = function() {
+			return context.state === ImportFileWrapper.stateImporting;
+		};
+
+		iface.isDone = function() {
+			return context.state === ImportFileWrapper.stateDone;
+		};
+
+		iface.hasErrors = function() {
+			return context.errors > 0;
+		};
+
+		iface.read = function(afterReadCallback) {
+			var reader = new FileReader();
+
+			reader.onload = function(event) {
+				context.splittedICal = SplitterService.split(event.target.result);
+				context.progressToReach = context.splittedICal.vevents.length +
+					context.splittedICal.vjournals.length +
+					context.splittedICal.vtodos.length;
+				iface.state = ImportFileWrapper.stateAnalyzed;
+				afterReadCallback();
+			};
+
+			reader.readAsText(file);
+		};
+
+		Object.assign(
+			iface,
+			Hook(context)
+		);
+
+		return iface;
+	}
+
+	ImportFileWrapper.isImportWrapper = function(obj) {
+		return obj instanceof ImportFileWrapper || (typeof obj === 'object' && obj !== null && obj._isAImportFileWrapperObject !== null);
+	};
+
+	ImportFileWrapper.stateCanceled = -1;
+	ImportFileWrapper.stateAnalyzing = 0;
+	ImportFileWrapper.stateAnalyzed = 1;
+	ImportFileWrapper.stateScheduled = 2;
+	ImportFileWrapper.stateImporting = 3;
+	ImportFileWrapper.stateDone = 4;
+
+	ImportFileWrapper.hookProgressChanged = 1;
+	ImportFileWrapper.hookDone = 2;
+	ImportFileWrapper.hookErrorsChanged = 3;
+
+	return ImportFileWrapper;
+}]);
 
 app.factory('CalendarListItem', ["Calendar", function(Calendar) {
 	'use strict';
@@ -2734,161 +2907,6 @@ app.factory('Hook', function() {
 		return iface;
 	};
 });
-
-app.factory('ImportFileWrapper', ["Hook", "SplitterService", function(Hook, SplitterService) {
-	'use strict';
-
-	function ImportFileWrapper(file) {
-		const context = {
-			file: file,
-			splittedICal: null,
-			selectedCalendar: null,
-			state: 0,
-			errors: 0,
-			progress: 0,
-			progressToReach: 0
-		};
-		const iface = {
-			_isAImportFileWrapperObject: true
-		};
-
-		context.checkIsDone = function() {
-			if (context.progress === context.progressToReach) {
-				context.state = ImportFileWrapper.stateDone;
-				iface.emit(ImportFileWrapper.hookDone);
-			}
-		};
-
-		Object.defineProperties(iface, {
-			file: {
-				get: function() {
-					return context.file;
-				}
-			},
-			splittedICal: {
-				get: function() {
-					return context.splittedICal;
-				}
-			},
-			selectedCalendar: {
-				get: function() {
-					return context.selectedCalendar;
-				},
-				set: function(selectedCalendar) {
-					context.selectedCalendar = selectedCalendar;
-				}
-			},
-			state: {
-				get: function() {
-					return context.state;
-				},
-				set: function(state) {
-					if (typeof state === 'number') {
-						context.state = state;
-					}
-				}
-			},
-			errors: {
-				get: function() {
-					return context.errors;
-				},
-				set: function(errors) {
-					if (typeof errors === 'number') {
-						var oldErrors = context.errors;
-						context.errors = errors;
-						iface.emit(ImportFileWrapper.hookErrorsChanged, errors, oldErrors);
-					}
-				}
-			},
-			progress: {
-				get: function() {
-					return context.progress;
-				},
-				set: function(progress) {
-					if (typeof progress === 'number') {
-						var oldProgress = context.progress;
-						context.progress = progress;
-						iface.emit(ImportFileWrapper.hookProgressChanged, progress, oldProgress);
-
-						context.checkIsDone();
-					}
-				}
-			},
-			progressToReach: {
-				get: function() {
-					return context.progressToReach;
-				}
-			}
-		});
-
-		iface.wasCanceled = function() {
-			return context.state === ImportFileWrapper.stateCanceled;
-		};
-
-		iface.isAnalyzing = function() {
-			return context.state === ImportFileWrapper.stateAnalyzing;
-		};
-
-		iface.isAnalyzed = function() {
-			return context.state === ImportFileWrapper.stateAnalyzed;
-		};
-
-		iface.isScheduled = function() {
-			return context.state === ImportFileWrapper.stateScheduled;
-		};
-
-		iface.isImporting = function() {
-			return context.state === ImportFileWrapper.stateImporting;
-		};
-
-		iface.isDone = function() {
-			return context.state === ImportFileWrapper.stateDone;
-		};
-
-		iface.hasErrors = function() {
-			return context.errors > 0;
-		};
-
-		iface.read = function(afterReadCallback) {
-			var reader = new FileReader();
-
-			reader.onload = function(event) {
-				context.splittedICal = SplitterService.split(event.target.result);
-				context.progressToReach = context.splittedICal.vevents.length +
-					context.splittedICal.vjournals.length +
-					context.splittedICal.vtodos.length;
-				afterReadCallback();
-				iface.state = ImportFileWrapper.stateAnalyzed;
-			};
-
-			reader.readAsText(file);
-		};
-
-		Object.assign(
-			iface,
-			Hook(context)
-		);
-
-		return iface;
-	}
-
-	ImportFileWrapper.isImportWrapper = function(obj) {
-		return obj instanceof ImportFileWrapper || (typeof obj === 'object' && obj !== null && obj._isAImportFileWrapperObject !== null);
-	};
-
-	ImportFileWrapper.stateCanceled = -1;
-	ImportFileWrapper.stateAnalyzing = 0;
-	ImportFileWrapper.stateAnalyzed = 1;
-	ImportFileWrapper.stateScheduled = 2;
-	ImportFileWrapper.stateImporting = 3;
-	ImportFileWrapper.stateDone = 4;
-
-	ImportFileWrapper.hookProgressChanged = 1;
-	ImportFileWrapper.hookDone = 2;
-	ImportFileWrapper.hookErrorsChanged = 3;
-
-	return ImportFileWrapper;
-}]);
 
 app.factory('SimpleEvent', function() {
 	'use strict';
