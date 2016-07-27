@@ -58,12 +58,9 @@ class Application extends App {
 		$container->registerService('SubscriptionsProxyController', function(IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
-			$storage = $c->query('RootStorage');
+			$storage = $c->query('OCP\Files\IRootFolder');
 
 			return new Controller\SubscriptionsProxyController($c->getAppName(), $request, $userSession, $storage);
-		});
-		$container->registerService('RootStorage', function($c) {
-			return $c->query('ServerContainer')->getRootFolder();
 		});
 	}
 

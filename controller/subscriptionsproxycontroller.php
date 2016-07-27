@@ -78,7 +78,7 @@ class SubscriptionsProxyController extends Controller {
 	 */
 	public function getIcsFile($icsurl) {
 		try {
-			$file = $this->storage->get('/' . basename($icsurl));
+			$file = $this->storage->get('/CalendarSubscriptions/' . $this->userSession->getUser()->getUID() . '/' . basename($icsurl));
 
 			if ($file instanceof File) {
 				$date = new \DateTime();
@@ -89,7 +89,7 @@ class SubscriptionsProxyController extends Controller {
 				}
 			}
 		} catch (NotFoundException $e) {
-			$file = $this->createFile($this->userSession->getUser()->getUID(), $icsurl);
+			$file = $this->createFile($icsurl, $this->userSession->getUser()->getUID());
 			$this->fetchFile($file, $icsurl);
 		}
 
@@ -144,22 +144,22 @@ class SubscriptionsProxyController extends Controller {
 
 
 	/**
-	 * @param int $userId
 	 * @param string $url
+	 * @param int $userId
 	 * @return File
 	 */
-	private function createFile($userId, $url) {
+	private function createFile($url, $userId) {
 		$folder = $this->getFolder($userId);
 		$file = $folder->newFile(basename($url));
 		return $file;
 	}
 
 	/**
-	 * @param $userId
+	 * @param int $userId
 	 * @return IRootFolder
 	 */
-	private function getFolder() {
-		$path = '/CalendarSubscriptions';
+	private function getFolder($userId) {
+		$path = '/CalendarSubscriptions/' . $userId . '/';
 		if ($this->storage->nodeExists($path)) {
 			$folder = $this->storage->get($path);
 		} else {
