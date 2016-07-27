@@ -29,7 +29,7 @@ app.filter('calendarListFilter', function(CalendarListItem) {
 		}
 
 		return calendarListItems.filter(function(item) {
-			if (!CalendarListItem.isCalendarListItem(item) || CalendarListItem.isSubscriptionListItem(item)) {
+			if (!CalendarListItem.isCalendarListItem(item)) {
 				return false;
 			}
 			return item.calendar.isWritable();

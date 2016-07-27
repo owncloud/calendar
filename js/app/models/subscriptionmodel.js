@@ -44,12 +44,14 @@ app.factory('Subscription', ['Calendar', '$http', '$rootScope', 'Hook', 'VEventS
 				displayname: props.displayname,
 				enabled: props.enabled
 			},
+			endpoint: url,
 			updatedProperties: [],
 			writable: false,
 			warnings: [],
 			shareable: false,
 			writableProperties: props.writableProperties
 		};
+
 
 		const iface = Calendar(url, props);
 
@@ -109,6 +111,11 @@ app.factory('Subscription', ['Calendar', '$http', '$rootScope', 'Hook', 'VEventS
 				get: function() {
 					return context.fcEventSource;
 				}
+			},
+			endpoint: {
+				get: function() {
+					return context.endpoint;
+				}
 			}
 		});
 
@@ -119,8 +126,6 @@ app.factory('Subscription', ['Calendar', '$http', '$rootScope', 'Hook', 'VEventS
 		iface.isShareable = function() {
 			return context.shareable;
 		};
-
-		console.log(iface.isShareable());
 
 		return iface;
 	}

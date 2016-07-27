@@ -146,7 +146,11 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			return Calendar(body.href, props);
+			if (props.href) {
+				return Subscription(body.href, props);
+			} else {
+				return Calendar(body.href, props);
+			}
 		});
 	};
 
@@ -243,7 +247,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		if (Calendar.isCalendar(calendar)) {
 			url = calendar.url;
 		} else {
-			url = this._CALENDAR_HOME + calendar.displayname + '/';
+			url = window.location.origin + calendar.endpoint;
 		}
 		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
@@ -311,7 +315,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		var body = this._xmls.serializeToString(cMkcalendar);
 
-		var url = this._CALENDAR_HOME + name + '/';
+		var uri = this._suggestUri(name);
+		var url = this._CALENDAR_HOME + uri + '/';
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
 			'requesttoken' : OC.requestToken
