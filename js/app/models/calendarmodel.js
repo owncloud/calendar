@@ -230,6 +230,26 @@ app.factory('Calendar', function($window, Hook, VEventService, TimezoneService, 
 			return context.writableProperties;
 		};
 
+		iface.update = function() {
+
+		};
+
+		iface.delete = function() {
+
+		};
+
+		iface.share = function() {
+
+		};
+
+		iface.unshare = function() {
+
+		};
+
+		iface.refresh = function() {
+
+		};
+
 		Object.assign(
 			iface,
 			Hook(context)
