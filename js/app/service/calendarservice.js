@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
+app.service('CalendarService', ['DavClient', 'Calendar', 'Subscription', function(DavClient, Calendar, Subscription){
 	'use strict';
 
 	var self = this;
