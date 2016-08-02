@@ -28,6 +28,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\IL10N;
 use OCP\Mail\IMailer;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -51,6 +52,11 @@ class PublicController extends Controller {
 	private $mailer;
 
 	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
@@ -58,11 +64,12 @@ class PublicController extends Controller {
 	 * @param IMailer $mailer
 	 */
 	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config, IMailer $mailer) {
+								IUserSession $userSession, IConfig $config, IMailer $mailer, IL10N $l10n) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->mailer = $mailer;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -100,25 +107,43 @@ class PublicController extends Controller {
 	}
 
 	/**
-	 * @param string $target
-	 * @param string $body
-	 * @param boolean $useHTML
+	 * @param string $to
+	 * @param string $url
 	 * @return JSONResponse
 	 */
-	public function sendEmail($target, $body, $useHTML = false) {
-		if (!$this->mailer->validateMailAddress($target)) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
-		}
+	public function sendEmailPublicLink($to, $url) {
 
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
+
+		$body = $this->l10n->t("This is an automated message to inform you that %s has published a calendar.\nYou can view it at this address : %s\n\nPlease don't respond to this email", [$username, $url]);
+
+		$subject = $this->l10n->t('%s has shared a calendar with you', [$username]);
+
+		return $this->sendEmail($to, $subject, $body, false);
+	}
+
+	/**
+	 * @param string $target
+	 * @param string $subject
+	 * @param string $body
+	 * @param boolean $useHTML
+	 * @return JSONResponse
+	 *
+	 * TODO : This should be moved to a Tools class
+	 *
+	 */
+	private function sendEmail($target, $subject, $body, $useHTML = false) {
+		if (!$this->mailer->validateMailAddress($target)) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
 
 		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
 		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'owncloud');
 		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
 
 		$message = $this->mailer->createMessage();
-		$message->setSubject($username . ' has shared a calendar with you');
+		$message->setSubject($subject);
 		$message->setFrom([$sendFrom => 'ownCloud Notifier']);
 		$message->setTo([$target => 'Recipient']);
 		if ($useHTML) {
