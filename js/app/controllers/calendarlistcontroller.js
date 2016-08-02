@@ -98,7 +98,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		$scope.sendMail = function (item) {
 			var mail = window.prompt("enter mail");
 
-			MailerService.sendMail(mail, item.calendar.publicurl, item.calendar.displayName).then(function (response) {
+			MailerService.sendMail(mail, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
 				if (response.status === 200) {
 					OC.Notification.showTemporary(t('calendar', 'Email has been correctly sent.'));
 				} else {
