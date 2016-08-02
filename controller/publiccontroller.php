@@ -109,16 +109,17 @@ class PublicController extends Controller {
 	/**
 	 * @param string $to
 	 * @param string $url
+	 * @param string $name
 	 * @return JSONResponse
 	 */
-	public function sendEmailPublicLink($to, $url) {
+	public function sendEmailPublicLink($to, $url, $name) {
 
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 
-		$body = $this->l10n->t("This is an automated message to inform you that %s has published a calendar.\nYou can view it at this address : %s\n\nPlease don't respond to this email", [$username, $url]);
+		$body = $this->l10n->t("This is an automated message to inform you that %s has published the calendar named %s.\nYou can view it at this address : %s\n\nPlease don't respond to this email", [$username, $name, $url]);
 
-		$subject = $this->l10n->t('%s has shared a calendar with you', [$username]);
+		$subject = $this->l10n->t('%s has shared the calendar "%s" with you', [$username, $name]);
 
 		return $this->sendEmail($to, $subject, $body, false);
 	}
