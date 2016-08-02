@@ -110,12 +110,16 @@ class PublicController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		//$user = $this->userSession->getUser();
-		//$userId = $user->getUID();
+		$user = $this->userSession->getUser();
+		$username = $user->getDisplayName();
+
+		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
+		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'owncloud');
+		$sendFrom = $sendFromDomain . '@' . $sendFromAddress;
 
 		$message = $this->mailer->createMessage();
-		$message->setSubject(/*$userId . */' has shared a calendar with you');
-		$message->setFrom(['cloud@domain.org' => 'ownCloud Notifier']);
+		$message->setSubject($username . ' has shared a calendar with you');
+		$message->setFrom([$sendFrom => 'ownCloud Notifier']);
 		$message->setTo([$target => 'Recipient']);
 		if ($useHTML) {
 			$message->setHtmlBody($body);
