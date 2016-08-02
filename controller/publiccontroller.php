@@ -115,7 +115,7 @@ class PublicController extends Controller {
 
 		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
 		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'owncloud');
-		$sendFrom = $sendFromDomain . '@' . $sendFromAddress;
+		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
 
 		$message = $this->mailer->createMessage();
 		$message->setSubject($username . ' has shared a calendar with you');
