@@ -23,12 +23,12 @@
  */
 namespace OCA\Calendar\Controller;
 
-use OC\AppFramework\Http;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\Mail\IMailer;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -46,16 +46,23 @@ class PublicController extends Controller {
 	private $userSession;
 
 	/**
+	 * @var IMailer
+	 */
+	private $mailer;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
+	 * @param IMailer $mailer
 	 */
 	public function __construct($appName, IRequest $request,
-								IUserSession $userSession, IConfig $config) {
+								IUserSession $userSession, IConfig $config, IMailer $mailer) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
+		$this->mailer = $mailer;
 	}
 
 	/**
@@ -90,5 +97,33 @@ class PublicController extends Controller {
 		$response->setContentSecurityPolicy($csp);
 
 		return $response;
+	}
+
+	/**
+	 * @param string $target
+	 * @param string $body
+	 * @param boolean $useHTML
+	 * @return JSONResponse
+	 */
+	public function sendEmail($target, $body, $useHTML = false) {
+		if (!$this->mailer->validateMailAddress($target)) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		//$user = $this->userSession->getUser();
+		//$userId = $user->getUID();
+
+		$message = $this->mailer->createMessage();
+		$message->setSubject(/*$userId . */' has shared a calendar with you');
+		$message->setFrom(['cloud@domain.org' => 'ownCloud Notifier']);
+		$message->setTo([$target => 'Recipient']);
+		if ($useHTML) {
+			$message->setHtmlBody($body);
+		} else {
+			$message->setPlainBody($body);
+		}
+		$this->mailer->send($message);
+
+		return new JSONResponse([], Http::STATUS_OK);
 	}
 }

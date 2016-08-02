@@ -149,6 +149,9 @@
 				target="_blank"
 				ng-href="item.calendar.publicurl"
 				ng-mousedown="goPublic(item)"></button>
+		<button class="icon-mail pull-right svg "
+                target="_blank"
+                ng-mousedown="sendMail(item)"></button>
 		</div>
 	</div>
 	<i class="glyphicon glyphicon-refresh"
