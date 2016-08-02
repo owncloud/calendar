@@ -38,5 +38,6 @@ return [
 
 		// Public
 		['name' => 'public#index', 'url' => '/public/{calendarid}', 'verb' => 'GET'],
+		['name' => 'public#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 	]
 ];

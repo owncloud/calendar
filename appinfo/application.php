@@ -60,8 +60,10 @@ class Application extends App {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 			$config = $c->getServer()->getConfig();
+			$mailer = $c->getServer()->getMailer();
+			$l10n = $c->getServer()->getL10N($c->query('AppName'));
 
-			return new Controller\PublicController($c->getAppName(), $request, $userSession, $config);
+			return new Controller\PublicController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n);
 		});
 	}
 

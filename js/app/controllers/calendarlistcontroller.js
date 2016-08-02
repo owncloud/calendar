@@ -26,8 +26,8 @@
 * Description: Takes care of CalendarList in App Navigation.
 */
 
-app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is', 'CalendarListItem', 'Calendar',
-	function ($scope, $rootScope, $window, CalendarService, is, CalendarListItem, Calendar) {
+app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'CalendarService', 'is', 'CalendarListItem', 'Calendar', 'MailerService',
+	function ($scope, $rootScope, $window, CalendarService, is, CalendarListItem, Calendar, MailerService) {
 		'use strict';
 
 		$scope.calendarListItems = [];
@@ -93,6 +93,18 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 
 		$scope.integration = function (item) {
 			return '<iframe width="400" height="215" src="' + item.calendar.publicurl + '"></iframe>';
+		};
+
+		$scope.sendMail = function (item) {
+			var mail = window.prompt("enter mail");
+
+			MailerService.sendMail(mail, item.calendar.publicurl, item.calendar.displayname).then(function (response) {
+				if (response.status === 200) {
+					OC.Notification.showTemporary(t('calendar', 'Email has been correctly sent.'));
+				} else {
+					OC.Notification.showTemporary(t('calendar', 'There was an issue while sending your Email.'));
+				}
+			});
 		};
 
 		$scope.goPublic = function (item) {
