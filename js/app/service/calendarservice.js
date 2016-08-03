@@ -174,7 +174,38 @@ app.service('CalendarService', ['DavClient', 'Calendar', 'Subscription', functio
 				return;
 			}
 
-			return Calendar(body.href, props);
+			var calendar = Calendar(body.href, props);
+
+			if (!body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype']) {
+				return calendar;
+			}
+
+			var resourceTypes = body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype'];
+			var isCalendar = false,
+				isSubscription = false;
+
+			for (var j = 0; j < resourceTypes.length; j++) {
+				var name = DavClient.getNodesFullName(resourceTypes[j]);
+
+				if (name === '{' + DavClient.NS_IETF + '}calendar') {
+					isCalendar = true;
+				}
+				if (name === '{' + DavClient.NS_CALENDARSERVER + '}subscribed') {
+					isSubscription = true;
+				}
+			}
+
+			if (isCalendar && isSubscription || !isCalendar && !isSubscription) {
+				return;
+			}
+
+			if (isCalendar) {
+				calendar = new Calendar(body.href, props);
+			} else {
+				calendar = new Subscription(body.href, props);
+			}
+
+			return calendar;
 		});
 	};
 
@@ -289,7 +320,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', 'Subscription', functio
 		if (Calendar.isCalendar(calendar)) {
 			url = calendar.url;
 		} else {
-			url = this._CALENDAR_HOME + calendar.displayname + '/';
+			url = window.location.origin + calendar.endpoint;
 		}
 		return DavClient.request('DELETE', url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {

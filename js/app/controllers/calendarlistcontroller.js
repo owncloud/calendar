@@ -92,7 +92,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ca
 		};
 
 		$scope.createSubscription = function (name, color, source) {
-			CalendarService.createSubscription(name, color, source). then(function(subscription) {
+			CalendarService.createSubscription(name, color, source).then(function(subscription) {
 				if (subscription) {
 					$scope.calendars.push(subscription);
 					$rootScope.$broadcast('createdCalendar', subscription);

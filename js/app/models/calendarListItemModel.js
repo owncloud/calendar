@@ -32,7 +32,7 @@ app.factory('CalendarListItem', function(Calendar, Subscription) {
 			isDisplayingCalDAVUrl: false
 		};
 		const iface = {
-			_isACalendarListItemObject: true
+			_isACalendarListItemObject: Calendar.isCalendar(context.calendar)
 		};
 
 		//if (!Calendar.isCalendar(calendar)) {
@@ -123,7 +123,7 @@ app.factory('CalendarListItem', function(Calendar, Subscription) {
 	};
 
 	CalendarListItem.isSubscriptionListItem = function(obj) {
-		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true && Subscription.isSubscription(obj.calendar));
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === false && Subscription.isSubscription(obj.calendar));
 	};
 
 	return CalendarListItem;
