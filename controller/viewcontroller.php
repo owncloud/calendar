@@ -216,6 +216,7 @@ class ViewController extends Controller {
 	 * @param string $url
 	 * @param string $name
 	 * @return JSONResponse
+	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink($to, $url, $name) {
 
