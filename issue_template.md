@@ -25,7 +25,7 @@ Tell us what happens instead
 
 **PHP version:**
 
-**ownCloud / Nextcloud version:** (see your admin page)
+**Server version:** (see your admin page)
 
 **Calendar version:** (see the apps page)
 
@@ -52,7 +52,7 @@ from within your installation folder
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ config:list system
-from within your cloud installation folder
+from within your server installation folder
 
 or 
 
@@ -94,7 +94,7 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 Insert your webserver log here
 ```
 
-#### log file (data/owncloud.log)
+#### Log file (data/owncloud.log)
 ```
 Insert your ownCloud.log file here
 ```
