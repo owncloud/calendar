@@ -25,6 +25,8 @@ return [
 	'routes' => [
 		//Main view
 		['name' => 'view#index', 'url' => '/', 'verb' => 'GET'],
+		// ICS Proxy
+		['name' => 'subscriptionsproxy#getIcsFile', 'url' => '/v1/geticsfile', 'verb' => 'POST'],
 		//Timezones
 		['name' => 'view#get_timezone', 'url' => '/v1/timezones/{id}', 'verb' => 'GET'],
 		['name' => 'view#get_timezone_with_region', 'url' => '/v1/timezones/{region}/{city}', 'verb' => 'GET'],

@@ -21,7 +21,7 @@
  *
  */
 
-app.factory('CalendarListItem', function(Calendar) {
+app.factory('CalendarListItem', function(Calendar, Subscription) {
 	'use strict';
 
 	function CalendarListItem(calendar) {
@@ -32,12 +32,12 @@ app.factory('CalendarListItem', function(Calendar) {
 			isDisplayingCalDAVUrl: false
 		};
 		const iface = {
-			_isACalendarListItemObject: true
+			_isACalendarListItemObject: Calendar.isCalendar(context.calendar)
 		};
 
-		if (!Calendar.isCalendar(calendar)) {
-			return null;
-		}
+		//if (!Calendar.isCalendar(calendar)) {
+			//return null;
+		//}
 
 		Object.defineProperties(iface, {
 			calendar: {
@@ -119,7 +119,11 @@ app.factory('CalendarListItem', function(Calendar) {
 	}
 
 	CalendarListItem.isCalendarListItem = function(obj) {
-		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true);
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === true && Calendar.isCalendar(obj.calendar));
+	};
+
+	CalendarListItem.isSubscriptionListItem = function(obj) {
+		return (typeof obj === 'object' && obj !== null && obj._isACalendarListItemObject === false && Subscription.isSubscription(obj.calendar));
 	};
 
 	return CalendarListItem;

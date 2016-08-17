@@ -87,9 +87,7 @@
 }
 
 .add-new-subscription .calendarlist-fieldset input {
-	width: 130px;
-	margin-right: 2px;
-
+	width: 92%;
 }
 
 .add-new-subscription .calendarlist-fieldset select {

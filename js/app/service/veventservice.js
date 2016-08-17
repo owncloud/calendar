@@ -107,6 +107,17 @@ app.service('VEventService', ['DavClient', 'VEvent', 'RandomStringService', func
 		});
 	};
 
+	this.fetchIcsFile = function(calendar, icsUrl, baseurl) {
+		var body = { 'icsurl': icsUrl};
+		var headers = {
+			'Content-Type': 'application/json; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+		return DavClient.request('POST', baseurl + 'geticsfile', headers, JSON.stringify(body)).then(function(response) {
+			return new VEvent(calendar, response.body, response.xhr.getResponseHeader('ETag'), icsUrl);
+		});
+	};
+
 	this.create = function(calendar, data, returnEvent) {
 		if (typeof returnEvent === 'undefined') {
 			returnEvent = true;

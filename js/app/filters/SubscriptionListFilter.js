@@ -29,10 +29,10 @@ app.filter('subscriptionListFilter', function(CalendarListItem) {
 		}
 
 		return calendarListItems.filter(function(item) {
-			if (!CalendarListItem.isCalendarListItem(item)) {
+			if (!CalendarListItem.isSubscriptionListItem(item)) {
 				return false;
 			}
-			return !item.calendar.isWritable();
+			return true;
 		});
 	};
 });

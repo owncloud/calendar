@@ -21,7 +21,7 @@
  *
  */
 
-app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Calendar){
+app.service('CalendarService', ['DavClient', 'Calendar', 'Subscription', function(DavClient, Calendar, Subscription){
 	'use strict';
 
 	var self = this;
@@ -33,6 +33,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	this._takenUrls = [];
 
 	this._PROPERTIES = [
+		'{' + DavClient.NS_DAV + '}resourcetype',
 		'{' + DavClient.NS_DAV + '}displayname',
 		'{' + DavClient.NS_IETF + '}calendar-description',
 		'{' + DavClient.NS_IETF + '}calendar-timezone',
@@ -42,7 +43,8 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		'{' + DavClient.NS_OWNCLOUD + '}calendar-enabled',
 		'{' + DavClient.NS_DAV + '}acl',
 		'{' + DavClient.NS_DAV + '}owner',
-		'{' + DavClient.NS_OWNCLOUD + '}invite'
+		'{' + DavClient.NS_OWNCLOUD + '}invite',
+		'{' + DavClient.NS_CALENDARSERVER + '}source'
 	];
 
 	this._xmls = new XMLSerializer();
@@ -75,10 +77,6 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		});
 	}
 
-	function getResponseCodeFromHTTPResponse(t) {
-		return parseInt(t.split(' ')[1]);
-	}
-
 	this.getAll = function() {
 		if (this._CALENDAR_HOME === null) {
 			return discoverHome(function() {
@@ -101,7 +99,7 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 				self._takenUrls.push(body.href);
 
-				var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
+				var responseCode = DavClient.getResponseCodeFromHTTPResponse(body.propStat[0].status);
 				if (!DavClient.wasRequestSuccessful(responseCode)) {
 					continue;
 				}
@@ -112,6 +110,36 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				}
 
 				var calendar = Calendar(body.href, props);
+
+				if (!body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype']) {
+					continue;
+				}
+
+				var resourceTypes = body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype'];
+				var isCalendar = false,
+					isSubscription = false;
+
+				for (var j = 0; j < resourceTypes.length; j++) {
+					var name = DavClient.getNodesFullName(resourceTypes[j]);
+
+					if (name === '{' + DavClient.NS_IETF + '}calendar') {
+						isCalendar = true;
+					}
+					if (name === '{' + DavClient.NS_CALENDARSERVER + '}subscribed') {
+						isSubscription = true;
+					}
+				}
+
+				if (isCalendar && isSubscription || !isCalendar && !isSubscription) {
+					continue;
+				}
+
+				if (isCalendar) {
+					calendar = new Calendar(body.href, props);
+				} else {
+					calendar = new Subscription(body.href, props);
+				}
+
 				calendars.push(calendar);
 			}
 
@@ -130,12 +158,14 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 			var body = response.body;
 			if (body.propStat.length < 1) {
 				//TODO - something went wrong
+				OC.Notification.showTemporary(t('calendar', 'Something went wrong.'));
 				return;
 			}
 
-			var responseCode = getResponseCodeFromHTTPResponse(body.propStat[0].status);
+			var responseCode = DavClient.getResponseCodeFromHTTPResponse(body.propStat[0].status);
 			if (!DavClient.wasRequestSuccessful(responseCode)) {
 				//TODO - something went wrong
+				OC.Notification.showTemporary(t('calendar', 'Something went wrong.'));
 				return;
 			}
 
@@ -144,7 +174,38 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				return;
 			}
 
-			return Calendar(body.href, props);
+			var calendar = Calendar(body.href, props);
+
+			if (!body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype']) {
+				return calendar;
+			}
+
+			var resourceTypes = body.propStat[0].properties['{' + DavClient.NS_DAV + '}resourcetype'];
+			var isCalendar = false,
+				isSubscription = false;
+
+			for (var j = 0; j < resourceTypes.length; j++) {
+				var name = DavClient.getNodesFullName(resourceTypes[j]);
+
+				if (name === '{' + DavClient.NS_IETF + '}calendar') {
+					isCalendar = true;
+				}
+				if (name === '{' + DavClient.NS_CALENDARSERVER + '}subscribed') {
+					isSubscription = true;
+				}
+			}
+
+			if (isCalendar && isSubscription || !isCalendar && !isSubscription) {
+				return;
+			}
+
+			if (isCalendar) {
+				calendar = new Calendar(body.href, props);
+			} else {
+				calendar = new Subscription(body.href, props);
+			}
+
+			return calendar;
 		});
 	};
 
@@ -237,7 +298,12 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 
 		calendar.resetUpdated();
 
-		var url = calendar.url;
+		var url;
+		if (Calendar.isCalendar(calendar)) {
+			url = calendar.url;
+		} else {
+			url = window.location.origin + calendar.endpoint;
+		}
 		var body = this._xmls.serializeToString(dPropUpdate);
 		var headers = {
 			'Content-Type' : 'application/xml; charset=utf-8',
@@ -250,12 +316,84 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 	};
 
 	this.delete = function(calendar) {
-		return DavClient.request('DELETE', calendar.url, {'requesttoken': OC.requestToken}, '').then(function(response) {
+		var url;
+		if (Calendar.isCalendar(calendar)) {
+			url = calendar.url;
+		} else {
+			url = window.location.origin + calendar.endpoint;
+		}
+		return DavClient.request('DELETE', url, {'requesttoken': OC.requestToken}, '').then(function(response) {
 			if (response.status === 204) {
 				return true;
 			} else {
 				// TODO - handle error case
 				return false;
+			}
+		});
+	};
+
+	this.createSubscription = function(name, color, source) {
+		if (this._CALENDAR_HOME === null) {
+			return discoverHome(function() {
+				return self.createSubscription(name, color);
+			});
+		}
+
+		var xmlDoc = document.implementation.createDocument('', '', null);
+		var cMkcalendar = xmlDoc.createElement('d:mkcol');
+		cMkcalendar.setAttribute('xmlns:c', 'urn:ietf:params:xml:ns:caldav');
+		cMkcalendar.setAttribute('xmlns:d', 'DAV:');
+		cMkcalendar.setAttribute('xmlns:a', 'http://apple.com/ns/ical/');
+		cMkcalendar.setAttribute('xmlns:o', 'http://owncloud.org/ns');
+		cMkcalendar.setAttribute('xmlns:cs', 'http://calendarserver.org/ns/');
+		xmlDoc.appendChild(cMkcalendar);
+
+		var dSet = xmlDoc.createElement('d:set');
+		cMkcalendar.appendChild(dSet);
+
+		var dProp = xmlDoc.createElement('d:prop');
+		dSet.appendChild(dProp);
+
+		var dResourceType = xmlDoc.createElement('d:resourcetype');
+		dProp.appendChild(dResourceType);
+
+		var dCollection = xmlDoc.createElement('d:collection');
+		dResourceType.appendChild(dCollection);
+
+		var dSubscribed = xmlDoc.createElement('cs:subscribed');
+		dResourceType.appendChild(dSubscribed);
+
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'displayname', name));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'enabled', true));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'color', color));
+		dProp.appendChild(this._createXMLForProperty(xmlDoc, 'source', source));
+
+		var body = this._xmls.serializeToString(cMkcalendar);
+
+		var uri = this._suggestUri(name);
+		var url = this._CALENDAR_HOME + uri + '/';
+		var headers = {
+			'Content-Type' : 'application/xml; charset=utf-8',
+			'requesttoken' : OC.requestToken
+		};
+
+		var bodyForIcs = { 'icsurl': source};
+		var headersForIcs = {
+			'Content-Type': 'application/json; charset=utf-8',
+			requesttoken: oc_requesttoken
+		};
+
+		return DavClient.request('POST', window.location.toString() + '/v1/geticsfile', headersForIcs, JSON.stringify(bodyForIcs)).then(function (response) {
+			if (response.status === 200) {
+				return DavClient.request('MKCOL', url, headers, body).then(function (response) {
+					if (response.status === 201) {
+						self._takenUrls.push(url);
+						return self.get(url).then(function (calendar) {
+							calendar.enabled = true;
+							return self.update(calendar);
+						});
+					}
+				});
 			}
 		});
 	};
@@ -382,6 +520,13 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 				aColor.textContent = value;
 				return aColor;
 
+			case 'source':
+				var aSource = xmlDoc.createElement('cs:source');
+				var aSourceHref = xmlDoc.createElement('d:href');
+				aSourceHref.textContent = value;
+				aSource.appendChild(aSourceHref);
+				return aSource;
+
 			case 'components':
 				var cComponents = xmlDoc.createElement('c:supported-calendar-component-set');
 				for (var i=0; i < value.length; i++) {
@@ -487,6 +632,15 @@ app.service('CalendarService', ['DavClient', 'Calendar', function(DavClient, Cal
 		}
 
 		simple.writableProperties = (oc_current_user === simple.owner) && simple.writable;
+
+		var source = props['{' + DavClient.NS_CALENDARSERVER + '}source'];
+		if (source) {
+			for (var k = 0; k < source.length; k++) {
+				if (DavClient.getNodesFullName(source[k]) === '{' + DavClient.NS_DAV + '}href') {
+					simple.href = source[k].textContent;
+				}
+			}
+		}
 
 		return simple;
 	};

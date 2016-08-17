@@ -23,37 +23,37 @@
  */
 ?>
 
-<div class="new-entity-container" ng-show="(calendars | subscriptionFilter).length > 0">
+<div class="new-entity-container">
 
 	<div class="subscription-title">
 		<span class="new-entity-title"><?php p($l->t('Subscriptions')); ?></span>
 	</div>
-	<!--
 	<div
 		class="new-entity"
-		data-apps-slide-toggle=".add-new-subscription">
+		data-apps-slide-toggle=".add-new-subscription"
+		id="new-subscription-button">
 		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
 	</div>
 
 
 
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
-		<form>
+		<form ng-submit="createSubscription(newSubscriptionName, selected, newSubscriptionUrl)">
 			<fieldset class="calendarlist-fieldset">
 				<input
-					class="calendarlist-input pull-left"
+					class="calendarlist-input"
 					type="text"
-					ng-model="newSubscriptionUrl"\
+					ng-model="newSubscriptionName"
+					placeholder="<?php p($l->t('Nom')); ?>"
+					autofocus />
+				<input
+					class="calendarlist-input"
+					type="text"
+					ng-model="newSubscriptionUrl"
 					placeholder="<?php p($l->t('Url')); ?>"
 					autofocus />
-				<select id="subscription pull-left"
-					name="subscription"
-					ng-model="selectedsubscriptionbackendmodel"
-					ng-options="subscription.name for subscription in subscriptiontypeSelect"
-					ng-selected="selectedsubscriptionbackend.type">
-				</select>
+				<colorpicker class="colorpicker" selected="selected"></colorpicker>
 				<button
-					ng-click="create(newSubscriptionUrl)"
 					id="submitnewSubscription"
 					class="primary accept-button"
 					oc-click-slide-toggle="{
@@ -66,5 +66,4 @@
 			</fieldset>
 		</form>
 	</fieldset>
-	-->
 </div>

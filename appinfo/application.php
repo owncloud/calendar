@@ -55,6 +55,13 @@ class Application extends App {
 
 			return new Controller\ViewController($c->getAppName(), $request, $userSession, $config);
 		});
+		$container->registerService('SubscriptionsProxyController', function(IAppContainer $c) {
+			$request = $c->query('Request');
+			$userSession = $c->getServer()->getUserSession();
+			$storage = $c->query('OCP\Files\IRootFolder');
+
+			return new Controller\SubscriptionsProxyController($c->getAppName(), $request, $userSession, $storage);
+		});
 	}
 
 	/**

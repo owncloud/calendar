@@ -28,6 +28,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -47,8 +48,8 @@ class ViewController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
 	 */
 	public function __construct($appName, IRequest $request,
 								IUserSession $userSession, IConfig $config) {
@@ -83,20 +84,28 @@ class ViewController extends Controller {
 		$defaultView = $this->config->getUserValue($userId, $this->appName, 'currentView', 'month');
 		$skipPopover = $this->config->getUserValue($userId, $this->appName, 'skipPopover', 'no');
 		
-		return new TemplateResponse('calendar', 'main', [
+		$response = new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
 			'defaultView' => $defaultView,
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
 			'supportsClass' => $supportsClass
 		]);
+
+		$response->addHeader('Access-Control-Allow-Origin', '*');
+
+		$csp = new ContentSecurityPolicy();
+        $csp->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+
+        return $response;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $id
-	 * @return DataDisplayResponse
+	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getTimezone($id) {
 		if (!in_array($id, $this->getTimezoneList())) {

@@ -129,7 +129,7 @@
 			ng-click="item.hideCalDAVUrl()">
 	</button>
 </fieldset>
-<div class="calendarShares"
+<div class="calendarShares ng-if="item.calendar.isShareable()"
 	 ng-show="item.isEditingShares()">
 	<i class="glyphicon glyphicon-refresh refresh-shares"
 	   ng-show="loadingSharees">
