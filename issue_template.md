@@ -29,7 +29,7 @@ Tell us what happens instead
 
 **Calendar version:** (see the apps page)
 
-**Updated from an older ownCloud/Nextcloud or fresh install:**
+**Updated from an older installed version or fresh install:**
 
 **Signing status (ownCloud/Nextcloud 9.0 and above):**
 
@@ -44,7 +44,7 @@ paste the results here.
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ app:list
-from within your instance installation folder
+from within your instance's installation folder
 ```
 
 **The content of config/config.php:**
@@ -52,7 +52,7 @@ from within your instance installation folder
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ config:list system
-from within your instance installation folder
+from within your instance's installation folder
 
 or 
 
@@ -71,7 +71,7 @@ Insert your config.php content here
 ```
 With access to your command line run e.g.:
 sudo -u www-data php occ ldap:show-config
-from within your installation folder
+from within your instance's installation folder
 
 Without access to your command line download the data/owncloud.db to your local
 computer or access your SQL server remotely and run the select query:
