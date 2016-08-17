@@ -44,7 +44,7 @@ paste the results here.
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ app:list
-from within your installation folder
+from within your instance installation folder
 ```
 
 **The content of config/config.php:**
@@ -52,7 +52,7 @@ from within your installation folder
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ config:list system
-from within your server installation folder
+from within your instance installation folder
 
 or 
 
