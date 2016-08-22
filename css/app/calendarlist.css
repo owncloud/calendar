@@ -95,7 +95,8 @@
 	width: 80px;
 }
 
-#app-navigation .app-navigation-list-item .calendarCheckbox {
+#app-navigation .app-navigation-list-item .calendarCheckbox,
+#publicinformationscontainer .calendarCheckbox {
 	position: absolute;
 	margin-left: 17px;
 	margin-top: 16px;
@@ -342,6 +343,15 @@
 input.public-linkinput {
 	width: 94%;
 	margin: 6px auto;
+}
+
+#publicinformationscontainer .displayname {
+	padding-left: 44px !important;
+}
+
+#publicinformationscontainer .calendarCheckbox {
+	cursor: default;
+	margin-top: 5px;
 }
 
 .public-ics-download {
