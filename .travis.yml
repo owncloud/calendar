@@ -39,6 +39,7 @@ before_install:
   # install core
   - cd ../
   - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
+  - make
   - mv calendar owncloud/apps/
 
 before_script:
