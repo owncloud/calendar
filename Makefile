@@ -10,6 +10,9 @@ package_name=$(app_name)
 assets:
 	cd js && grunt build
 
+deps:
+	cd js && bower install
+
 clean:
 	rm -rf $(build_dir)
 
