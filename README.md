@@ -1,4 +1,4 @@
-# Calendar 
+# Calendar - UNMAINTAINED
 
 [![Build Status](https://travis-ci.org/owncloud/calendar.svg?branch=master)](https://travis-ci.org/owncloud/calendar)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
@@ -12,7 +12,7 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 
 ![](https://github.com/owncloud/screenshots/blob/master/calendar/screenshot.png)
 
-## Maintainers:
+## Former Maintainers:
 
  - [Georg Ehrke](https://github.com/georgehrke)
  - [Raghu Nayyar](https://github.com/raghunayyar)
