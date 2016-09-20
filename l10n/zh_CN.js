@@ -94,6 +94,7 @@ OC.L10N.register(
     "can edit" : "可编辑",
     "group" : "群组",
     "New Calendar" : "新建日历",
+    "Name" : "名称",
     "New Subscription" : "新的订阅",
     "Edit event" : "编辑事件",
     "Delete Event" : "删除事件",

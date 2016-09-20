@@ -93,6 +93,7 @@ OC.L10N.register(
     "can edit" : "getur breytt",
     "group" : "hópur",
     "New Calendar" : "Nýtt dagatal",
+    "Name" : "Heiti",
     "New Subscription" : "Ný áskrift",
     "Edit event" : "Breyta atburði",
     "Delete Event" : "Eyða atburði",

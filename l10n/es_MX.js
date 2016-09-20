@@ -87,6 +87,7 @@ OC.L10N.register(
     "can edit" : "puede editar",
     "group" : "grupo",
     "New Calendar" : "Nuevo calendario",
+    "Name" : "Nombre",
     "New Subscription" : "Nueva suscripción",
     "Edit event" : "Editar evento",
     "Delete Event" : "Borrar evento",

@@ -94,6 +94,7 @@ OC.L10N.register(
     "can edit" : "kan redigera",
     "group" : "Grupp",
     "New Calendar" : "Ny kalender",
+    "Name" : "Namn",
     "New Subscription" : "Ny prenumeration",
     "Edit event" : "Redigera händelse",
     "Delete Event" : "Radera händelse",

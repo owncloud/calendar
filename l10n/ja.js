@@ -88,6 +88,7 @@ OC.L10N.register(
     "can edit" : "編集を許可",
     "group" : "グループ",
     "New Calendar" : "新しいカレンダーを作成",
+    "Name" : "名前",
     "New Subscription" : "新しい購読",
     "Edit event" : "イベントを編集",
     "Delete Event" : "イベントを削除",

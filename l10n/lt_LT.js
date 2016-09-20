@@ -88,6 +88,7 @@ OC.L10N.register(
     "can edit" : "gali redaguoti",
     "group" : "grupė",
     "New Calendar" : "Naujas kalendorius",
+    "Name" : "Pavadinimas",
     "New Subscription" : "Nauja prenumerata",
     "Edit event" : "Redaguoti įvykį",
     "Delete Event" : "Ištrinti įvykį",

@@ -99,6 +99,7 @@ OC.L10N.register(
     "can edit" : "düzenleyebilir",
     "group" : "grup",
     "New Calendar" : "Yeni Takvim",
+    "Name" : "Ad",
     "New Subscription" : "Yeni Abonelik",
     "Edit event" : "Etkinliği düzenle",
     "Delete Event" : "Etkinliği Sil",

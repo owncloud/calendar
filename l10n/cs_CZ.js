@@ -99,6 +99,7 @@ OC.L10N.register(
     "can edit" : "lze upravovat",
     "group" : "skupina",
     "New Calendar" : "Nový kalendář",
+    "Name" : "Název",
     "New Subscription" : "Nový odběr",
     "Edit event" : "Upravit událost",
     "Delete Event" : "Smazat událost",

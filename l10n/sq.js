@@ -99,6 +99,7 @@ OC.L10N.register(
     "can edit" : "mund të përpunojnë",
     "group" : "grup",
     "New Calendar" : "Kalendar i ri",
+    "Name" : "Emër",
     "New Subscription" : "Pajtim i Ri",
     "Edit event" : "Përpunoni veprimtarinë",
     "Delete Event" : "Fshije Veprimtarinë",

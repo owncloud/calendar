@@ -83,6 +83,7 @@ OC.L10N.register(
     "can edit" : "saab muuta",
     "group" : "grupp",
     "New Calendar" : "Uus kalender",
+    "Name" : "Nimi",
     "New Subscription" : "Uus tellimus",
     "Edit event" : "Muuda sündmust",
     "Delete Event" : "Kustuta sündmus",

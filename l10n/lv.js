@@ -99,6 +99,7 @@ OC.L10N.register(
     "can edit" : "var rediģēt",
     "group" : "grupa",
     "New Calendar" : "Jauns kalendārs",
+    "Name" : "Nosaukums",
     "New Subscription" : "Jauns abonements",
     "Edit event" : "Rediģēt notikumu",
     "Delete Event" : "Dzēst notikumu",

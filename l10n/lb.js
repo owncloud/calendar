@@ -93,6 +93,7 @@ OC.L10N.register(
     "can edit" : "kann änneren",
     "group" : "Grupp",
     "New Calendar" : "Neie Kalenner",
+    "Name" : "Numm",
     "New Subscription" : "Neit Abonnement",
     "Edit event" : "Evenement änneren",
     "Delete Event" : "Evenement läschen",

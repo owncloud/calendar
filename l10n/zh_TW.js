@@ -92,6 +92,7 @@ OC.L10N.register(
     "can edit" : "可編輯",
     "group" : "群組",
     "New Calendar" : "新日曆",
+    "Name" : "名稱",
     "New Subscription" : "新訂閱",
     "Edit event" : "編輯活動",
     "Delete Event" : "刪除活動",

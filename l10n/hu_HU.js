@@ -91,6 +91,7 @@ OC.L10N.register(
     "can edit" : "szerkesztheti",
     "group" : "csoport",
     "New Calendar" : "Új naptár",
+    "Name" : "Név",
     "New Subscription" : "Új feliratkozás",
     "Edit event" : "Esemény szerkesztése",
     "Delete Event" : "Esemény törlése",

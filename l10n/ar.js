@@ -98,6 +98,7 @@ OC.L10N.register(
     "can edit" : "يمكن التحرير",
     "group" : "مجموعة",
     "New Calendar" : "مفكرة جديدة",
+    "Name" : "الاسم",
     "New Subscription" : "اشتراك جديد",
     "Edit event" : "تعديل الحدث",
     "Delete Event" : "حذف الحدث",
