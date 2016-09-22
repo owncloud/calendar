@@ -58,6 +58,9 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 	private $config;
 	private $userSession;
+	private $mailer;
+	private $l10n;
+	private $defaults;
 
 	private $dummyUser;
 
@@ -79,8 +82,20 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->l10n = $this->getMockBuilder('OC\L10N\L10N')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->defaults = $this->getMockBuilder('OCP\Defaults')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config);
+			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults);
 	}
 
 	/**
@@ -152,6 +167,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'weekNumbers' => 'someShowWeekNrValue',
 				'supportsClass' => $expectsSupportsClass,
 				'defaultColor' => '#ff00ff',
+				'isPublic' => false
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -159,6 +175,56 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function indexDataProvider() {
+		return [
+			[true, true, '9.0.5.2', false],
+			[true, false, '9.1.0.0', true],
+			[false, false, '9.0.5.2', false],
+			[false, false, '9.1.0.0', true]
+		];
+	}
+
+	/**
+	 * @dataProvider indexPublicDataProvider
+	 */
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass) {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue($serverVersion));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled', false)
+			->will($this->returnValue($isAssetPipelineEnabled));
+
+		if ($showAssetPipelineError) {
+			$actual = $this->controller->index();
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([], $actual->getParams());
+			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
+		} else {
+			$this->config->expects($this->once())
+				->method('getAppValue')
+				->with($this->appName, 'installed_version')
+				->will($this->returnValue('42.13.37'));
+
+			$actual = $this->controller->publicIndex();
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([
+				'appVersion' => '42.13.37',
+				'defaultView' => 'month',
+				'emailAddress' => '',
+				'supportsClass' => $expectsSupportsClass,
+				'isPublic' => true
+			], $actual->getParams());
+			$this->assertEquals('main', $actual->getTemplateName());
+		}
+
+	}
+
+	public function indexPublicDataProvider() {
 		return [
 			[true, true, '9.0.5.2', false],
 			[true, false, '9.1.0.0', true],
@@ -191,5 +257,27 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 		$actual = $this->controller->getTimezoneWithRegion('EUROPE', 'BERLIN.ics');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
+	}
+
+	/**
+	 * @dataProvider indexEmailPublicLink
+	 */
+	public function testEmailPublicLink($to, $url, $name) {
+
+		$this->userSession->expects($this->exactly(1))
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$actual = $this->controller->sendEmailPublicLink($to, $url, $name);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+
+	}
+
+	public function indexEmailPublicLink() {
+		return [
+			['test@test.tld', 'myurl.tld', 'user123'],
+			['testtesttld', 'myurl.tld', 'user123'],
+		];
 	}
 }
