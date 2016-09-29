@@ -18,6 +18,7 @@ OC.L10N.register(
     "When shared show full event" : "Kui on jagatud, siis näita kogu sündmust",
     "When shared show only busy" : "Kui on jagatud, siis näita ainult, kas on hõivatud",
     "When shared hide this event" : "Kui on jagatud, siis peida see sündmus",
+    "Confirmed" : "Kinnitatud",
     "Cancelled" : "Tühistatud",
     "Please add a title!" : "Palu lisa pealkiri!",
     "Please select a calendar!" : "Palun vali kalender!",
