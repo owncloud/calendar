@@ -2,7 +2,7 @@
  * Calendar App
  *
  * @author Raghu Nayyar
- * @copyright 2014 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2014 Raghu Nayyar <hey@raghunayyar.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,6 +22,8 @@
 
 module.exports = function(grunt) {
 	'use strict';
+
+	const stylelintConfig = require('./.stylelintrc.json');
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -149,10 +151,10 @@ module.exports = function(grunt) {
 				options: {
 					map: false,
 					processors: [
-						require('stylelint')()
+						require('stylelint')(stylelintConfig)
 					]
 				},
-				src: [ "<%= meta.buildCSS %>*.css" ]
+				src: [ '<%= meta.buildCSS %>*.css' ]
 			}
 		}
 

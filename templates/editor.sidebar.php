@@ -11,7 +11,8 @@
 							autofocus="autofocus"/>
 					<select
 							ng-model="calendar"
-							ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+							ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"
+							ng-show="showCalendarSelection()"></select>
 				</fieldset>
 
 				<fieldset class="advanced--fieldset start-end-container" ng-disabled="readOnly">
@@ -29,6 +30,7 @@
 					</div>
 					<div class="advanced--checkbox pull-left pull-half">
 						<input type="checkbox" name="alldayeventcheckbox"
+							   class="checkbox"
 							   ng-model="properties.allDay"
 							   id="alldayeventcheckbox" class="event-checkbox"
 							   ng-change="toggledAllDay()"/>
@@ -41,28 +43,6 @@
 					</div>
 				</fieldset>
 
-				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
-					<textarea ng-model="properties.location.value" type="text" class="advanced--input"
-						   placeholder="<?php p($l->t('Location'));?>" name="location"
-							  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
-							  typeahead-on-select="selectLocationFromTypeahead($item)"
-							  autocomplete="off" ></textarea>
-					<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
-							placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
-					<select id="statusSelector"
-							ng-options="status.type as status.displayname for status in statusSelect"
-							ng-init="setStatusToDefault()"
-							ng-model="properties.status.value"
-							title="<?php p($l->t('Event status')); ?>"></select>
-					<?php if ($_['supportsClass']): ?>
-					<select id="classSelector"
-							ng-options="class.type as class.displayname for class in classSelect"
-							ng-init="setClassToDefault()"
-							ng-model="properties.class.value"
-							title="<?php p($l->t('Visibility when sharing')); ?>"></select>
-					<?php endif; ?>
-				</fieldset>
-
 				<ul class="tabHeaders">
 					<li class="tabHeader" ng-repeat="tab in tabs"
 						ng-click="tabopener(tab.value)" ng-class="{selected: tab.value == selected}">
@@ -72,6 +52,28 @@
 
 				<fieldset class="advanced--fieldset" ng-disabled="readOnly">
 					<div ng-include="currentTab"></div>
+				</fieldset>
+
+				<fieldset ng-show="eventsdetailsview" class="advanced--fieldset" ng-disabled="readOnly">
+					<textarea ng-model="properties.location.value" type="text" class="advanced--input"
+							  placeholder="<?php p($l->t('Location'));?>" name="location"
+							  uib-typeahead="location.name for location in searchLocation($viewValue)" typeahead-show-hint="true" typeahead-min-length="3"
+							  typeahead-on-select="selectLocationFromTypeahead($item)"
+							  autocomplete="off" ></textarea>
+					<textarea ng-model="properties.description.value" type="text" class="advanced--input advanced--textarea"
+							  placeholder="<?php p($l->t('Description'));?>" name="description"></textarea>
+					<select id="statusSelector"
+							ng-options="status.type as status.displayname for status in statusSelect"
+							ng-init="setStatusToDefault()"
+							ng-model="properties.status.value"
+							title="<?php p($l->t('Event status')); ?>"></select>
+					<?php if ($_['supportsClass']): ?>
+						<select id="classSelector"
+								ng-options="class.type as class.displayname for class in classSelect"
+								ng-init="setClassToDefault()"
+								ng-model="properties.class.value"
+								title="<?php p($l->t('Visibility when sharing')); ?>"></select>
+					<?php endif; ?>
 				</fieldset>
 
 				<fieldset ng-show="eventsattendeeview" class="advanced--fieldset" ng-disabled="readOnly" ng-controller="AttendeeController">

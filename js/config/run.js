@@ -3,7 +3,7 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -25,10 +25,22 @@ app.run(['$document', '$rootScope', '$window',
 	function ($document, $rootScope, $window) {
 		'use strict';
 
-		$rootScope.baseUrl = $window.location.origin +
-			$window.location.pathname +
-			($window.location.pathname.substr(-1) === '/' ? '' : '/') +
-			'v1/';
+		const origin = $window.location.origin;
+		const pathname = $window.location.pathname;
+		const endsWithSlash = pathname.substr(-1) === '/';
+
+		if (pathname.lastIndexOf('/calendar/public/') === -1) {
+			$rootScope.baseUrl = origin + pathname;
+			if (!endsWithSlash) {
+				$rootScope.baseUrl += '/';
+			}
+		} else {
+			const calendarPathname = pathname.substr(0,
+					pathname.lastIndexOf('/calendar/public/')) + '/calendar/';
+			$rootScope.baseUrl = origin + calendarPathname;
+		}
+
+		$rootScope.baseUrl += 'v1/';
 
 		$document.click(function (event) {
 			$rootScope.$broadcast('documentClicked', event);

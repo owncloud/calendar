@@ -10,7 +10,8 @@
 			/>
 			<select
 					ng-model="calendar"
-					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"></select>
+					ng-options="c as c.displayname for c in calendars | orderBy:['order'] | calendarSelectorFilter: oldCalendar"
+					ng-show="showCalendarSelection()"></select>
 		</fieldset>
 
 		<fieldset class="event-time events--fieldset" ng-disabled="readOnly">
@@ -28,6 +29,7 @@
 			<div class="events--checkbox pull-left">
 				<input type="checkbox" name="alldayeventcheckbox"
 					   ng-model="properties.allDay"
+					   class="checkbox"
 					   id="alldayeventcheckbox" class="event-checkbox"
 					   ng-change="toggledAllDay()" />
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
