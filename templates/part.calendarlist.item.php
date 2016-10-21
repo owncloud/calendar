@@ -4,7 +4,7 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@
 	  ng-show="item.displaySpinner()">
 </span>
 <a class="action permanent"
-   ng-class="{'calendar-list-cut-name': item.calendar.isShared()}"
+   ng-class="{'calendar-list-cut-name': item.calendar.isShared() || item.calendar.isPublished() }"
    href="#"
    ng-click="triggerEnable(item)"
    ng-show="!item.isEditing()"
@@ -46,18 +46,19 @@
 <span class="utils"
 	  ng-show="item.displayActions()">
 	<span class="action"
-		  ng-class="{'withitems': item.calendar.isShared()}">
+		  ng-class="{'withitems': item.calendar.isShared() || item.calendar.isPublished() }">
 		<span
 			class="calendarlist-icon share permanent"
-			ng-class="{'icon-shared': item.calendar.isShared(), 'icon-share': !item.calendar.isShared()}"
+			ng-class="{'icon-shared': item.calendar.isShared() && !item.calendar.isPublished(), 'icon-public': item.calendar.isPublished(), 'icon-share': !item.calendar.isShared() && !item.calendar.isPublished()}"
 			ng-click="item.toggleEditingShares()"
 			ng-if="item.calendar.isShareable()"
-			title="<?php p($l->t('Share Calendar')) ?>">
+			title="<?php p($l->t('Share Calendar')) ?>"
+			role="button">
 		</span>
 		<!-- Add a label if the calendar has shares -->
 		<span
 			class="calendarlist-icon shared"
-			ng-if="item.calendar.isShared() && item.calendar.isShareable()"
+			ng-if="item.calendar.isShared() && item.calendar.isShareable() || item.calendar.isPublished()"
 			ng-click="item.toggleEditingShares()">
 				<?php p($l->t('Shared'))?>
 		</span>
@@ -66,7 +67,8 @@
 		<span class="icon-more"
 			  href="#"
 			  on-toggle-show="#more-actions-{{ $id }}"
-			  title="<?php p($l->t('More')); ?>">
+			  title="<?php p($l->t('More')); ?>"
+			  role="button">
 		</span>
 	</span>
 </span>
@@ -145,6 +147,7 @@
 			ng-click="item.hideWebCalUrl()">
 	</button>
 </fieldset>
+
 <div class="calendarShares"
 	 ng-show="item.isEditingShares()">
 	<i class="glyphicon glyphicon-refresh refresh-shares"
@@ -163,6 +166,7 @@
 			{{ userShare.displayname }} -
 			<input id="checkbox_sharedWithUser_{{ $parent.$index }}_{{ $id }}"
 				   name="editable"
+				   class="checkbox"
 				   ng-change="updateExistingUserShare(item.calendar, userShare.id, userShare.writable)"
 				   ng-model="userShare.writable"
 				   type="checkbox"
@@ -186,6 +190,7 @@
 			{{ groupShare.displayname }} (<?php p($l->t('group')); ?>) -
 			<input id="checkbox_sharedWithGroup_{{ $parent.$index }}_{{ $id }}"
 				   name="editable"
+				   class="checkbox"
 				   ng-change="updateExistingGroupShare(item.calendar, groupShare.id, groupShare.writable)"
 				   ng-model="groupShare.writable"
 				   type="checkbox"
@@ -205,4 +210,31 @@
 			</span>
 		</li>
 	</ul>
+	<div class="publishing" ng-if="item.calendar.isPublishable()">
+		<input type="checkbox" name="publish"
+			   class="checkbox"
+			   id="checkbox_publish_calendar_{{ $index }}"
+			   ng-model="item.calendar.published" value="edit"
+			   ng-change="togglePublish(item)">
+		<label for="checkbox_publish_calendar_{{ $index }}">
+			<?php p($l->t('Share link')); ?>
+		</label>
+		<div ng-show="item.calendar.published">
+			<span><?php p($l->t('Public access')); ?></span>
+			<span class="icon-public pull-right svg publication-tools"
+				  target="_blank"
+				  ng-href="item.calendar.publicurl"
+				  ng-click="goPublic(item)"></span>
+			<span class="icon-mail pull-right svg publication-tools"
+				  target="_blank"
+				  ng-click="item.toggleSendingMail()"></span>
+		</div>
+		<form ng-submit="sendMail(item)" ng-show="item.isSendingMail() && item.calendar.published">
+			<input class="mailerInput"
+				   ng-model="item.email"
+				   placeholder="<?php p($l->t('Email link to person')); ?>"
+				   type="text">
+			<button type="submit"><?php p($l->t('Send')); ?></button>
+		</form>
+	</div>
 </div>

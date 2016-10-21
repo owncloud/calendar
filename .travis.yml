@@ -12,6 +12,7 @@ branches:
 env:
   global:
     - CORE_BRANCH=master
+    - NIGHTLY=false
   matrix:
     - DB=mysql
 
@@ -24,7 +25,7 @@ matrix:
     - php: 5.6
       env: "DB=mysql CORE_BRANCH=stable9"
     - php: 5.6
-      env: "DB=mysql CORE_BRANCH=stable9.1"
+      env: "DB=mysql CORE_BRANCH=stable10"
   fast_finish: true
 
 
@@ -36,10 +37,10 @@ before_install:
   - npm install -g npm@latest
   # install core
   - cd ../
-  - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
-  - mv calendar owncloud/apps/
-  - cd owncloud
-  - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
+  - git clone https://github.com/nextcloud/core.git --recursive --depth 1 -b $CORE_BRANCH nextcloud
+  - mv calendar nextcloud/apps/
+  - cd nextcloud
+  #- if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
   - cd apps/calendar/
   - make
   - cd ../../
@@ -50,7 +51,7 @@ before_script:
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e 'create database oc_autotest;'; fi
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"; fi
     - if [[ "$DB" == 'mysql' ]]; then mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"; fi
-    # fill owncloud with default configs and enable news
+    # fill nextcloud with default configs and enable news
     - mkdir data
     - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database $DB --database-pass=''
     - ./occ app:enable calendar
@@ -65,20 +66,22 @@ before_script:
 
 
 script:
-    - phpunit --coverage-clover=coverage.clover tests/unit
+    - phpunit --coverage-clover=coverage.clover tests/php
     - cd js/
     - grunt karma
-    - ./node_modules/stylelint/dist/cli.js ../css/app/*.css
+    - grunt postcss
     - cd ..
-
+    # Upload nightly
+    - if [[ "$NIGHTLY" = "TRUE" ]]; then make dist; fi
+    - if [[ "$NIGHTLY" = "TRUE" ]]; then curl --ftp-create-dirs -T build/artifacts/appstore/calendar.tar.gz -u $FTP_LOGIN:$FTP_PW ftp://upload.portknox.de/htdocs/calendar/nextcloud_calendar_nightly_build_$(date +%Y-%m-%d).tar.gz; fi
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover build/php-unit.clover
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
 
 after_failure:
-    - cat ../../data/owncloud.log
+    - cat ../../data/nextcloud.log
 
 addons:
   firefox: "latest"

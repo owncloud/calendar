@@ -3,7 +3,7 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -21,18 +21,34 @@
  *
  */
 
-app.service('ICalFactory', function() {
+describe('SettingsController', function() {
 	'use strict';
 
-	this.new = function() {
-		const root = new ICAL.Component(['vcalendar', [], []]);
+	var controller, scope, model, http;
 
-		const version = angular.element('#fullcalendar').attr('data-appVersion');
-		root.updatePropertyWithValue('prodid', '-//ownCloud calendar v' + version);
+	beforeEach(module('Calendar'));
 
-		root.updatePropertyWithValue('version', '2.0');
-		root.updatePropertyWithValue('calscale', 'GREGORIAN');
+	beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
+			http = $httpBackend;
+			scope = $rootScope.$new();
+			controller = $controller;
+		}
+	));
 
-		return root;
-	};
+  it ('should enable the calendar', function() {
+
+  });
+
+  it ('should remove the calendar', function () {
+
+  });
+
+  it ('should upload the calendar', function () {
+
+  });
+
+	afterEach(function() {
+		http.verifyNoOutstandingExpectation();
+		http.verifyNoOutstandingRequest();
+	});
 });
