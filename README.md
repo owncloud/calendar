@@ -12,6 +12,10 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 
 ![](https://github.com/owncloud/screenshots/blob/master/calendar/screenshot.png)
 
+## Maintainer:
+
+ - [Felix Heidecke](https://github.com/felixheidecke)
+
 ## Former Maintainers:
 
  - [Georg Ehrke](https://github.com/georgehrke)
