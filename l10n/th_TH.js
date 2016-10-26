@@ -69,6 +69,7 @@ OC.L10N.register(
     "{type} at {time}" : "{type} ตอน {time}",
     "{calendar} shared by {owner}" : "{calendar} ถูกแชร์โดย {owner}",
     "Please enter a valid WebCal-URL" : "กรุณาใส่ลิงค์ WebCal ให้ถูกต้อง",
+    "The remote server did not give us access to the calendar (HTTP {code} error)" : "รีโมทเซิร์ฟเวอร์ไม่อนุญาตให้เราเข้าถึงปฏิทิน (รหัสข้อผิดพลาด HTTP {code})",
     "Title of the Event" : "ชื่อของกิจกรรม",
     "starts" : "เริ่ม",
     "ends" : "จบ",
