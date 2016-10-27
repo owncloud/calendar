@@ -167,7 +167,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'requesttoken': OC.requestToken
 		};
-		const uri = StringUtility.uid('Nextcloud', 'ics');
+		const uri = StringUtility.uid('ownCloud', 'ics');
 		const url = calendar.url + uri;
 
 		return DavClient.request('PUT', url, headers, data).then(function (response) {

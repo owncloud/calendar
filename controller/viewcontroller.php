@@ -99,10 +99,10 @@ class ViewController extends Controller {
 	 */
 	public function index() {
 		$runningOn = $this->config->getSystemValue('version');
-		$runningOnNextcloud10OrLater = version_compare($runningOn, '9.1', '>=');
+		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
 
-		$supportsClass = $runningOnNextcloud10OrLater;
-		$assetPipelineBroken = !$runningOnNextcloud10OrLater;
+		$supportsClass = $runningOnServer91OrLater;
+		$assetPipelineBroken = !$runningOnServer91OrLater;
 
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
@@ -119,7 +119,7 @@ class ViewController extends Controller {
 		$weekNumbers = $this->config->getUserValue($userId, $this->appName, 'showWeekNr', 'no');
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
 		
-		$webCalWorkaround = $runningOnNextcloud10OrLater ? 'no' : 'yes';
+		$webCalWorkaround = $runningOnServer91OrLater ? 'no' : 'yes';
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -269,7 +269,7 @@ class ViewController extends Controller {
 		}
 
 		$sendFromDomain = $this->config->getSystemValue('mail_domain', 'domain.org');
-		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'nextcloud');
+		$sendFromAddress = $this->config->getSystemValue('mail_from_address', 'owncloud');
 		$sendFrom = $sendFromAddress . '@' . $sendFromDomain;
 
 		$message = $this->mailer->createMessage();
