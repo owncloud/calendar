@@ -28,7 +28,7 @@ describe('ICalFactory tests', function () {
 
 		expect(ical.getFirstPropertyValue('version')).toEqual('2.0');
 		expect(ical.getFirstPropertyValue('calscale')).toEqual('GREGORIAN');
-		expect(ical.getFirstPropertyValue('prodid')).toEqual('-//Nextcloud calendar v42.2.4');
+		expect(ical.getFirstPropertyValue('prodid')).toEqual('-//ownCloud calendar v42.2.4');
 	});
 
 	it ('should return an ICAL object with an event in it', function() {
@@ -40,7 +40,7 @@ describe('ICalFactory tests', function () {
 		const ical = ICalFactory.newEvent(uid);
 		expect(ical.getFirstPropertyValue('version')).toEqual('2.0');
 		expect(ical.getFirstPropertyValue('calscale')).toEqual('GREGORIAN');
-		expect(ical.getFirstPropertyValue('prodid')).toEqual('-//Nextcloud calendar v42.2.4');
+		expect(ical.getFirstPropertyValue('prodid')).toEqual('-//ownCloud calendar v42.2.4');
 
 		const components = ical.getAllSubcomponents();
 		expect(components.length).toEqual(1);

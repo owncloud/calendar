@@ -264,7 +264,7 @@ app.factory('VEvent', function(FcEvent, SimpleEvent, ICalFactory, StringUtility)
 	VEvent.fromStartEnd = function(start, end, timezone) {
 		const uid = StringUtility.uid();
 		const comp = ICalFactory.newEvent(uid);
-		const uri = StringUtility.uid('Nextcloud', 'ics');
+		const uri = StringUtility.uid('ownCloud', 'ics');
 		const vevent = VEvent(null, comp, uri);
 		const simple = vevent.getSimpleEvent();
 

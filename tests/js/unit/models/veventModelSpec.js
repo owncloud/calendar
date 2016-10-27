@@ -1434,7 +1434,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 		const timezone = 'America/New_York';
 		let simple, root, event;
 
-		StringUtility.uid.and.returnValues('fancyuid1337', 'Nextcloud-123456.ics');
+		StringUtility.uid.and.returnValues('fancyuid1337', 'owncloud-123456.ics');
 		SimpleEvent.and.callFake(function() {
 			simple = {
 				patch: jasmine.createSpy()
@@ -1457,7 +1457,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['Nextcloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1486,7 +1486,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(vevent.calendar).toEqual(null);
 		expect(vevent.comp).toEqual(root);
-		expect(vevent.uri).toEqual('Nextcloud-123456.ics');
+		expect(vevent.uri).toEqual('owncloud-123456.ics');
 	});
 
 	it ('should provide a constructor from a start and end - not allday', function() {
@@ -1495,7 +1495,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 		const timezone = 'America/New_York';
 		let simple, root, event;
 
-		StringUtility.uid.and.returnValues('fancyuid1337', 'Nextcloud-123456.ics');
+		StringUtility.uid.and.returnValues('fancyuid1337', 'owncloud-123456.ics');
 		SimpleEvent.and.callFake(function() {
 			simple = {
 				patch: jasmine.createSpy()
@@ -1518,7 +1518,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['Nextcloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1547,7 +1547,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(vevent.calendar).toEqual(null);
 		expect(vevent.comp).toEqual(root);
-		expect(vevent.uri).toEqual('Nextcloud-123456.ics');
+		expect(vevent.uri).toEqual('owncloud-123456.ics');
 	});
 
 	it ('should provide a constructor from a start and end - mixed - 1', function() {
@@ -1556,7 +1556,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 		const timezone = 'America/New_York';
 		let simple, root, event;
 
-		StringUtility.uid.and.returnValues('fancyuid1337', 'Nextcloud-123456.ics');
+		StringUtility.uid.and.returnValues('fancyuid1337', 'owncloud-123456.ics');
 		SimpleEvent.and.callFake(function() {
 			simple = {
 				patch: jasmine.createSpy()
@@ -1579,7 +1579,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['Nextcloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1608,7 +1608,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(vevent.calendar).toEqual(null);
 		expect(vevent.comp).toEqual(root);
-		expect(vevent.uri).toEqual('Nextcloud-123456.ics');
+		expect(vevent.uri).toEqual('owncloud-123456.ics');
 	});
 
 	it ('should provide a constructor from a start and end - mixed - 2', function() {
@@ -1617,7 +1617,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 		const timezone = 'America/New_York';
 		let simple, root, event;
 
-		StringUtility.uid.and.returnValues('fancyuid1337', 'Nextcloud-123456.ics');
+		StringUtility.uid.and.returnValues('fancyuid1337', 'owncloud-123456.ics');
 		SimpleEvent.and.callFake(function() {
 			simple = {
 				patch: jasmine.createSpy()
@@ -1640,7 +1640,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['Nextcloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1669,6 +1669,6 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(vevent.calendar).toEqual(null);
 		expect(vevent.comp).toEqual(root);
-		expect(vevent.uri).toEqual('Nextcloud-123456.ics');
+		expect(vevent.uri).toEqual('owncloud-123456.ics');
 	});
 });
