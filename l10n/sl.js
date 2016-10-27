@@ -69,6 +69,7 @@ OC.L10N.register(
     "{type} at {time}" : "{type} ob {time}",
     "{calendar} shared by {owner}" : "{calendar} je objavila oseba {owner}",
     "Please enter a valid WebCal-URL" : "Vpišite veljaven naslov URL WebCal",
+    "The remote server did not give us access to the calendar (HTTP {code} error)" : "Ni ustreznih dovoljenj za dostop do koledarja na oddaljenem strežniku (napaka HTTP {code})",
     "Title of the Event" : "Naslov dogodka",
     "starts" : "začetek",
     "ends" : "konec",
