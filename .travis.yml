@@ -19,9 +19,9 @@ env:
 matrix:
   include:
     - php: 5.6
-      env: DB=sqlite
+      env: "DB=sqlite CORE_BRANCH=stable9"
     - php: 5.6
-      env: DB=pgsql
+      env: "DB=pgsql CORE_BRANCH=stable9"
     - php: 5.6
       env: "DB=mysql CORE_BRANCH=stable9"
   fast_finish: true
