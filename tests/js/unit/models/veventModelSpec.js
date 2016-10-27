@@ -1457,7 +1457,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['ownCloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1518,7 +1518,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['ownCloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1579,7 +1579,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['ownCloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
@@ -1640,7 +1640,7 @@ END:VCALENDAR`.split("\n").join("\r\n"));
 
 		expect(StringUtility.uid.calls.count()).toEqual(2);
 		expect(StringUtility.uid.calls.argsFor(0)).toEqual([]);
-		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['owncloud', 'ics']);
+		expect(StringUtility.uid.calls.argsFor(1)).toEqual(['ownCloud', 'ics']);
 
 		expect(SimpleEvent).toHaveBeenCalledWith(event);
 		expect(simple.patch).toHaveBeenCalled();
