@@ -11,7 +11,7 @@ branches:
 
 env:
   global:
-    - CORE_BRANCH=master
+    - CORE_BRANCH=stable9
     - NIGHTLY=false
   matrix:
     - DB=mysql
@@ -19,11 +19,13 @@ env:
 matrix:
   include:
     - php: 5.6
-      env: "DB=sqlite CORE_BRANCH=stable9"
+      env: "DB=sqlite"
+    - php: 7
+      env: "DB=sqlite"
     - php: 5.6
-      env: "DB=pgsql CORE_BRANCH=stable9"
+      env: "DB=pgsql"
     - php: 5.6
-      env: "DB=mysql CORE_BRANCH=stable9"
+      env: "DB=pgsql"
   fast_finish: true
 
 
