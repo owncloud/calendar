@@ -1,5 +1,5 @@
 /**
- * Calendar App
+ * ownCloud - Calendar App
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
@@ -21,34 +21,21 @@
  *
  */
 
-describe('SettingsController', function() {
-	'use strict';
+app.service('MailerService', ['$rootScope', 'DavClient',
+	function ($rootScope, DavClient) {
+		'use strict';
 
-	var controller, scope, model, http;
-
-	beforeEach(module('Calendar'));
-
-	beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
-			http = $httpBackend;
-			scope = $rootScope.$new();
-			controller = $controller;
-		}
-	));
-
-  it ('should enable the calendar', function() {
-
-  });
-
-  it ('should remove the calendar', function () {
-
-  });
-
-  it ('should upload the calendar', function () {
-
-  });
-
-	afterEach(function() {
-		http.verifyNoOutstandingExpectation();
-		http.verifyNoOutstandingRequest();
-	});
-});
+		this.sendMail = function (dest, url, name) {
+			var headers = {
+				'Content-Type' : 'application/json; charset=utf-8',
+				requesttoken : oc_requesttoken
+			};
+			var mailBody = {
+				'to': dest,
+				'url': url,
+				'name': name
+			};
+			return DavClient.request('POST', $rootScope.baseUrl + 'public/sendmail', headers, JSON.stringify(mailBody));
+		};
+	}
+]);

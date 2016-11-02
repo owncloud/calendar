@@ -1,14 +1,13 @@
 {
   "name": "Calendar",
-  "version": "0.10.7",
   "dependencies": {
     "angular": "1.5.8",
-    "angular-bootstrap": "2.1.3",
+    "angular-bootstrap": "2.2.0",
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "1.0.6",
     "ical.js": "1.2.2",
     "davclient.js": "evert/davclient.js",
-    "fullcalendar": "3.0.0",
+    "fullcalendar": "3.0.1",
     "hsl_rgb_converter": "https://github.com/kayellpeee/hsl_rgb_converter.git"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -26,8 +26,8 @@
  * Description: Takes care of importing calendars
  */
 
-app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper',
-	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper) {
+app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEventService', '$uibModalInstance', 'files', 'ImportFileWrapper', 'ColorUtility',
+	function($scope, $filter, CalendarService, VEventService, $uibModalInstance, files, ImportFileWrapper, ColorUtility) {
 		'use strict';
 
 		$scope.nameSize = 25;
@@ -60,7 +60,7 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 
 			if (fileWrapper.selectedCalendar === 'new') {
 				var name = fileWrapper.splittedICal.name || fileWrapper.file.name;
-				var color = fileWrapper.splittedICal.color || randColour(); // jshint ignore:line
+				var color = fileWrapper.splittedICal.color || ColorUtility.randomColor();
 
 				var components = [];
 				if (fileWrapper.splittedICal.vevents.length > 0) {

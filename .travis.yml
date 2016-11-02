@@ -11,20 +11,21 @@ branches:
 
 env:
   global:
-    - CORE_BRANCH=master
+    - CORE_BRANCH=stable9
+    - NIGHTLY=false
   matrix:
     - DB=mysql
 
 matrix:
   include:
     - php: 5.6
-      env: DB=sqlite
+      env: "DB=sqlite"
+    - php: 7
+      env: "DB=sqlite"
     - php: 5.6
-      env: DB=pgsql
+      env: "DB=pgsql"
     - php: 5.6
-      env: "DB=mysql CORE_BRANCH=stable9"
-    - php: 5.6
-      env: "DB=mysql CORE_BRANCH=stable9.1"
+      env: "DB=pgsql"
   fast_finish: true
 
 
@@ -39,7 +40,7 @@ before_install:
   - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
   - mv calendar owncloud/apps/
   - cd owncloud
-  - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
+  #- if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
   - cd apps/calendar/
   - make
   - cd ../../
@@ -65,16 +66,15 @@ before_script:
 
 
 script:
-    - phpunit --coverage-clover=coverage.clover tests/unit
+    - phpunit --coverage-clover=coverage.clover tests/php
     - cd js/
     - grunt karma
-    - ./node_modules/stylelint/dist/cli.js ../css/app/*.css
+    - grunt postcss
     - cd ..
-
 
 after_success:
     - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover build/php-unit.clover
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
 
 after_failure:

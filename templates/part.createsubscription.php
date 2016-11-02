@@ -4,7 +4,7 @@
  *
  * @author Raghu Nayyar
  * @author Georg Ehrke
- * @copyright 2016 Raghu Nayyar <beingminimal@gmail.com>
+ * @copyright 2016 Raghu Nayyar <hey@raghunayyar.com>
  * @copyright 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@
 		class="new-entity"
 		data-apps-slide-toggle=".add-new-subscription"
 		id="new-subscription-button">
-		<span class="new-entity-title"><?php p($l->t('New Subscription')); ?></span>
+		<span class="new-entity-title" role="button"><?php p($l->t('New Subscription')); ?></span>
 	</div>
 
 	<fieldset class="calendarlist-fieldset add-new-subscription hide">
