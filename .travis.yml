@@ -1,5 +1,6 @@
 sudo: required
 dist: trusty
+sudo: required
 language: php
 php:
   - 5.6
@@ -7,7 +8,6 @@ php:
 
 services:
   - postgresql
-  
 addons:
   apt:
     packages:
@@ -15,7 +15,7 @@ addons:
     - mysql-client-core-5.6
     - mysql-client-5.6
   firefox: "latest"
-  
+
 branches:
   only:
     - master
