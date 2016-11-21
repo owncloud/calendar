@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "日曆",
+    "%s has published the calendar \"%s\"" : "%s 已經發布這個日曆 \"%s\"",
     "Individual" : "個人",
     "Group" : "群組",
     "Resource" : "資源",
