@@ -21,6 +21,7 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
  - [Georg Ehrke](https://github.com/georgehrke)
  - [Raghu Nayyar](https://github.com/raghunayyar)
  - [Bernhard Fröhler](https://github.com/codeling)
+ - [and many more](https://github.com/owncloud/calendar/graphs/contributors)
 
 If you’d like to join, just go through the [issue list](https://github.com/owncloud/calendar/issues) and fix some. :)   
 We’re also in [#owncloud-calendar on freenode IRC](https://webchat.freenode.net/?channels=owncloud-calendar).
@@ -31,8 +32,10 @@ Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you dont
 
 ## Supported Browsers
 
-* Latest Firefox
-* Latest Chrome/Chromium
-* Latest Safari
+* Chrome/Chromium 49+
+* Firefox 45+
+* Safari 10+
+* Edge 14+
 
-We don't support Internet Explorer or Edge. Patches for IE9+ and Edge are accepted though.
+We don't support Internet Explorer. Patches for IE9+ are accepted though.
+
