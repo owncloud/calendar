@@ -38,4 +38,3 @@ Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you dont
 * Edge 14+
 
 We don't support Internet Explorer. Patches for IE9+ are accepted though.
-
