@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Calendário",
+    "%s has published the calendar \"%s\"" : "%s publicou o calendário \"%s\"",
     "Individual" : "Individual",
     "Group" : "Grupo",
     "Resource" : "Recurso",
@@ -84,6 +85,7 @@ OC.L10N.register(
     "Description" : "Descrição",
     "Event status" : "Estado do evento",
     "Export" : "Exportar",
+    "Hello," : "Olá,",
     "Cheers!" : "Parabéns!",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Devido a um erro próximo da fonte, o calendário atualmente não consegue dar suporte para a função de transporte do recurso.",
     "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Por favor, contacte o seu administrador e peça-lhe para desativar a opção de configuração \"asset-pipeline.enabled\".",
