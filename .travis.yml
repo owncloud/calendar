@@ -23,7 +23,7 @@ branches:
 
 env:
   global:
-    - CORE_BRANCH=stable9
+    - CORE_BRANCH=master
     - NIGHTLY=false
   matrix:
     - DB=mysql
@@ -37,7 +37,11 @@ matrix:
     - php: 5.6
       env: "DB=pgsql"
     - php: 5.6
-      env: "DB=pgsql"
+      env: "DB=mysql CORE_BRANCH=stable9"
+    - php: 5.6
+      env: "DB=mysql CORE_BRANCH=stable9.1"
+    - php: 5.6
+      env: "DB=mysql CORE_BRANCH=stable10"
   fast_finish: true
 
 
