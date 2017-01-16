@@ -150,6 +150,7 @@ class ViewController extends Controller {
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
 			'isPublic' => false,
+			'needsAutosize' => false,
 		]);
 	}
 
@@ -162,9 +163,11 @@ class ViewController extends Controller {
 	public function publicIndex() {
 		$runningOn = $this->config->getSystemValue('version');
 		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
+		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
 
 		$supportsClass = $runningOnServer91OrLater;
 		$assetPipelineBroken = !$runningOnServer91OrLater;
+		$needsAutosize = !$runningOnNextcloud11OrLater;
 
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
@@ -182,6 +185,7 @@ class ViewController extends Controller {
 			'isPublic' => true,
 			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
 			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
+			'needsAutosize' => $needsAutosize,
 		], 'public');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();
