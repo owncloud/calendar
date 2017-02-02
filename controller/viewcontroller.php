@@ -23,6 +23,7 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -109,6 +110,7 @@ class ViewController extends Controller {
 		}
 		
 		$webCalWorkaround = $runningOnServer91OrLater ? 'no' : 'yes';
+		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 
 		return new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -121,6 +123,7 @@ class ViewController extends Controller {
 			'defaultColor' => $defaultColor,
 			'webCalWorkaround' => $webCalWorkaround,
 			'isPublic' => false,
+			'isIE' => $isIE,
 			'needsAutosize' => false,
 		]);
 	}
@@ -134,11 +137,9 @@ class ViewController extends Controller {
 	public function publicIndex() {
 		$runningOn = $this->config->getSystemValue('version');
 		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
-		$runningOnNextcloud11OrLater = version_compare($runningOn, '11', '>=');
 
 		$supportsClass = $runningOnServer91OrLater;
 		$assetPipelineBroken = !$runningOnServer91OrLater;
-		$needsAutosize = !$runningOnNextcloud11OrLater;
 
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 		if ($isAssetPipelineEnabled && $assetPipelineBroken) {
@@ -146,6 +147,7 @@ class ViewController extends Controller {
 		}
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
+		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 
 		$response = new TemplateResponse('calendar', 'main', [
 			'appVersion' => $appVersion,
@@ -155,11 +157,12 @@ class ViewController extends Controller {
 			'weekNumbers' => 'no',
 			'supportsClass' => $supportsClass,
 			'firstRun' => 'no',
+			'isIE' => $isIE,
 			'webCalWorkaround' => 'no',
 			'isPublic' => true,
 			'shareURL' => $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . $this->request->getRequestUri(),
 			'previewImage' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png')),
-			'needsAutosize' => $needsAutosize,
+			'needsAutosize' => false,
 		], 'public');
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 		$csp = new ContentSecurityPolicy();
