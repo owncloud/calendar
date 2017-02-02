@@ -142,6 +142,7 @@ OC.L10N.register(
     "New calendar" : "Novo calendário",
     "Import scheduled" : "Importação agendada",
     "Settings" : "Configurações",
+    "Publish URL" : "Publicar o endereço",
     "Show week numbers" : "Mostrar o número das semanas",
     "Import calendar" : "Importar calendário",
     "No Calendars selected for import" : "Sem Calendários selecionados para importar",
