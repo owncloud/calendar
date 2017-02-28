@@ -16,7 +16,7 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 
  - [Felix Heidecke](https://github.com/felixheidecke)
 
-## Former Maintainers:
+## Contributors:
 
  - [Georg Ehrke](https://github.com/georgehrke)
  - [Raghu Nayyar](https://github.com/raghunayyar)
@@ -28,13 +28,15 @@ We’re also in [#owncloud-calendar on freenode IRC](https://webchat.freenode.ne
 
 ## Support:
 
-Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you dont find a solution, you are welcome to [ask for support](https://owncloud.org/support/) in our Forums or the IRC-Channel. If you have found a bug, feel free to open a new Issue on GitHub. Keep in mind, that this repository only manages the frontend. If you find bugs or have problems with the CalDAV-Backend, you should ask the guys at [ownCloud Core](https://github.com/owncloud/core) for help!
+Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you don't find a solution, you are welcome to [ask for support](https://owncloud.org/support/) in our Forums or the IRC-Channel. If you have found a bug, feel free to open a new Issue on GitHub. Keep in mind, that this repository only manages the frontend. If you find bugs or have problems with the CalDAV-Backend, you should ask the guys at [ownCloud Core](https://github.com/owncloud/core) for help!
 
 ## Supported Browsers
 
 * Chrome/Chromium 49+
-* Firefox 45+
-* Safari 10+
 * Edge 14+
+* Firefox 45+
+* Internet Explorer 11
+* Safari 10+
 
-We don't support Internet Explorer. Patches for IE9+ are accepted though.
+We don't support Internet Explorer 10 and below. Patches for IE9+ are accepted though.
+
