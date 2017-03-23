@@ -8,9 +8,8 @@
 * 🚀 **Integration with other ownCloud apps!** Currently Contacts - more to come.
 * 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
 * 🙋 **Attendees!** Invite people to your events.
-* 🙈 **We’re not reinventing the wheel!** Based on the great [davclient.js](https://github.com/evert/davclient.js), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 
-	</description>
+	]]</description>
 	<version>1.5.2</version>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
@@ -26,5 +25,4 @@
 	<website>https://github.com/owncloud/calendar/</website>
 	<bugs>https://github.com/owncloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/owncloud/calendar.git</repository>
-	<ocsid>168707</ocsid>
 </info>
