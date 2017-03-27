@@ -119,7 +119,7 @@ OC.L10N.register(
     "Public access" : "Hyrje publike",
     "Email link to person" : "Dërgoja personit lidhjen me email",
     "Send" : "Dërgoje",
-    "New Calendar" : "Kalendar i ri",
+    "New Calendar" : "Kalendar i Ri",
     "Name" : "Emër",
     "New Subscription" : "Pajtim i Ri",
     "WebCal-URL" : "WebCal-URL",
