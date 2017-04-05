@@ -109,7 +109,7 @@ OC.L10N.register(
     "Shared" : "Partilhado",
     "More" : "Mais",
     "Edit" : "Editar",
-    "Link" : "Ligação",
+    "Link" : "Hiperligação",
     "WebCal URL" : "Endereço WebCal",
     "Download" : "Transferir",
     "Share with users or groups" : "Partilhe com os utilizadores ou grupos",
