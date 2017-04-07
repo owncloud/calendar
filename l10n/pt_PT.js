@@ -97,7 +97,7 @@ OC.L10N.register(
     "Click here to access it" : "Clique aqui para aceder",
     "Cheers!" : "Parabéns!",
     "We wanted to inform you that %s has published the calendar %s." : "Queremos informá-lo que %s publicou o calendário %s.",
-    "Click on the link below to access it" : "Clique na hiperligação abaixo para aceder",
+    "Click on the link below to access it" : "Clique na ligação abaixo para aceder",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Devido a um erro próximo da fonte, o calendário atualmente não consegue dar suporte para a função de transporte do recurso.",
     "Please contact your administrator and ask them to disable the \"asset-pipeline.enabled\" config option." : "Por favor, contacte o seu administrador e peça-lhe para desativar a opção de configuração \"asset-pipeline.enabled\".",
     "Day" : "Dia",
