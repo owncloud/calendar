@@ -16,7 +16,9 @@ Tell us what should happen
 Tell us what happens instead
 
 ### Server configuration
+<!--
 You can use the Issue Template application to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
+-->
 
 **Operating system**:
 
@@ -48,7 +50,7 @@ sudo -u www-data php occ app:list
 from within your instance's installation folder
 ```
 
-**The content of config/config.php:**
+**Nextcloud configuration:**
 
 ```
 If you have access to your command line run e.g.:
@@ -58,7 +60,7 @@ from within your instance's installation folder
 or 
 
 Insert your config.php content here
-(Without the database password, passwordsalt and secret)
+Make sure to remove all sensitive content such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
 ```
 
 **Are you using external storage, if yes which one:** local/smb/sftp/...
