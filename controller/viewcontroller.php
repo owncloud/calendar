@@ -186,6 +186,9 @@ class ViewController extends Controller {
 		$supportsClass = $runningOnServer91OrLater;
 		$needsAutosize = false;
 
+		$shareeCanEditShares = false;
+		$shareeCanEditCalendarProperties = false;
+
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$webCalWorkaround = $runningOnServer91OrLater ? 'no' : 'yes';
 		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
@@ -198,6 +201,8 @@ class ViewController extends Controller {
 			'webCalWorkaround' => $webCalWorkaround,
 			'needsAutosize' => $needsAutosize,
 			'defaultColor' => $defaultColor,
+			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
+			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
 		];
 	}
 
