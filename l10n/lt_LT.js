@@ -17,6 +17,7 @@ OC.L10N.register(
     "Attendees" : "Dalyviai",
     "Reminders" : "Priminimai",
     "Repeating" : "Pasikartojimas",
+    "Cancelled" : "Atšaukta",
     "Please add a title!" : "Pridėkite pavadinimą!",
     "Please select a calendar!" : "Pasirinkite kalendorių!",
     "None" : "Nieko",
