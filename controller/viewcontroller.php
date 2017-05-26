@@ -143,6 +143,18 @@ class ViewController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
+	public function publicIndexWithBrandingAndFancyName($token) {
+		return $this->publicIndexWithBranding($token);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 *
+	 * @return TemplateResponse
+	 */
 	public function publicIndexForEmbedding($token) {
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
