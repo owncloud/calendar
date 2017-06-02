@@ -251,12 +251,6 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 					});
 				}
 			});
-
-			$scope.timezones.push({
-				displayname: t('calendar', 'None'),
-				group: t('calendar', 'Global'),
-				value: 'floating'
-			});
 		});
 
 		$scope.loadTimezone = function(tzId) {
