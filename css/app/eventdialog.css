@@ -137,13 +137,8 @@
 }
 
 .advanced--container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	padding: 20px;
-	margin-bottom: 120px;
+	margin-bottom: 40px;
 }
 
 .advanced--fieldset {
@@ -205,10 +200,7 @@ button.delete:focus {
 .advanced .advanced--button-area {
 	border-top: 1px solid #eee;
 	padding: 5px 20px;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	width: calc(100% - 40px);
 }
 
 .advanced .pull-half {
