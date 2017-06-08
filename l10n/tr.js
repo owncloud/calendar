@@ -13,6 +13,8 @@ OC.L10N.register(
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Bilinmeyen bir zaman dilimindesiniz ({tz}), UTC'ye geri dönülüyor",
     "Please create a calendar first." : "Lütfen ilk olarak bir adres defteri oluşturun.",
     "New event" : "Yeni etkinli",
+    "EMail has been sent." : "ePosta gönderildi.",
+    "There was an issue while sending your EMail." : "ePostanızı gönderirken bir sorun oluştu. ",
     "Details" : "Ayrıntılar",
     "Attendees" : "Katılanlar",
     "Reminders" : "Hatırlatıcılar",
