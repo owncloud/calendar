@@ -205,6 +205,7 @@ class ViewController extends Controller {
 		$webCalWorkaround = $runningOnServer91OrLater ? 'no' : 'yes';
 		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
 		$defaultColor = $this->config->getAppValue('theming', 'color', '#0082C9');
+		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'no');
 
 		return [
 			'appVersion' => $appVersion,
@@ -215,6 +216,7 @@ class ViewController extends Controller {
 			'defaultColor' => $defaultColor,
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
+			'canSharePublicLink' => $canSharePublicLink ? 'yes' : 'no',
 		];
 	}
 
