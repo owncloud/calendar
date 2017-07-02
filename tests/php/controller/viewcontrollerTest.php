@@ -132,6 +132,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with('user123', $this->appName, 'firstRun', null)
 				->will($this->returnValue('someFirstRunValue'));
 
+			$this->config->expects($this->at(9))
+				->method('getAppValue')
+				->with('core', 'shareapi_allow_links', 'no')
+				->will($this->returnValue('yes'));
+
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -155,7 +160,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
-
 	}
 
 	public function indexDataProvider() {
@@ -469,7 +473,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
-
 	}
 
 	/**
@@ -580,7 +583,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			], $actual->getParams());
 			$this->assertEquals('public', $actual->getTemplateName());
 		}
-
 	}
 
 	public function indexPublicDataProvider() {

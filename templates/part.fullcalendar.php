@@ -37,6 +37,7 @@
 	data-publicSharingToken="<?php p($_['token']); ?>"
 	data-shareeCanEditShares="<?php p($_['shareeCanEditShares']); ?>"
 	data-shareeCanEditCalendarProperties="<?php p($_['shareeCanEditCalendarProperties']); ?>"
+	data-canSharePublicLink="<?php p($_['canSharePublicLink']); ?>"
 	fc
 	id="fullcalendar">
 </div>
