@@ -1,9 +1,8 @@
 <!--
-Please report only issues corresponding to the calendar for ownCloud / Nextcloud 9 or later.
-The old calendar, which is compatible with ownCloud 8.2 or earlier, is discontinued!
+Please report only issues corresponding to the calendar app for ownCloud 9 or later.
+The old calendar app, which is compatible with ownCloud 8.2 or earlier, is discontinued!
 
-Migration and CalDAV issues belong in the core repo!
-https://github.com/owncloud/core/issues
+Please report Migration and CalDAV/sync issues to the core repo at https://github.com/owncloud/core/issues
 -->
 ### Steps to reproduce
 1.
@@ -25,13 +24,13 @@ Tell us what happens instead
 
 **PHP version:**
 
-**Server version:** (see your admin page)
+**ownCloud version:** (see your admin page)
 
 **Calendar version:** (see the apps page)
 
 **Updated from an older installed version or fresh install:**
 
-**Signing status (ownCloud/Nextcloud 9.0 and above):**
+**Signing status (ownCloud 9.0 and above):**
 
 ```
 Login as admin user into your cloud and access 
