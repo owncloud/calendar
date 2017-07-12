@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalender",
+    "%s has published the calendar \"%s\"" : "%s har publicerat kalendern \"%s\"",
     "Individual" : "Individuell",
     "Group" : "Grupp",
     "Resource" : "Resurs",
