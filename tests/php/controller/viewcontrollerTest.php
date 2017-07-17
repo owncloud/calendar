@@ -121,7 +121,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getUserValue')
 				->with('user123', $this->appName, 'skipPopover', 'no')
 				->will($this->returnValue('someSkipPopoverValue'));
-
 			$this->config->expects($this->at(7))
 				->method('getUserValue')
 				->with('user123', $this->appName, 'showWeekNr', 'no')
@@ -258,6 +257,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => '',
 			'shareeCanEditShares' => 'yes',
 			'shareeCanEditCalendarProperties' => 'no',
+			'canSharePublicLink' => 'no'
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -354,6 +354,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'token' => '',
 			'shareeCanEditShares' => 'yes',
 			'shareeCanEditCalendarProperties' => 'no',
+			'canSharePublicLink' => 'no'
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -385,6 +386,54 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->with(['/(MSIE)|(Trident)/'])
 				->will($this->returnValue($isIE));
 		}
+
+		$this->config->expects($this->at(2))
+			->method('getAppValue')
+			->with('theming', 'color', '#0082C9')
+			->will($this->returnValue('#ff00ff'));
+
+		$this->config->expects($this->at(3))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'no')
+			->will($this->returnValue('no'));
+
+		$this->request->expects($this->at(1))
+			->method('getServerProtocol')
+			->will($this->returnValue('fancy_protocol'));
+
+		$this->request->expects($this->at(2))
+			->method('getServerHost')
+			->will($this->returnValue('nextcloud-host.tld'));
+
+		$this->request->expects($this->at(3))
+			->method('getRequestUri')
+			->will($this->returnValue('/request/uri/123/42'));
+
+		$this->urlGenerator->expects($this->at(0))
+			->method('imagePath')
+			->with('core', 'favicon-touch.png')
+			->will($this->returnValue('/core/img/foo'));
+
+		$this->urlGenerator->expects($this->at(1))
+			->method('getAbsoluteURL')
+			->with('/core/img/foo')
+			->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
+
+		$this->urlGenerator->expects($this->at(2))
+			->method('linkTo')
+			->with('', 'remote.php')
+			->will($this->returnValue('remote.php'));
+
+		$this->urlGenerator->expects($this->at(3))
+			->method('getAbsoluteURL')
+			->with('remote.php/dav/public-calendars/fancy_token_123?export')
+			->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
+
+		$this->request->expects($this->at(4))
+			->method('getServerProtocol')
+			->will($this->returnValue('fancy_protocol'));
+
+		$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
 		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();
@@ -488,13 +537,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('getSystemValue')
 			->with('asset-pipeline.enabled', false)
 			->will($this->returnValue($isAssetPipelineEnabled));
-
-		if (!$showAssetPipelineError) {
-			$this->request->expects($this->once())
-				->method('isUserAgent')
-				->with(['/(MSIE)|(Trident)/'])
-				->will($this->returnValue($isIE));
-		}
 
 		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();

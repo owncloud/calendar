@@ -216,7 +216,7 @@ class ViewController extends Controller {
 			'defaultColor' => $defaultColor,
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
-			'canSharePublicLink' => $canSharePublicLink ? 'yes' : 'no',
+			'canSharePublicLink' => $canSharePublicLink,
 		];
 	}
 
