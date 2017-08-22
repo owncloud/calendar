@@ -1,7 +1,7 @@
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<div id="header-left">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-			   title="" id="nextcloud">
+			   title="" id="owncloud">
 				<div class="logo-icon svg"></div>
 				<h1 class="header-appname">
 					<?php p($theme->getName()); ?>

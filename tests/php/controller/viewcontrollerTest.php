@@ -21,16 +21,26 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
+
 class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $appName;
+	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
 	private $request;
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-
+	/** @var  IUser | \PHPUnit_Framework_MockObject_MockObject */
 	private $dummyUser;
-
+	/** @var ViewController */
 	private $controller;
 
 	public function setUp() {
@@ -60,58 +70,18 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $expectsWebcalWorkaround, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
+	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
+							  $expectsSupportsClass, $expectsWebcalWorkaround, $isIE) {
+
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
 			->will($this->returnValue($serverVersion));
 
 		$this->config->expects($this->at(1))
-			->method('getAppValue')
-			->with($this->appName, 'installed_version')
-			->will($this->returnValue('42.13.37'));
-
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'color', '#0082C9')
-			->will($this->returnValue('#ff00ff'));
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('yes'));
-
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
-		$this->dummyUser->expects($this->once())
-			->method('getEMailAddress')
-			->will($this->returnValue('test@bla.com'));
-
-		$this->config->expects($this->at(4))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'currentView', null)
-			->will($this->returnValue('someView'));
-
-		$this->config->expects($this->at(5))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'skipPopover', 'no')
-			->will($this->returnValue('someSkipPopoverValue'));
-
-		$this->config->expects($this->at(6))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'showWeekNr', 'no')
-			->will($this->returnValue('someShowWeekNrValue'));
-
-		$this->config->expects($this->at(7))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'firstRun', null)
-			->will($this->returnValue('someFirstRunValue'));
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled')
+			->willReturn($isAssetPipelineEnabled);
 
 		if ($showAssetPipelineError) {
 			$actual = $this->controller->index();
@@ -120,10 +90,11 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
+
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
 				->with('version')
-				->will($this->returnValue($serverVersion));
+				->willReturn($serverVersion);
 
 			$this->config->expects($this->at(3))
 				->method('getAppValue')
@@ -132,8 +103,28 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 			$this->config->expects($this->at(4))
 				->method('getAppValue')
-				->with('theming', 'color', '#0082C9')
-				->will($this->returnValue('#ff00ff'));
+				->with('core', 'shareapi_allow_links', 'yes')
+				->willReturn('yes');
+
+			$this->config->expects($this->at(5))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'currentView', null)
+				->will($this->returnValue('someView'));
+
+			$this->config->expects($this->at(6))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'skipPopover', 'no')
+				->will($this->returnValue('someSkipPopoverValue'));
+
+			$this->config->expects($this->at(7))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'showWeekNr', 'no')
+				->will($this->returnValue('someShowWeekNrValue'));
+
+			$this->config->expects($this->at(8))
+				->method('getUserValue')
+				->with('user123', $this->appName, 'firstRun', null)
+				->will($this->returnValue('someFirstRunValue'));
 
 			$this->userSession->expects($this->once())
 				->method('getUser')
@@ -147,30 +138,9 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getEMailAddress')
 				->will($this->returnValue('test@bla.com'));
 
-			$this->config->expects($this->at(5))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'currentView', null)
-				->will($this->returnValue('someView'));
-
-			$this->config->expects($this->at(6))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'skipPopover', 'no')
-				->will($this->returnValue('someSkipPopoverValue'));
-			$this->config->expects($this->at(7))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'showWeekNr', 'no')
-				->will($this->returnValue('someShowWeekNrValue'));
-
-			$this->config->expects($this->at(8))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'firstRun', null)
-				->will($this->returnValue('someFirstRunValue'));
-
-			$this->config->expects($this->at(9))
-				->method('getAppValue')
-				->with('core', 'shareapi_allow_links', 'no')
-				->will($this->returnValue('yes'));
-
+			$this->request->expects($this->once())
+				->method('isUserAgent')
+				->willReturn($isIE);
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -182,15 +152,16 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'weekNumbers' => 'someShowWeekNrValue',
 				'firstRun' => 'someFirstRunValue',
 				'supportsClass' => $expectsSupportsClass,
-				'defaultColor' => '#ff00ff',
+				'defaultColor' => '#1d2d44',
 				'webCalWorkaround' => $expectsWebcalWorkaround,
 				'isPublic' => false,
 				'isEmbedded' => false,
-				'needsAutosize' => $needsAutosize,
+				'needsAutosize' => true,
 				'isIE' => $isIE,
 				'token' => '',
-				'shareeCanEditShares' => $shareeActions,
-				'shareeCanEditCalendarProperties' => $shareeCanEdit,
+				'shareeCanEditShares' => 'no',
+				'shareeCanEditCalendarProperties' => 'no',
+				'canSharePublicLink' => 'yes'
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -198,145 +169,35 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function indexDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, 'yes', true, false, 'yes', 'no'],
-			[true, false, '9.1.0.0', true, 'no', true, false, 'yes', 'no'],
-			[false, false, '9.0.5.2', false, 'yes', true, false, 'yes', 'no'],
-			[false, false, '9.1.0.0', true, 'no', true, false, 'yes', 'no'],
-			[false, false, '11.0.1', true, 'no', false, false, 'yes', 'no'],
-			[false, false, '11.0.1', true, 'no', false, true, 'yes', 'no'],
-			[false, false, '12.0.0', true, 'no', false, false, 'no', 'yes'],
-			[false, false, '12.0.0', true, 'no', false, true, 'no', 'yes'],
+			[true,  true,  '9.0.5.2', false, 'yes', false],
+			[true,  false, '9.1.0.0', true,  'no',  false],
+			[false, false, '9.0.5.2', false, 'yes', false],
+			[false, false, '9.1.0.0', true,  'no',  false],
+
+			[false, false, '10.0.1', true, 'no', false],
+			[false, false, '10.0.1', true, 'no', true],
 		];
-	}
-
-	public function testIndexNoMonthFallback() {
-		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue('9.1.0.0'));
-
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('asset-pipeline.enabled', false)
-			->will($this->returnValue(false));
-
-		$this->request->expects($this->once())
-			->method('isUserAgent')
-			->with(['/(MSIE)|(Trident)/'])
-			->will($this->returnValue(false));
-
-		$this->config->expects($this->at(2))
-			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue('9.1.0.0'));
-
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
-		$this->dummyUser->expects($this->once())
-			->method('getEMailAddress')
-			->will($this->returnValue('test@bla.com'));
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with($this->appName, 'installed_version')
-			->will($this->returnValue('42.13.37'));
-
-		$this->config->expects($this->at(4))
-			->method('getAppValue')
-			->with('theming', 'color', '#0082C9')
-			->will($this->returnValue('#ff00ff'));
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('no'));
-
-		$this->config->expects($this->at(4))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'currentView', null)
-			->will($this->returnValue(null));
-
-		$this->config->expects($this->at(6))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'skipPopover', 'no')
-			->will($this->returnValue('someSkipPopoverValue'));
-
-		$this->config->expects($this->at(7))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'showWeekNr', 'no')
-			->will($this->returnValue('someShowWeekNrValue'));
-
-		$this->config->expects($this->at(8))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'firstRun', null)
-			->will($this->returnValue('someFirstRunValue'));
-
-		$actual = $this->controller->index();
-
-		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
-		$this->assertEquals([
-			'appVersion' => '42.13.37',
-			'initialView' => 'month',
-			'emailAddress' => 'test@bla.com',
-			'skipPopover' => 'someSkipPopoverValue',
-			'weekNumbers' => 'someShowWeekNrValue',
-			'firstRun' => 'someFirstRunValue',
-			'supportsClass' => true,
-			'defaultColor' => '#ff00ff',
-			'webCalWorkaround' => 'no',
-			'isPublic' => false,
-			'isEmbedded' => false,
-			'needsAutosize' => true,
-			'isIE' => false,
-			'token' => '',
-			'shareeCanEditShares' => 'yes',
-			'shareeCanEditCalendarProperties' => 'no',
-			'canSharePublicLink' => 'no'
-		], $actual->getParams());
-		$this->assertEquals('main', $actual->getTemplateName());
 	}
 
 	/**
 	 * @dataProvider indexFirstRunDetectionProvider
 	 */
 	public function testIndexFirstRunDetection($initialView, $expectedFirstRun, $expectsSetRequest) {
+
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
-			->will($this->returnValue('9.1.0.0'));
+			->will($this->returnValue('10.0.3'));
 
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
-			->with('asset-pipeline.enabled', false)
-			->will($this->returnValue(false));
-
-		$this->request->expects($this->once())
-			->method('isUserAgent')
-			->with(['/(MSIE)|(Trident)/'])
-			->will($this->returnValue(false));
+			->with('asset-pipeline.enabled')
+			->willReturn(false);
 
 		$this->config->expects($this->at(2))
 			->method('getSystemValue')
 			->with('version')
-			->will($this->returnValue('9.1.0.0'));
-
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
-
-		$this->dummyUser->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-
-		$this->dummyUser->expects($this->once())
-			->method('getEMailAddress')
-			->will($this->returnValue('test@bla.com'));
+			->willReturn('10.0.3');
 
 		$this->config->expects($this->at(3))
 			->method('getAppValue')
@@ -345,15 +206,10 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(4))
 			->method('getAppValue')
-			->with('theming', 'color', '#0082C9')
-			->will($this->returnValue('#ff00ff'));
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
 			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('yes');
 
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getUserValue')
 			->with('user123', $this->appName, 'currentView', null)
 			->will($this->returnValue($initialView));
@@ -373,6 +229,45 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('user123', $this->appName, 'firstRun', null)
 			->will($this->returnValue(null));
 
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->dummyUser));
+
+		$this->dummyUser->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+
+		$this->dummyUser->expects($this->once())
+			->method('getEMailAddress')
+			->will($this->returnValue('test@bla.com'));
+
+		$this->request->expects($this->once())
+			->method('isUserAgent')
+			->willReturn(false);
+//		$actual = $this->controller->index();
+//
+//		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+//		$this->assertEquals([
+//			'appVersion' => '42.13.37',
+//			'initialView' => 'someView',
+//			'emailAddress' => 'test@bla.com',
+//			'skipPopover' => 'someSkipPopoverValue',
+//			'weekNumbers' => 'someShowWeekNrValue',
+//			'firstRun' => 'someFirstRunValue',
+//			'supportsClass' => $expectsSupportsClass,
+//			'defaultColor' => '#1d2d44',
+//			'webCalWorkaround' => $expectsWebcalWorkaround,
+//			'isPublic' => false,
+//			'isEmbedded' => false,
+//			'needsAutosize' => true,
+//			'isIE' => $isIE,
+//			'token' => '',
+//			'shareeCanEditShares' => 'no',
+//			'shareeCanEditCalendarProperties' => 'no',
+//			'canSharePublicLink' => 'yes'
+//		], $actual->getParams());
+//		$this->assertEquals('main', $actual->getTemplateName());
+
 		if ($expectsSetRequest) {
 			$this->config->expects($this->at(9))
 				->method('setUserValue')
@@ -390,16 +285,16 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 			'weekNumbers' => 'someShowWeekNrValue',
 			'firstRun' => $expectedFirstRun,
 			'supportsClass' => true,
-			'defaultColor' => '#ff00ff',
+			'defaultColor' => '#1d2d44',
 			'webCalWorkaround' => 'no',
 			'isPublic' => false,
 			'isEmbedded' => false,
 			'needsAutosize' => true,
 			'isIE' => false,
 			'token' => '',
-			'shareeCanEditShares' => 'yes',
+			'shareeCanEditShares' => 'no',
 			'shareeCanEditCalendarProperties' => 'no',
-			'canSharePublicLink' => 'no'
+			'canSharePublicLink' => 'yes'
 		], $actual->getParams());
 		$this->assertEquals('main', $actual->getTemplateName());
 	}
@@ -414,7 +309,8 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
+	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
+									$expectsSupportsClass, $isIE) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -422,75 +318,21 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
-			->with('asset-pipeline.enabled', false)
-			->will($this->returnValue($isAssetPipelineEnabled));
-
-		if (!$showAssetPipelineError) {
-			$this->request->expects($this->once())
-				->method('isUserAgent')
-				->with(['/(MSIE)|(Trident)/'])
-				->will($this->returnValue($isIE));
-		}
-
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'color', '#0082C9')
-			->will($this->returnValue('#ff00ff'));
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('no'));
-
-		$this->request->expects($this->at(1))
-			->method('getServerProtocol')
-			->will($this->returnValue('fancy_protocol'));
-
-		$this->request->expects($this->at(2))
-			->method('getServerHost')
-			->will($this->returnValue('nextcloud-host.tld'));
-
-		$this->request->expects($this->at(3))
-			->method('getRequestUri')
-			->will($this->returnValue('/request/uri/123/42'));
-
-		$this->urlGenerator->expects($this->at(0))
-			->method('imagePath')
-			->with('core', 'favicon-touch.png')
-			->will($this->returnValue('/core/img/foo'));
-
-		$this->urlGenerator->expects($this->at(1))
-			->method('getAbsoluteURL')
-			->with('/core/img/foo')
-			->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
-
-		$this->urlGenerator->expects($this->at(2))
-			->method('linkTo')
-			->with('', 'remote.php')
-			->will($this->returnValue('remote.php'));
-
-		$this->urlGenerator->expects($this->at(3))
-			->method('getAbsoluteURL')
-			->with('remote.php/dav/public-calendars/fancy_token_123?export')
-			->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
-
-		$this->request->expects($this->at(4))
-			->method('getServerProtocol')
-			->will($this->returnValue('fancy_protocol'));
-
-		$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
+			->with('asset-pipeline.enabled')
+			->willReturn($isAssetPipelineEnabled);
 
 		if ($showAssetPipelineError) {
-			$actual = $this->controller->index();
+			$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
+
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
 				->with('version')
-				->will($this->returnValue($serverVersion));
+				->willReturn($serverVersion);
 
 			$this->config->expects($this->at(3))
 				->method('getAppValue')
@@ -499,8 +341,12 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 			$this->config->expects($this->at(4))
 				->method('getAppValue')
-				->with('theming', 'color', '#0082C9')
-				->will($this->returnValue('#ff00ff'));
+				->with('core', 'shareapi_allow_links', 'yes')
+				->willReturn('yes');
+
+			$this->request->expects($this->once())
+				->method('isUserAgent')
+				->willReturn($isIE);
 
 			$this->request->expects($this->at(1))
 				->method('getServerProtocol')
@@ -508,7 +354,7 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 
 			$this->request->expects($this->at(2))
 				->method('getServerHost')
-				->will($this->returnValue('nextcloud-host.tld'));
+				->will($this->returnValue('owncloud-host.tld'));
 
 			$this->request->expects($this->at(3))
 				->method('getRequestUri')
@@ -538,8 +384,6 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('getServerProtocol')
 				->will($this->returnValue('fancy_protocol'));
 
-
-
 			$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
@@ -549,21 +393,22 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 				'emailAddress' => '',
 				'skipPopover' => 'no',
 				'weekNumbers' => 'no',
+				'firstRun' => 'no',
 				'supportsClass' => $expectsSupportsClass,
+				'defaultColor' => '#1d2d44',
+				'webCalWorkaround' => 'no',
 				'isPublic' => true,
 				'isEmbedded' => true,
-				'shareURL' => 'fancy_protocol://nextcloud-host.tld/request/uri/123/42',
-				'previewImage' => 'fancy_protocol://foo.bar/core/img/foo',
-				'firstRun' => 'no',
-				'webCalWorkaround' => 'no',
-				'needsAutosize' => $needsAutosize,
+				'needsAutosize' => true,
 				'isIE' => $isIE,
-				'defaultColor' => '#ff00ff',
+				'shareURL' => 'fancy_protocol://owncloud-host.tld/request/uri/123/42',
+				'previewImage' => 'fancy_protocol://foo.bar/core/img/foo',
 				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
 				'token' => 'fancy_token_123',
-				'shareeCanEditShares' => $shareeActions,
-				'shareeCanEditCalendarProperties' => $shareeCanEdit,
+				'shareeCanEditShares' => 'no',
+				'shareeCanEditCalendarProperties' => 'no',
+				'canSharePublicLink' => 'yes'
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
 		}
@@ -572,99 +417,121 @@ class ViewControllerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndexWithBranding($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion, $expectsSupportsClass, $needsAutosize, $isIE, $shareeActions, $shareeCanEdit) {
+	public function testPublicIndexWithBranding($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
+												$expectsSupportsClass, $isIE) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
 			->will($this->returnValue($serverVersion));
 
 		$this->config->expects($this->at(1))
-			->method('getAppValue')
-			->with($this->appName, 'installed_version')
-			->will($this->returnValue('42.13.37'));
+			->method('getSystemValue')
+			->with('asset-pipeline.enabled')
+			->willReturn($isAssetPipelineEnabled);
 
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with('theming', 'color', '#0082C9')
-			->will($this->returnValue('#ff00ff'));
+		if ($showAssetPipelineError) {
+			$actual = $this->controller->publicIndexWithBranding('fancy_token_123');
 
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('no'));
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([], $actual->getParams());
+			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
+		} else {
 
-		$this->request->expects($this->at(1))
-			->method('getServerProtocol')
-			->will($this->returnValue('fancy_protocol'));
+			$this->config->expects($this->at(2))
+				->method('getSystemValue')
+				->with('version')
+				->willReturn($serverVersion);
 
-		$this->request->expects($this->at(2))
-			->method('getServerHost')
-			->will($this->returnValue('nextcloud-host.tld'));
+			$this->config->expects($this->at(3))
+				->method('getAppValue')
+				->with($this->appName, 'installed_version')
+				->will($this->returnValue('42.13.37'));
 
-		$this->request->expects($this->at(3))
-			->method('getRequestUri')
-			->will($this->returnValue('/request/uri/123/42'));
+			$this->config->expects($this->at(4))
+				->method('getAppValue')
+				->with('core', 'shareapi_allow_links', 'yes')
+				->willReturn('yes');
 
-		$this->urlGenerator->expects($this->at(0))
-			->method('imagePath')
-			->with('core', 'favicon-touch.png')
-			->will($this->returnValue('/core/img/foo'));
+			$this->request->expects($this->once())
+				->method('isUserAgent')
+				->willReturn($isIE);
 
-		$this->urlGenerator->expects($this->at(1))
-			->method('getAbsoluteURL')
-			->with('/core/img/foo')
-			->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
+			$this->request->expects($this->at(1))
+				->method('getServerProtocol')
+				->will($this->returnValue('fancy_protocol'));
 
-		$this->urlGenerator->expects($this->at(2))
-			->method('linkTo')
-			->with('', 'remote.php')
-			->will($this->returnValue('remote.php'));
+			$this->request->expects($this->at(2))
+				->method('getServerHost')
+				->will($this->returnValue('owncloud-host.tld'));
 
-		$this->urlGenerator->expects($this->at(3))
-			->method('getAbsoluteURL')
-			->with('remote.php/dav/public-calendars/fancy_token_123?export')
-			->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
+			$this->request->expects($this->at(3))
+				->method('getRequestUri')
+				->will($this->returnValue('/request/uri/123/42'));
 
-		$this->request->expects($this->at(4))
-			->method('getServerProtocol')
-			->will($this->returnValue('fancy_protocol'));
+			$this->urlGenerator->expects($this->at(0))
+				->method('imagePath')
+				->with('core', 'favicon-touch.png')
+				->will($this->returnValue('/core/img/foo'));
 
-		$actual = $this->controller->publicIndexWithBranding('fancy_token_123');
+			$this->urlGenerator->expects($this->at(1))
+				->method('getAbsoluteURL')
+				->with('/core/img/foo')
+				->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
-		$this->assertEquals([
-			'appVersion' => '42.13.37',
-			'initialView' => 'month',
-			'emailAddress' => '',
-			'skipPopover' => 'no',
-			'weekNumbers' => 'no',
-			'isPublic' => true,
-			'isEmbedded' => false,
-			'shareURL' => 'fancy_protocol://nextcloud-host.tld/request/uri/123/42',
-			'previewImage' => 'fancy_protocol://foo.bar/core/img/foo',
-			'firstRun' => 'no',
-			'isIE' => $isIE,
-			'defaultColor' => '#ff00ff',
-			'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
-			'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
-			'token' => 'fancy_token_123',
-			'shareeCanEditShares' => $shareeActions,
-			'shareeCanEditCalendarProperties' => $shareeCanEdit,
-			'canSharePublicLink' => 'no',
-		], $actual->getParams());
-		$this->assertEquals('public', $actual->getTemplateName());
+			$this->urlGenerator->expects($this->at(2))
+				->method('linkTo')
+				->with('', 'remote.php')
+				->will($this->returnValue('remote.php'));
+
+			$this->urlGenerator->expects($this->at(3))
+				->method('getAbsoluteURL')
+				->with('remote.php/dav/public-calendars/fancy_token_123?export')
+				->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
+
+			$this->request->expects($this->at(4))
+				->method('getServerProtocol')
+				->will($this->returnValue('fancy_protocol'));
+
+			$actual = $this->controller->publicIndexWithBranding('fancy_token_123');
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
+			$this->assertEquals([
+				'appVersion' => '42.13.37',
+				'initialView' => 'month',
+				'emailAddress' => '',
+				'skipPopover' => 'no',
+				'weekNumbers' => 'no',
+				'firstRun' => 'no',
+				'supportsClass' => $expectsSupportsClass,
+				'defaultColor' => '#1d2d44',
+				'webCalWorkaround' => 'no',
+				'isPublic' => true,
+				'isEmbedded' => false,
+				'needsAutosize' => true,
+				'isIE' => $isIE,
+				'shareURL' => 'fancy_protocol://owncloud-host.tld/request/uri/123/42',
+				'previewImage' => 'fancy_protocol://foo.bar/core/img/foo',
+				'webcalURL' => 'webcal://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				'downloadURL' => 'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				'token' => 'fancy_token_123',
+				'shareeCanEditShares' => 'no',
+				'shareeCanEditCalendarProperties' => 'no',
+				'canSharePublicLink' => 'yes'
+			], $actual->getParams());
+			$this->assertEquals('public', $actual->getTemplateName());
+		}
 	}
 
 	public function indexPublicDataProvider() {
 		return [
-			[true, true, '9.0.5.2', false, true, false, 'yes', 'no'],
-			[true, false, '9.1.0.0', true, true, false, 'yes', 'no'],
-			[false, false, '9.0.5.2', false, true, false, 'yes', 'no'],
-			[false, false, '9.1.0.0', true, true, false, 'yes', 'no'],
-			[false, false, '11.0.0', true, false, false, 'yes', 'no'],
-			[false, false, '11.0.0', true, false, true, 'yes', 'no'],
-			[false, false, '12.0.0', true, false, false, 'no', 'yes'],
-			[false, false, '12.0.0', true, false, true, 'no', 'yes'],
+			[true, true, '9.0.5.2', false, false],
+			[true, false, '9.1.0.0', true, false],
+			[false, false, '9.0.5.2', false, false],
+			[false, false, '9.1.0.0', true, false],
+			[false, false, '11.0.0', true, false],
+			[false, false, '11.0.0', true, true],
+			[false, false, '12.0.0', true, false],
+			[false, false, '12.0.0', true, true],
 		];
 	}
 }

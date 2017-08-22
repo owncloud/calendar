@@ -234,7 +234,6 @@
 				background-color: #34495e !important;
 				border-color: #34495e !important; } }
 
-		/* Fixes for NextCloud */
 		#nojavascript {
 			display: none !important;
 		}

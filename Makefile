@@ -64,6 +64,7 @@ endif
 # * the private key is located in ~/.owncloud/calendar.key
 # * the certificate is located in ~/.owncloud/calendar.crt
 occ=$(CURDIR)/../../occ
+phpunit_oc10=$(CURDIR)/../../lib/composer/bin/phpunit
 configdir=$(CURDIR)/../../config
 private_key=$(HOME)/.owncloud/$(app_name).key
 certificate=$(HOME)/.owncloud/$(app_name).crt
@@ -164,12 +165,8 @@ endif
 .PHONY: test
 test:
 	cd js && $(yarn) run test
-ifeq (, $(shell which phpunit 2> /dev/null))
-	@echo "No phpunit command available, downloading a copy from the web"
-	mkdir -p $(build_tools_directory)
-	curl -sSL https://phar.phpunit.de/phpunit.phar -o $(build_tools_directory)/phpunit.phar
-	php $(build_tools_directory)/phpunit.phar -c phpunit.xml --coverage-clover coverage.clover
-	# php $(build_tools_directory)/phpunit.phar -c phpunit.integration.xml --coverage-clover build/php-integration.clover
+ifneq ("$(wildcard $(phpunit_oc10))","")
+	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
 else
 	phpunit -c phpunit.xml --coverage-clover coverage.clover
 	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
