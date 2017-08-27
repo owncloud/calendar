@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "πριν 2 ώρες",
     "Custom" : "Προσαρμοσμένο",
     "Audio" : "Ήχος",
+    "Email" : "Ηλ. ταχυδρομείο",
     "Pop-up" : "Αναδυόμενο",
     "sec" : "δευτ",
     "min" : "ελάχιστη",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "Εισαγωγή ημερολογίου",
     "No Calendars selected for import" : "Δεν επιλέχτηκε ημερολόγιο για εισαγωγή",
     "Primary CalDAV address" : "Κύρια διεύθυνση CalDAV",
-    "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X"
+    "iOS/OS X CalDAV address" : "Διεύθυνση CalDAV για iOS/OS X",
+    "Subscribe" : "Συνδρομή"
 },
 "nplurals=2; plural=(n != 1);");

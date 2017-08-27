@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2시간 전",
     "Custom" : "사용자 정의",
     "Audio" : "오디오",
+    "Email" : "이메일",
     "Pop-up" : "팝업",
     "sec" : "초",
     "min" : "분",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "달력 가져오기",
     "No Calendars selected for import" : "가져올 달력을 선택하지 않았음",
     "Primary CalDAV address" : "주 CalDAV 주소",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 주소"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 주소",
+    "Subscribe" : "구독"
 },
 "nplurals=1; plural=0;");

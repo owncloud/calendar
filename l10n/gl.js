@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 horas antes",
     "Custom" : "Personalizado",
     "Audio" : "Son",
+    "Email" : "Correo",
     "Pop-up" : "Emerxente",
     "sec" : "seg",
     "min" : "min",
@@ -144,6 +145,7 @@ OC.L10N.register(
     "Import calendar" : "Importar calendario",
     "No Calendars selected for import" : "Non selecionou calendarios para importar",
     "Primary CalDAV address" : "Enderezo CalDAV primario",
-    "iOS/OS X CalDAV address" : "Enderezo iOS/OS X CalDAV"
+    "iOS/OS X CalDAV address" : "Enderezo iOS/OS X CalDAV",
+    "Subscribe" : "Subscribir"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2時間前",
     "Custom" : "カスタム",
     "Audio" : "オーディオ",
+    "Email" : "メール",
     "Pop-up" : "ポップアップ",
     "sec" : "秒",
     "min" : "最低",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "カレンダーのインポート",
     "No Calendars selected for import" : "インポートするカレンダーが指定されていません",
     "Primary CalDAV address" : "一番目の CalDAV アドレス",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV アドレス"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV アドレス",
+    "Subscribe" : "購読"
 },
 "nplurals=1; plural=0;");

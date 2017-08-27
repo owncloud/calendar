@@ -41,6 +41,7 @@ OC.L10N.register(
     "2 hours before" : "2 hores enantes",
     "Custom" : "Personalizáu",
     "Audio" : "Audiu",
+    "Email" : "Corréu-e",
     "Pop-up" : "Ventanu emerxente",
     "sec" : "seg",
     "min" : "mín.",
@@ -129,6 +130,7 @@ OC.L10N.register(
     "Import calendar" : "Importar calendariu",
     "No Calendars selected for import" : "Nun s'esbilló nengún calendariu pa la importación",
     "Primary CalDAV address" : "Direición de calendariu CalDAV primariu",
-    "iOS/OS X CalDAV address" : "Direición de calendariu CalDAV iOS/OSX"
+    "iOS/OS X CalDAV address" : "Direición de calendariu CalDAV iOS/OSX",
+    "Subscribe" : "Soscríbete"
 },
 "nplurals=2; plural=(n != 1);");

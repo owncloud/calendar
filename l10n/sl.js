@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Calendar" : "Koledar",
     "%s has published the calendar \"%s\"" : "Uporabnik %s je objavil koledar »%s«",
+    "Too many redirects. Aborting ..." : "Zaznanih je preveč preusmeritev. Opravilo bo prekinjeno ...",
+    "Error connecting to remote server" : "Napaka med povezovanjem z oddaljenim strežnikom.",
     "Individual" : "Posamezno",
     "Group" : "Skupina",
     "Resource" : "Vir",
@@ -45,6 +47,7 @@ OC.L10N.register(
     "2 hours before" : "2 uri prej",
     "Custom" : "Po meri",
     "Audio" : "Zvok",
+    "Email" : "Elektronski naslov",
     "Pop-up" : "Pojavno okno",
     "sec" : "sek",
     "min" : "najmanj",
@@ -145,6 +148,7 @@ OC.L10N.register(
     "Import calendar" : "Uvoz koledarja",
     "No Calendars selected for import" : "Ni navedenih koledarjev za uvoz",
     "Primary CalDAV address" : "Osnovni naslov CalDAV",
-    "iOS/OS X CalDAV address" : "Naslov CalDAV iOS/OS"
+    "iOS/OS X CalDAV address" : "Naslov CalDAV iOS/OS",
+    "Subscribe" : "Naročilo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

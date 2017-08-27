@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 ชั่วโมงก่อนหน้านั้น",
     "Custom" : "กำหนดเอง",
     "Audio" : "เสียง",
+    "Email" : "อีเมล",
     "Pop-up" : "ป๊อปอัพ",
     "sec" : "วินาที",
     "min" : "นาที",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "นำเข้าปฏิทิน",
     "No Calendars selected for import" : "ไม่มีปฏิทินที่เลือกนำเข้า",
     "Primary CalDAV address" : "ที่อยู่ CalDAV หลัก",
-    "iOS/OS X CalDAV address" : "ที่อยู่ CalDAV ของ iOS/OS X"
+    "iOS/OS X CalDAV address" : "ที่อยู่ CalDAV ของ iOS/OS X",
+    "Subscribe" : "สมัครรับข้อมูล"
 },
 "nplurals=1; plural=0;");

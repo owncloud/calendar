@@ -41,6 +41,7 @@ OC.L10N.register(
     "2 hours before" : "2 saat önce",
     "Custom" : "Özel",
     "Audio" : "Ses",
+    "Email" : "E-posta",
     "Pop-up" : "Açılır pencere",
     "sec" : "saniye",
     "min" : "dk",
@@ -134,6 +135,7 @@ OC.L10N.register(
     "Import calendar" : "Takvimi içe aktar",
     "No Calendars selected for import" : "İçe aktarılmak üzere hiç takvim seçilmemiş",
     "Primary CalDAV address" : "Birincil CalDAV adresi",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresi",
+    "Subscribe" : "Abone ol"
 },
 "nplurals=2; plural=(n > 1);");

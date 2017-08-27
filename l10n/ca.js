@@ -41,6 +41,7 @@ OC.L10N.register(
     "2 hours before" : "2 hores abans",
     "Custom" : "Personalitza...",
     "Audio" : "Audio",
+    "Email" : "Correu electrònic",
     "Pop-up" : "Finestra emergent",
     "sec" : "seg",
     "min" : "min",
@@ -131,6 +132,7 @@ OC.L10N.register(
     "Show week numbers" : "Mostra el número de setmana",
     "Import calendar" : "Importa el calendari",
     "Primary CalDAV address" : "Adreça primària de caldav",
-    "iOS/OS X CalDAV address" : "Adreça CalDAV per IOS/OS X"
+    "iOS/OS X CalDAV address" : "Adreça CalDAV per IOS/OS X",
+    "Subscribe" : "Subscriu"
 },
 "nplurals=2; plural=(n != 1);");

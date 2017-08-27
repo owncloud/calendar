@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "за 2 години",
     "Custom" : "Власне",
     "Audio" : "Аудіо",
+    "Email" : "E-mail",
     "Pop-up" : "Спливаюче вікно",
     "sec" : "сек",
     "min" : "хв",
@@ -144,6 +145,7 @@ OC.L10N.register(
     "Import calendar" : "Імпортувати календар",
     "No Calendars selected for import" : "Не обрані календарі для імпорту",
     "Primary CalDAV address" : "Первинна адреса CalDAV",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адреса"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV адреса",
+    "Subscribe" : "Підписатися"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

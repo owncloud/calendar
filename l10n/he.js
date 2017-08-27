@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 שעות לפני",
     "Custom" : "מותאם אישית",
     "Audio" : "קובץ שמע",
+    "Email" : "דואר אלקטרוני",
     "Pop-up" : "חלון קופץ",
     "sec" : "שניות",
     "min" : "דקות",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "יבוא יומן",
     "No Calendars selected for import" : "לא נבחרו יומנים ליבוא",
     "Primary CalDAV address" : "כתובת CalDAV ראשית",
-    "iOS/OS X CalDAV address" : "כתובת CalDAV עבור iOS/OS X"
+    "iOS/OS X CalDAV address" : "כתובת CalDAV עבור iOS/OS X",
+    "Subscribe" : "רישום"
 },
 "nplurals=2; plural=(n != 1);");

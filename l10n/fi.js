@@ -42,6 +42,7 @@ OC.L10N.register(
     "2 hours before" : "2 tuntia ennen",
     "Custom" : "Omavalintainen",
     "Audio" : "Ääni",
+    "Email" : "Sähköpostiosoite",
     "Pop-up" : "Ponnahdusikkuna",
     "sec" : "s",
     "min" : "min",
@@ -129,6 +130,7 @@ OC.L10N.register(
     "Import calendar" : "Tuo kalenteri",
     "No Calendars selected for import" : "Kalentereita ei ole valittu tuotavaksi",
     "Primary CalDAV address" : "Ensisijainen CalDAV-osoite",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV -osoite",
+    "Subscribe" : "Tilaa"
 },
 "nplurals=2; plural=(n != 1);");

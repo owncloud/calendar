@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 klukkustundum fyrir",
     "Custom" : "Sérsniðið",
     "Audio" : "Hljóð",
+    "Email" : "Tölvupóstfang",
     "Pop-up" : "Sprettgluggi",
     "sec" : "sek",
     "min" : "mín",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "Flytja inn dagatal",
     "No Calendars selected for import" : "Engin dagatöl valin til innflutnings",
     "Primary CalDAV address" : "Aðal-CalDAV-vistfang",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV-vistfang",
+    "Subscribe" : "Áskrift"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

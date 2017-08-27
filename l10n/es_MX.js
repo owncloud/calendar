@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 horas antes",
     "Custom" : "Personalizado",
     "Audio" : "Audio",
+    "Email" : "E-mail",
     "Pop-up" : "Ventana emergente",
     "sec" : "seg",
     "min" : "min",

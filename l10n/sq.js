@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 orë para",
     "Custom" : "E përshtatur",
     "Audio" : "Audio",
+    "Email" : "Email",
     "Pop-up" : "Flluskë",
     "sec" : "sek",
     "min" : "min",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "Importo kalendar",
     "No Calendars selected for import" : "S’ka Kalendarë të përzgjedhur për import",
     "Primary CalDAV address" : "Adresë CalDAV parësore",
-    "iOS/OS X CalDAV address" : "Adresë iOS/OS X CalDAV"
+    "iOS/OS X CalDAV address" : "Adresë iOS/OS X CalDAV",
+    "Subscribe" : "Pajtohuni"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 小時前",
     "Custom" : "自訂",
     "Audio" : "音訊",
+    "Email" : "Email",
     "Pop-up" : "彈出視窗",
     "sec" : "秒",
     "min" : "分",
@@ -145,6 +146,7 @@ OC.L10N.register(
     "Import calendar" : "匯入日曆",
     "No Calendars selected for import" : "沒有選擇要匯入的日曆",
     "Primary CalDAV address" : "主要的 CalDAV 地址",
-    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址"
+    "iOS/OS X CalDAV address" : "iOS/OS X CalDAV 地址",
+    "Subscribe" : "訂閱"
 },
 "nplurals=1; plural=0;");

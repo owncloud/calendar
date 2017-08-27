@@ -45,6 +45,7 @@ OC.L10N.register(
     "2 hours before" : "2 timar før",
     "Custom" : "Eige definisjon",
     "Audio" : "Lyd",
+    "Email" : "E-post",
     "Pop-up" : "Sprett opp",
     "sec" : "sek",
     "min" : "min",
