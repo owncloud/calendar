@@ -32,7 +32,7 @@ app.run(['$document', '$rootScope', '$window', 'isPublic',
 		try {
 			if (!isPublic) {
 				const webcalHandler = $rootScope.root + '#subscribe_to_webcal?url=%s';
-				navigator.registerProtocolHandler('webcal', webcalHandler, 'Nextcloud calendar');
+				navigator.registerProtocolHandler('webcal', webcalHandler, 'ownCloud calendar');
 			}
 		} catch(e) {
 			console.log(e);
