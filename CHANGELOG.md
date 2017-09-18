@@ -1,5 +1,5 @@
 ## 1.5.4 - 2017-09-18
-###Fixed
+### Fixed
 - Detailed editor back in action
   [#811](https://github.com/owncloud/calendar/pull/811)
 - Change Nextcloud to ownCloud
