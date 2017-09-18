@@ -65,6 +65,7 @@ const vendorSources = [
 	'vendor/ical.js/build/ical.js',
 	'vendor/jquery-timepicker/jquery.ui.timepicker.js',
 	'vendor/jstzdetect/dist/jstz.js',
+	'vendor/autosize/dist/autosize.js'
 ];
 const vendorCssSources = [
 	'vendor/fullcalendar/dist/fullcalendar.css',
