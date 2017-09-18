@@ -1,3 +1,10 @@
+## 1.5.4 - 2017-09-18
+###Fixed
+- Detailed editor back in action
+  [#811](https://github.com/owncloud/calendar/pull/811)
+- Change Nextcloud to ownCloud
+  [#809](https://github.com/owncloud/calendar/pull/809)
+
 ## 1.5.3 - 2017-05-21
 ### Added
 - allow editing props of shared calendars (Nextcloud 12 and above only)
