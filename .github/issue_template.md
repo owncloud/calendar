@@ -16,9 +16,6 @@ Tell us what should happen
 Tell us what happens instead
 
 ### Server configuration
-<!--
-You can use the Issue Template application to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
--->
 
 **Operating system**:
 
@@ -50,7 +47,7 @@ sudo -u www-data php occ app:list
 from within your instance's installation folder
 ```
 
-**Nextcloud configuration:**
+**ownCloud configuration:**
 
 ```
 If you have access to your command line run e.g.:
