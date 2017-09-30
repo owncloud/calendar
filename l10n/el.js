@@ -138,6 +138,7 @@ OC.L10N.register(
     "Analyzing calendar" : "Ανάλυση ημερολογίου",
     "The file contains objects incompatible with the selected calendar" : "Το αρχείο περιέχει αντικείμενα ασύμβατα με το επιλεγμένο ημερολόγιο",
     "New calendar" : "Νέο ημερολόγιο",
+    "File is empty" : "Το αρχείο είναι κενό",
     "Import scheduled" : "Προγραμματισμένη εισαγωγή",
     "Iframe to integrate" : "Iframe για να ενσωματώσει",
     "Publish URL" : "Δημοσίευση URL",
