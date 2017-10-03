@@ -129,6 +129,7 @@ OC.L10N.register(
     "New calendar" : "Calendari nou",
     "Iframe to integrate" : "Iframe per a integrar",
     "Publish URL" : "Publica l'URL",
+    "Skip simple event editor" : "No mostrar editor simple",
     "Show week numbers" : "Mostra el número de setmana",
     "Import calendar" : "Importa el calendari",
     "Primary CalDAV address" : "Adreça primària de caldav",

@@ -2,7 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Calendario",
-    "%s has published the calendar \"%s\"" : "%s Ha publicado el calendario \"%s\"",
+    "%s has published the calendar \"%s\"" : "%s ha publicado el calendario %s",
     "Too many redirects. Aborting ..." : "Demasiadas redirecciones, Abortando ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "El servidor remoto no permite el acceso al calendario (HTTP {%s} error)",
     "Error connecting to remote server" : "Error conectando al servidor remoto",
