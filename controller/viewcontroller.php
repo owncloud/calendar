@@ -211,7 +211,6 @@ class ViewController extends Controller {
 			'supportsClass' => $supportsClass,
 			'isIE' => $isIE,
 			'webCalWorkaround' => $webCalWorkaround,
-			'needsAutosize' => true,
 			'defaultColor' => '#1d2d44',
 			'shareeCanEditShares' => $shareeCanEditShares ? 'yes' : 'no',
 			'shareeCanEditCalendarProperties' => $shareeCanEditCalendarProperties ? 'yes' : 'no',
