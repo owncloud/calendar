@@ -16,7 +16,7 @@ OC.L10N.register(
     "Required" : "Erforderlich",
     "Optional" : "Optional",
     "Does not attend" : "nicht teilnehmen",
-    "{name} ({email})" : "{name} ({email})",
+    "{name} ({email})" : "{Name} ({Email})",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Du bist in einer unbekannten Zeitzone ({tz}), auf UTC wird geändert",
     "Please create a calendar first." : "Bitte zuerst einen Kalender erstellen.",
     "New event" : "Neue Veranstaltung",
