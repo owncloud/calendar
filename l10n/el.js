@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Ημερολόγιο",
     "%s has published the calendar \"%s\"" : "%s το ημερολόγιο έχει δημοσιοποιηθεί \"%s\"",
+    "Too many redirects. Aborting ..." : "Πάρα πολλές ανακατευθύνσεις. Άρχισε ...",
     "Individual" : "Προσωπικό",
     "Group" : "Ομάδα",
     "Resource" : "Πόρος",
