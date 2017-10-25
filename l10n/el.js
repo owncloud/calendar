@@ -18,6 +18,7 @@ OC.L10N.register(
     "CalDAV address for clients" : "Διεύθυνση CaIDAV για τους πελάτες",
     "Error saving WebCal-calendar" : "Σφάλμα αποθήκευσης ημερολογίου WebCal",
     "WebDAV address for subscriptions" : "Διεύθυνση WebDAV για εγγραφή",
+    "Email has been sent." : "Το Email απεστάλη.",
     "group" : "ομάδα",
     "Details" : "Λεπτομέρειες",
     "Attendees" : "Συμμετέχοντες",
