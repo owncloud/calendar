@@ -41,7 +41,7 @@ describe('The calendar factory', function () {
 		Calendar = _Calendar_;
 	}));
 
-	it('should correctly reflect the given paramters', function() {
+	it('should correctly reflect the given parameters', function() {
 		var components = {
 			vevents: true,
 			vjournals: true,

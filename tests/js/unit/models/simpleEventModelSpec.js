@@ -2033,7 +2033,7 @@ DTEND;TZID=Europe/Berlin:20160928T160000
 END:VEVENT`.split("\n").join("\r\n"));
 	});
 
-	it ('should parse the repating information - no end', function() {
+	it ('should parse the repeating information - no end', function() {
 		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
@@ -2068,7 +2068,7 @@ END:VCALENDAR`;
 		});
 	});
 
-	it ('should parse the repating information - count', function() {
+	it ('should parse the repeating information - count', function() {
 		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN
@@ -2100,7 +2100,7 @@ END:VCALENDAR`;
 		});
 	});
 
-	it ('should parse the repating information - until', function() {
+	it ('should parse the repeating information - until', function() {
 		//TODO - UNTIL is not implemented yet
 /*		const ics = `BEGIN:VCALENDAR
 VERSION:2.0
