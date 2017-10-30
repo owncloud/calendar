@@ -149,7 +149,7 @@ class ProxyController extends Controller {
 			$this->logger->debug($e->getMessage());
 
 			if (substr($url, 0, 8) === 'https://') {
-				$message = $this->l10n->t('Error requesting resource on remote server. This could possible be related to a certificate mismatch');
+				$message = $this->l10n->t('Error requesting resource on remote server. This could possibly be related to a certificate mismatch');
 			} else {
 				$message = $this->l10n->t('Error requesting resource on remote server');
 			}
