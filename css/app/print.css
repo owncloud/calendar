@@ -2,5 +2,5 @@
 	#app-navigation {
 		display: none;
 	}
-	.fc-scroller {overflow: visible !important;};
+	.fc-scroller { overflow: visible !important; }
 }
