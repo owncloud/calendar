@@ -232,7 +232,7 @@ class ProxyControllerTest extends \PHPUnit_Framework_TestCase {
 				$this->exceptionRequest, $this->exceptionResponse)));
 		$this->l10n->expects($this->once())
 			->method('t')
-			->with($this->equalTo('Error requesting resource on remote server. This could possible be related to a certificate mismatch'))
+			->with($this->equalTo('Error requesting resource on remote server. This could possibly be related to a certificate mismatch'))
 			->will($this->returnValue('translated string 1337'));
 		$this->logger->expects($this->once())
 			->method('debug')

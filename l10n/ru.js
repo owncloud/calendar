@@ -6,7 +6,7 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "Слишком много перенаправлений. Отменить...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Удаленный сервер не предоставил нам доступ к календарю (ошибка {%s} HTTP)",
     "Error connecting to remote server" : "Ошибка подключения к удаленному серверу",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Ошибка запроса ресурса на удаленном сервере. Это может быть связано с несоответствием сертификата",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Ошибка запроса ресурса на удаленном сервере. Это может быть связано с несоответствием сертификата",
     "Error requesting resource on remote server" : "Ошибка запроса ресурса на удаленном сервере",
     "Individual" : "Индивидуально",
     "Group" : "Группа",

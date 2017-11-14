@@ -6,7 +6,7 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "יותר מדי הפניות מחדש. מבצע ביטול...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "השרת המרוחק אינו מאפשר גישה ללוח השנה ( שגיאת HTTP {%s})",
     "Error connecting to remote server" : "שגיאה בחיבור לשרת מרוחק",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "שגיאה בבקשת משאב בשרת מרוחק. יתכן ושגיאה זו כשורה לחוסר התאמה בתעודת אימות",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "שגיאה בבקשת משאב בשרת מרוחק. יתכן ושגיאה זו כשורה לחוסר התאמה בתעודת אימות",
     "Error requesting resource on remote server" : "שגיאה בבקשת משאב בשרת מרוחק",
     "Individual" : "פרטני",
     "Group" : "קבוצה",

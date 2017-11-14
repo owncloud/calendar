@@ -4,7 +4,7 @@
     "Too many redirects. Aborting ..." : "For mange omdirigeringer. Avbryter ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Den eksterne serveren ga oss ikke tilgang til kalenderen (HTTP-feil %s)",
     "Error connecting to remote server" : "Feil ved tilkobling til server",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Feil ved forespørsel om ressurs på ekstern server. Denne kan være relatert til en sertifikatkonflikt",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Feil ved forespørsel om ressurs på ekstern server. Denne kan være relatert til en sertifikatkonflikt",
     "Error requesting resource on remote server" : "Feil ved forespørsel om ressurs på ekstern server",
     "Individual" : "Individuel",
     "Group" : "Gruppe",

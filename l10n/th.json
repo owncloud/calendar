@@ -4,7 +4,7 @@
     "Too many redirects. Aborting ..." : "มีการเปลี่ยนเส้นทางมากเกินไป กำลังยกเลิก...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "รีโมทเซิร์ฟเวอร์ไม่ได้ให้สิทธิ์การเข้าถึงปฏิทิน (ข้อผิดพลาด HTTP {%s})",
     "Error connecting to remote server" : "เกิดข้อผิดพลาดในการเชื่อมต่อกับรีโมทเซิร์ฟเวอร์",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "เกิดข้อผิดพลาดขณะขอทรัพยากรจากรีโมทเซิร์ฟเวอร์ นี่อาจเป็นปัญหาเกี่ยวกับใบรับรองที่ไม่ตรงกัน",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "เกิดข้อผิดพลาดขณะขอทรัพยากรจากรีโมทเซิร์ฟเวอร์ นี่อาจเป็นปัญหาเกี่ยวกับใบรับรองที่ไม่ตรงกัน",
     "Error requesting resource on remote server" : "เกิดข้อผิดพลาดขณะขอทรัพยากรจากรีโมทเซิร์ฟเวอร์",
     "Individual" : "ของแต่ละบุคคล",
     "Group" : "กลุ่ม",
