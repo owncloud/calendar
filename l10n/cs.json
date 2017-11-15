@@ -4,7 +4,6 @@
     "Too many redirects. Aborting ..." : "Příliš mnoho přesměrování. Odvolávám ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Vzdálený server nám nepovolil přístup ke kalendáři (HTTP {%s} chyba)",
     "Error connecting to remote server" : "Chyba při připojování ke vzdálenému serveru",
-    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Chyba při zažádání zdroje na vzdáleném serveru. Toto by mohlo být způsobeno záměnou certifikátu.",
     "Error requesting resource on remote server" : "Chyba při zažádání zdroje na vzdáleném serveru.",
     "Individual" : "Individuální",
     "Group" : "Skupina",

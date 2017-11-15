@@ -6,7 +6,6 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "Çok fazla yönlendirme var. İptal ediliyor ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Uzak sunucu takvime erişim izni vermedi (HTTP {%s} hatası)",
     "Error connecting to remote server" : "Uzak sunucuya bağlantı hatası",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Kaynağı, uzak sunucudan isterken hata oluştu. Bu, güvenlik sertifikası yanlışlığı yüzünden olabilir.",
     "Error requesting resource on remote server" : "Kaynağı, uzak sunucudan isterken hata oluştu.",
     "Individual" : "Bireysel",
     "Group" : "Grup",

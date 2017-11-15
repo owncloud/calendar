@@ -4,7 +4,6 @@
     "Too many redirects. Aborting ..." : "Zaznanih je preveč preusmeritev. Opravilo bo prekinjeno ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Oddaljeni strežnik ni omogočil dostopa do koledarja (napaka HTTP {%s})",
     "Error connecting to remote server" : "Napaka med povezovanjem z oddaljenim strežnikom.",
-    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Prišlo je do napake med pridobivanjem podatkov vira na oddaljenem strežniku. Morda je težava v neskladnih povetrdilih.",
     "Error requesting resource on remote server" : "Prišlo je do napake med pridobivanjem podatkov vira na oddaljenem strežniku.",
     "Individual" : "Posamezno",
     "Group" : "Skupina",

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "Πάρα πολλές ανακατευθύνσεις. Άρχισε ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Ο απομακρυσμένος διακομιστής δεν μας έδωσε πρόσβαση στο ημερολόγιο (σφάλμα HTTP {%s})",
     "Error connecting to remote server" : "Σφάλμα σύνδεσης στον απομακρυσμένο διακομιστή",
-    "Error requesting resource on remote server. This could possible be related to a certificate mismatch" : "Σφάλμα αίτησης πόρου στον απομακρυσμένο διακομιστή. Αυτό πιθανό να έχει σχέση με την ασυμφωνία πιστοποιητικού",
     "Individual" : "Προσωπικό",
     "Group" : "Ομάδα",
     "Resource" : "Πόρος",
