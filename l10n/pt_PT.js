@@ -155,6 +155,7 @@ OC.L10N.register(
     "New calendar" : "Novo calendário",
     "File is empty" : "O Ficheiro está vazio",
     "Import scheduled" : "Importação agendada",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s partilhou o calendário <strong>%s</strong> consigo",
     "Iframe to integrate" : "Iframe para integrar",
     "Publish URL" : "Publicar o endereço",
     "Skip simple event editor" : "Saltar o editor de evento simples",
