@@ -14,7 +14,7 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 
 ## Maintainer:
 
- - [Felix Heidecke](https://github.com/felixheidecke)
+ - [Julian Müller](https://github.com/Julian1998)
 
 ## Contributors:
 
