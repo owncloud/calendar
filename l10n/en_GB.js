@@ -6,6 +6,7 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "Too many redirects. Aborting ...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "The remote server did not give us access to the calendar (HTTP {%s} error)",
     "Error connecting to remote server" : "Error connecting to remote server",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Error requesting resource on remote server. This could possibly be related to a certificate mismatch",
     "Error requesting resource on remote server" : "Error requesting resource on remote server",
     "Individual" : "Individual",
     "Group" : "Group",
