@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "%s has published the calendar \"%s\"" : "%s heeft agenda \"%s\" gepubliceerd",
+    "Too many redirects. Aborting ..." : "Teveel redirects. Afbreking ...",
     "Error connecting to remote server" : "Fout bij verbinden met externe server",
     "Individual" : "Individueel",
     "Group" : "Groep",
@@ -134,6 +135,7 @@ OC.L10N.register(
     "Repeat" : "Herhaling",
     "times every" : "keer elke",
     "Add" : "Toevoegen",
+    "Email address of attendee" : "E-mailadres van deelnemer",
     "Please add your email address in the personal settings in order to add attendees." : "Stel uw e-mail adres in in de account instellingen om aanwezigen toe te voegen.",
     "from" : "van",
     "to" : "naar",
@@ -153,6 +155,7 @@ OC.L10N.register(
     "Embed" : "Inbedden",
     "Iframe to integrate" : "Iframe om te integreren",
     "Publish URL" : "Publiceren URL",
+    "Settings & import" : "Instellingen & import",
     "Skip simple event editor" : "Negeer simpele afsprakenbewerker",
     "Show week numbers" : "Tonen weeknummers",
     "Import calendar" : "Importeer agenda",
