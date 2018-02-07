@@ -33,7 +33,7 @@
     "gulp-stylelint": "^3.7.0",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^2.0.0",
-    "gulp-uglifycss": "^1.0.6",
+    "gulp-uglifycss": "^1.0.9",
     "gulp-wrap": "^0.13.0",
     "istanbul": "^0.4.5",
     "jasmine-core": "^3.0.0",
