@@ -25,7 +25,7 @@
     "gulp-cli": "^2.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-insert": "^0.5.0",
-    "gulp-jshint": "^2.0.4",
+    "gulp-jshint": "^2.1.0",
     "gulp-ng-annotate": "^2.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-strip-comments": "^2.4.3",
