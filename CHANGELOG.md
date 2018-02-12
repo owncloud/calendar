@@ -1,3 +1,10 @@
+## 1.5.5 - 2018-02-12
+### Fixed
+- Fix calendar UI for ownCloud 9.1
+  [#822](https://github.com/owncloud/calendar/pull/822)
+- Fix calendar sharing for users who have a display name set
+  [#839](https://github.com/owncloud/calendar/pull/839)
+
 ## 1.5.4 - 2017-09-18
 ### Fixed
 - Detailed editor back in action
