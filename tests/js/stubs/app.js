@@ -50,7 +50,6 @@ escapeHTML = function () {
 	return;
 };
 
-oc_current_user = 'user';
 oc_requesttoken = 'requestToken42';
 
 

@@ -31,7 +31,7 @@ app.controller('SettingsController', ['$scope', '$uibModal', '$timeout', 'Settin
 		'use strict';
 
 		$scope.settingsCalDavLink = OC.linkToRemote('dav') + '/';
-		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(oc_current_user)) + '/';
+		$scope.settingsCalDavPrincipalLink = OC.linkToRemote('dav') + '/principals/users/' + escapeHTML(encodeURIComponent(OC.getCurrentUser())) + '/';
 		$scope.skipPopover = settings.skipPopover ? 'yes' : 'no';
 		$scope.settingsShowWeekNr = settings.showWeekNr ? 'yes' : 'no';
 
