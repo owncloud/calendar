@@ -47,7 +47,7 @@ app.controller('ImportController', ['$scope', '$filter', 'CalendarService', 'VEv
 				const objects = fileWrapper.splittedICal.objects;
 
 				angular.forEach(objects, function(object) {
-					VEventService.create(calendar, object, false).then(function(response) {
+					VEventService.create(calendar, object, false, true).then(function(response) {
 						fileWrapper.state = ImportFileWrapper.stateImporting;
 						fileWrapper.progress++;
 

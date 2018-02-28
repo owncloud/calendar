@@ -160,13 +160,19 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @param {Calendar} calendar
 	 * @param {data} data
 	 * @param {boolean} returnEvent
+	 * @param {boolean} isImport
 	 * @returns {Promise}
 	 */
-	this.create = function (calendar, data, returnEvent=true) {
-		const headers = {
+	this.create = function (calendar, data, returnEvent=true, isImport=false) {
+		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'requesttoken': OC.requestToken
 		};
+
+		if(isImport) {
+			headers['OC-CalDav-Import'] = true;
+		}
+
 		const uri = StringUtility.uid('ownCloud', 'ics');
 		const url = calendar.url + uri;
 
