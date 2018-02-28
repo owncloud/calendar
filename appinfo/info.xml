@@ -13,7 +13,7 @@
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
 	<dependencies>
-		<owncloud min-version="9.1" max-version="10.0" />
+		<owncloud min-version="9.1" max-version="10.1" />
 	</dependencies>
 	<documentation>
 		<user>https://doc.owncloud.org/server/10.0/user_manual/pim/calendar.html</user>
