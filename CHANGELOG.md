@@ -1,3 +1,8 @@
+## 1.5.6 - 2018-02-28
+### Fixed
+- Fix calendar UI for ownCloud 10.0.7
+  [#884](https://github.com/owncloud/calendar/pull/884)
+
 ## 1.5.5 - 2018-02-12
 ### Fixed
 - Fix calendar UI for ownCloud 9.1
