@@ -4,6 +4,7 @@
     "Too many redirects. Aborting ..." : "יותר מדי הפניות מחדש. מבצע ביטול...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "השרת המרוחק אינו מאפשר גישה ללוח השנה ( שגיאת HTTP {%s})",
     "Error connecting to remote server" : "שגיאה בחיבור לשרת מרוחק",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "שגיאה בקבלת המשאב בשרת המרוחק. כנראה מדובר בחוסר התאמה בין האישורים",
     "Error requesting resource on remote server" : "שגיאה בבקשת משאב בשרת מרוחק",
     "Individual" : "פרטני",
     "Group" : "קבוצה",
