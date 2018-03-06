@@ -1,3 +1,8 @@
+## 1.5.7 - 2018-03-06
+### Fixed
+- Fix user and group name escaping in sharing drop down
+  [#895](https://github.com/owncloud/calendar/pull/895)
+
 ## 1.5.6 - 2018-02-28
 ### Fixed
 - Fix calendar UI for ownCloud 10.0.7
