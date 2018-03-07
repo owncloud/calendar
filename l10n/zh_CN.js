@@ -6,6 +6,7 @@ OC.L10N.register(
     "Too many redirects. Aborting ..." : "太多次重定向。中止操作...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "远程服务器未允许我们访问日历（HTTP {1%s} 错误）",
     "Error connecting to remote server" : "连接远程服务器出错",
+    "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "向远程服务器请求资源时出错。这个问题可能与证书不匹配有关。",
     "Error requesting resource on remote server" : "请求远程服务器资源出错",
     "Individual" : "个人",
     "Group" : "群组",
