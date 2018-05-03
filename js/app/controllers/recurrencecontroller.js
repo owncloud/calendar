@@ -38,8 +38,8 @@ app.controller('RecurrenceController', function($scope) {
 	$scope.selected_repeat_end = 'NEVER';
 	$scope.repeat_end = [
 		{val: 'NEVER', displayname: t('calendar', 'never')},
-		{val: 'COUNT', displayname: t('calendar', 'after')}//,
-		//{val: 'UNTIL', displayname: t('calendar', 'on date')}
+		{val: 'COUNT', displayname: t('calendar', 'after')},
+		{val: 'UNTIL', displayname: t('calendar', 'on date')}
 	];
 
 	$scope.$parent.registerPreHook(function() {
@@ -59,13 +59,12 @@ app.controller('RecurrenceController', function($scope) {
 			if ($scope.properties.rrule.count !== null) {
 				$scope.selected_repeat_end = 'COUNT';
 			} else if ($scope.properties.rrule.until !== null) {
-				$scope.rruleNotSupported = true;
-				//$scope.selected_repeat_end = 'UNTIL';
+				$scope.selected_repeat_end = 'UNTIL';
 			}
 
 			/*if (!moment.isMoment($scope.properties.rrule.until)) {
-			 $scope.properties.rrule.until = moment();
-			 }*/
+				$scope.properties.rrule.until = moment();
+			}*/
 
 			if ($scope.properties.rrule.interval === null) {
 				$scope.properties.rrule.interval = 1;
@@ -86,7 +85,7 @@ app.controller('RecurrenceController', function($scope) {
 		$scope.selected_repeat_end = 'NEVER';
 		$scope.properties.rrule.freq = 'NONE';
 		$scope.properties.rrule.count = null;
-		//$scope.properties.rrule.until = null;
+		$scope.properties.rrule.until = null;
 		$scope.properties.rrule.interval = 1;
 		$scope.rruleNotSupported = false;
 		$scope.properties.rrule.parameters = {};
