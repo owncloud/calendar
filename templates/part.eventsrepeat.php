@@ -63,9 +63,8 @@
 		<input type="number" min="1" ng-model="properties.rrule.count">
 		<?php p($l->t('times')); ?>
 	</div>
-	<!--
 	<div class="pull-right pull-half" ng-show="selected_repeat_end === 'UNTIL'">
-		<ocdatetimepicker ng-model="properties.rrule.until"></ocdatetimepicker>
+		<ocdatetimepicker ng-model="properties.rrule.until" disabletime="true" readonly="true"></ocdatetimepicker>
+		<span ng-show="edittimezone">{{ properties.rrule.until.zone | timezoneFilter }}</span>
 	</div>
-	-->
 </fieldset>

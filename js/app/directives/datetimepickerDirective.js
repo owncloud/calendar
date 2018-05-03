@@ -110,6 +110,10 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 					element.find('.events--date').datepicker('setDate', value.toDate());
 					element.find('.events--time').timepicker('setTime', value.toDate());
 				}
+				else if(value instanceof ICAL.Time) {
+					element.find('.events--date').datepicker('setDate', value.toJSDate());
+					element.find('.events--time').timepicker('setTime', value.toJSDate());
+				}
 			});
 			element.on('$destroy', function() {
 				element.find('.events--date').datepicker('destroy');
