@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "Árlega",
     "never" : "aldrei",
     "after" : "eftir",
+    "on date" : "þann",
     "How about getting started by importing some calendars?" : "Hvernig væri að byrja á því að flytja inn einhver dagatöl?",
     "At time of event" : "Þegar atburður á sér stað",
     "5 minutes before" : "5 mínútum fyrir",

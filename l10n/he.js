@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "כל שנה",
     "never" : "לעולם לא",
     "after" : "לאחר",
+    "on date" : "בתאריך",
     "How about getting started by importing some calendars?" : "מה דעתך להתחיל ביבוא של לוחות שנה?",
     "At time of event" : "בזמן אירוע",
     "5 minutes before" : "5 דקות לפני",

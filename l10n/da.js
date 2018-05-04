@@ -36,6 +36,7 @@ OC.L10N.register(
     "Every year" : "Hvert år",
     "never" : "aldrig",
     "after" : "efter",
+    "on date" : "på dato",
     "At time of event" : "På tidspunktet for begivenheden",
     "5 minutes before" : "5 minutter før",
     "10 minutes before" : "10 minutter før",

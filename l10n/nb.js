@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "Hvert år",
     "never" : "aldri",
     "after" : "etter",
+    "on date" : "på dato",
     "How about getting started by importing some calendars?" : "Hva med å begynne med å importere noen kalendere?",
     "At time of event" : "Ved tiden for hendelsen",
     "5 minutes before" : "5 minutter før",

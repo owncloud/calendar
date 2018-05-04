@@ -46,6 +46,7 @@ OC.L10N.register(
     "Every year" : "Každý rok",
     "never" : "nikdy",
     "after" : "po",
+    "on date" : "v den",
     "How about getting started by importing some calendars?" : "Co takhle začít importováním nějakých kalendářů?",
     "At time of event" : "V čase události",
     "5 minutes before" : "5 minut předem",

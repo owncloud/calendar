@@ -35,6 +35,7 @@ OC.L10N.register(
     "Every year" : "Iga aasta",
     "never" : "mitte kunagi",
     "after" : "pärast",
+    "on date" : "kuupäeval",
     "At time of event" : "Sündmuse aeg",
     "5 minutes before" : "5 minutit enne",
     "10 minutes before" : "10 minutit enne",

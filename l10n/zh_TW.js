@@ -46,6 +46,7 @@ OC.L10N.register(
     "Every year" : "每年",
     "never" : "永不",
     "after" : "之後",
+    "on date" : "在日期",
     "At time of event" : "活動當時",
     "5 minutes before" : "5 分鐘前",
     "10 minutes before" : "10 分鐘前",

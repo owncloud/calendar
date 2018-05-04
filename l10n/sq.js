@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "Çdo vit",
     "never" : "kurrë",
     "after" : "pas",
+    "on date" : "më datë",
     "How about getting started by importing some calendars?" : "Po sikur t’ia fillonit duke importuar ndonjë kalendar?",
     "At time of event" : "Në kohën e veprimtarisë",
     "5 minutes before" : "5 minuta para",

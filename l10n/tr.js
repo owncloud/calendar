@@ -46,6 +46,7 @@ OC.L10N.register(
     "Every year" : "Her yıl",
     "never" : "hiçbir zaman",
     "after" : "şundan sonra",
+    "on date" : "şu tarihte",
     "How about getting started by importing some calendars?" : "Bazı takvimleri içeri alarak başlamaya ne dersiniz?",
     "At time of event" : "Olay anında",
     "5 minutes before" : "5 dakika önce",

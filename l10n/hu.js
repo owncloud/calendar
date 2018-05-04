@@ -38,6 +38,7 @@ OC.L10N.register(
     "Every year" : "minden év",
     "never" : "soha",
     "after" : "után",
+    "on date" : "dátumkor",
     "At time of event" : "az eseménnyel egy időben",
     "5 minutes before" : "5 perccel előtte",
     "10 minutes before" : "10 perccel előtte",

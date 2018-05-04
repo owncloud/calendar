@@ -43,6 +43,7 @@ OC.L10N.register(
     "Every year" : "Elk jaar",
     "never" : "geen",
     "after" : "na",
+    "on date" : "op datum",
     "At time of event" : "Op de tijd van de afspraak",
     "5 minutes before" : "5 minuten vooraf",
     "10 minutes before" : "10 minuten vooraf",

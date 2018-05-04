@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "Vsako leto",
     "never" : "nikoli",
     "after" : "po",
+    "on date" : "na dan",
     "How about getting started by importing some calendars?" : "Morda lahko začnete z uvažanjem koledarjev?",
     "At time of event" : "Ob času dogodka",
     "5 minutes before" : "5 minut prej",

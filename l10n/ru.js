@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "Каждый год",
     "never" : "никогда",
     "after" : "после",
+    "on date" : "по дате",
     "How about getting started by importing some calendars?" : "Как начать с импорта некоторых календарей?",
     "At time of event" : "Время события",
     "5 minutes before" : "за 5 минут до начала",
