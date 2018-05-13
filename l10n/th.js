@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "ทุกปี",
     "never" : "ไม่ต้องเลย",
     "after" : "หลัง",
+    "on date" : "ในวันที่",
     "How about getting started by importing some calendars?" : "วิธีการเริ่มต้นโดยการนำเข้าปฏิทินบางส่วน",
     "At time of event" : "ในช่วงเวลาของเหตุการณ์",
     "5 minutes before" : "5 นาทีก่อนหน้านั้น",
