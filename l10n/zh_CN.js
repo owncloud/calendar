@@ -47,6 +47,7 @@ OC.L10N.register(
     "Every year" : "每年",
     "never" : "从不",
     "after" : "之后",
+    "on date" : "当天",
     "How about getting started by importing some calendars?" : "考虑一下先导入一些日历吗？",
     "At time of event" : "在事件发生时",
     "5 minutes before" : "5分钟前",
