@@ -172,4 +172,4 @@ OC.L10N.register(
     "iOS/OS X CalDAV address" : "iOS/OS X CalDAV adresa",
     "Subscribe" : "Odebírat"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");
