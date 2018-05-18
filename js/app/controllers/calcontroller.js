@@ -73,6 +73,25 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			});
 		}
 
+		function deleteOccurence(vevent, fcEvent) {
+			var exdate = fcEvent.event.getFirstProperty('exdate');
+			if(exdate !== null) {
+				exdate = exdate.getValues();
+			}
+			else {
+				exdate = [];
+			}
+			exdate.push(ICAL.Time.fromJSDate(fcEvent.start.toDate(), true));
+			const exdateProp = new ICAL.Property('exdate', fcEvent.event);
+			exdateProp.setValues(exdate);
+
+			fcEvent.event.removeAllProperties('exdate');
+			fcEvent.event.addProperty(exdateProp);
+			VEventService.update(vevent).then(function() {
+				fc.elm.fullCalendar('refetchEventSources', vevent.calendar.fcEventSource);
+			});
+		}
+
 		$scope.$watchCollection('calendars', function(newCalendars, oldCalendars) {
 			newCalendars.filter(function(calendar) {
 				return oldCalendars.indexOf(calendar) === -1;
@@ -238,6 +257,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					}).catch(function(reason) {
 						if (reason === 'delete') {
 							deleteAndRemoveEvent(vevent, fcEvent);
+						}
+						else if(reason === 'deleteOccurrence') {
+							deleteOccurence(vevent, fcEvent);
 						}
 					});
 				},

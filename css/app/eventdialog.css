@@ -54,7 +54,7 @@
 	width: 450px;
 	background: #fff;
 	box-shadow: 0 0 3px #999;
-	overflow: hidden;
+	overflow: visible;
 	margin-left: 0 !important;
 	padding-bottom: 12px;
 }
@@ -74,7 +74,7 @@
 
 .events .events--fieldset textarea {
 	height: 4.5em;
-	width: 96%;
+	width: 97% !important;
 	resize: vertical;
 }
 
@@ -309,25 +309,7 @@ button.delete:focus {
 	display: inline;
 }
 
-.dropdown-menu,
 .attendeename {
 	width: 100%;
 	max-width: 470px;
-}
-
-.dropdown-menu li {
-	border-bottom: 1px solid #ddd;
-	background: #f8f8f8;
-}
-
-.dropdown-menu li a {
-	display: block;
-	padding: 5px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.dropdown-menu li a:hover {
-	background: #eee;
 }

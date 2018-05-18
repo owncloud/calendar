@@ -149,12 +149,20 @@ app.controller('EditorController', ['$scope', 'TimezoneService', 'AutoCompletion
 			});
 		};
 
+		$scope.isRecurring = function() {
+			return $scope.properties.repeating;
+		};
+
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss('cancel');
 		};
 
 		$scope.delete = function() {
 			$uibModalInstance.dismiss('delete');
+		};
+
+		$scope.deleteOccurrence = function() {
+			$uibModalInstance.dismiss('deleteOccurrence');
 		};
 
 		$scope.export = function() {

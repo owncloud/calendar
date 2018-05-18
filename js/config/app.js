@@ -26,5 +26,7 @@
 */
 
 var app = angular.module('Calendar', [
+	'ngAnimate',
+	'ngSanitize',
 	'ui.bootstrap'
 ]);
