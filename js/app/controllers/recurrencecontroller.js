@@ -24,6 +24,9 @@
 app.controller('RecurrenceController', function($scope) {
 	'use strict';
 
+	var ctrl = this;
+	ctrl.loading = true;
+	
 	$scope.rruleNotSupported = false;
 
 	$scope.repeat_options_simple = [
@@ -42,6 +45,18 @@ app.controller('RecurrenceController', function($scope) {
 		{val: 'UNTIL', displayname: t('calendar', 'on date')}
 	];
 
+	$scope.byDay = {
+		SU: false,
+		MO: false,
+		TU: false,
+		WE: false,
+		TH: false,
+		FR: false,
+		SA: false
+	};
+
+	$scope.weekdays = moment.weekdaysMin();
+
 	$scope.$parent.registerPreHook(function() {
 		if ($scope.properties.rrule.freq !== 'NONE') {
 			var unsupportedFREQs = ['SECONDLY', 'MINUTELY', 'HOURLY'];
@@ -49,8 +64,12 @@ app.controller('RecurrenceController', function($scope) {
 				$scope.rruleNotSupported = true;
 			}
 
-			if (typeof $scope.properties.rrule.parameters !== 'undefined') {
+			if (angular.isDefined($scope.properties.rrule.parameters)) {
 				var partIds = Object.getOwnPropertyNames($scope.properties.rrule.parameters);
+				if(partIds.indexOf('BYDAY') !== -1) {
+					partIds.splice(partIds.indexOf('BYDAY'), 1);
+					$scope.properties.rrule.byday = $scope.properties.rrule.parameters.BYDAY.slice();
+				}
 				if (partIds.length > 0) {
 					$scope.rruleNotSupported = true;
 				}
@@ -62,14 +81,18 @@ app.controller('RecurrenceController', function($scope) {
 				$scope.selected_repeat_end = 'UNTIL';
 			}
 
-			/*if (!moment.isMoment($scope.properties.rrule.until)) {
-				$scope.properties.rrule.until = moment();
-			}*/
+			if(angular.isDefined($scope.properties.rrule.byday)) {
+				angular.forEach($scope.properties.rrule.byday, function(value) {
+					$scope.byDay[value] = true;
+				});
+			}
 
 			if ($scope.properties.rrule.interval === null) {
 				$scope.properties.rrule.interval = 1;
 			}
 		}
+
+		ctrl.loading = false;
 	});
 
 	$scope.$parent.registerPostHook(function() {
@@ -86,10 +109,34 @@ app.controller('RecurrenceController', function($scope) {
 		$scope.properties.rrule.freq = 'NONE';
 		$scope.properties.rrule.count = null;
 		$scope.properties.rrule.until = null;
+		$scope.properties.rrule.byday = null;
 		$scope.properties.rrule.interval = 1;
 		$scope.rruleNotSupported = false;
 		$scope.properties.rrule.parameters = {};
 	};
 
+	$scope.$watch('byDay', function (newValue) {
+		if(!ctrl.loading) {
+			ctrl.transferDaysToByDay(newValue);
+		}
+	}, true);
 
+	ctrl.transferDaysToByDay = function(newDays) {
+		angular.forEach(newDays, function(value, key) {
+			if(angular.isUndefined($scope.properties.rrule.byday)) {
+				if(value) {
+					$scope.properties.rrule.byday = [key];
+				}
+			}
+			else {
+				var i = $scope.properties.rrule.byday.indexOf(key);
+				if(value && i === -1) {
+					$scope.properties.rrule.byday.push(key);
+				}
+				else if(!value && i !== -1) {
+					$scope.properties.rrule.byday.splice(i, 1);
+				}
+			}
+		});
+	};
 });
