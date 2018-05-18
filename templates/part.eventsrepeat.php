@@ -50,6 +50,21 @@
 		ng-model="properties.rrule.interval">
 	<div class="clear-both"></div>
 	<label class="pull-left inline">
+		<?php p($l->t('Repeat on every ...')); ?>
+	</label>
+	<div class="pull-right pull-half">
+		<div class="btn-group">
+			<label class="btn btn-default" ng-model="byDay.SU" uib-btn-checkbox>{{ weekdays[0] }}</label>
+			<label class="btn btn-default" ng-model="byDay.MO" uib-btn-checkbox>{{ weekdays[1] }}</label>
+			<label class="btn btn-default" ng-model="byDay.TU" uib-btn-checkbox>{{ weekdays[2] }}</label>
+			<label class="btn btn-default" ng-model="byDay.WE" uib-btn-checkbox>{{ weekdays[3] }}</label>
+			<label class="btn btn-default" ng-model="byDay.TH" uib-btn-checkbox>{{ weekdays[4] }}</label>
+			<label class="btn btn-default" ng-model="byDay.FR" uib-btn-checkbox>{{ weekdays[5] }}</label>
+			<label class="btn btn-default" ng-model="byDay.SA" uib-btn-checkbox>{{ weekdays[6] }}</label>
+		</div>
+	</div>
+	<div class="clear-both"></div>
+	<label class="pull-left inline">
 		<?php p($l->t('end repeat ...')); ?>
 	</label>
 	<div class="pull-right pull-half">

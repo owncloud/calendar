@@ -592,6 +592,13 @@ app.factory('SimpleEvent', function () {
 				}
 			}
 
+			if(newSimpleData.rrule.byday) {
+				params.byday = newSimpleData.rrule.byday;
+			}
+			else if(angular.isDefined(newSimpleData.rrule.parameters) && angular.isDefined(newSimpleData.rrule.parameters.BYDAY)) {
+				params.byday = newSimpleData.rrule.parameters.BYDAY;
+			}
+
 			const rrule = new ICAL.Recur(params);
 			vevent.updatePropertyWithValue('rrule', rrule);
 		}
