@@ -57,6 +57,8 @@ const cssSources = [
 ];
 const vendorSources = [
 	'vendor/angular/angular.js',
+	'vendor/angular-animate/angular-animate.js',
+	'vendor/angular-sanitize/angular-sanitize.js',
 	'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
 	'vendor/fullcalendar/dist/fullcalendar.js',
 	'vendor/fullcalendar/dist/locale-all.js',

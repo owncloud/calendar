@@ -2,6 +2,8 @@
   "name": "nextcloud-calendar",
   "dependencies": {
     "angular": "1.6.4",
+    "angular-animate": "1.6.4",
+    "angular-sanitize": "1.6.4",
     "angular-bootstrap": "2.5.0",
     "jquery-timepicker": "883bb2cd94",
     "jstzdetect": "https://github.com/georgehrke/jstimezonedetect.git",

@@ -39,11 +39,20 @@
 				<label for="alldayeventcheckbox"><?php p($l->t('All day Event'))?></label>
 			</div>
 		</fieldset>
-
 		<fieldset class="events--fieldset pull-left" ng-if="!readOnly">
-			<button ng-click="delete()" ng-if="!is_new" class="events--button button btn delete" type="button" tabindex="110">
+			<button ng-click="delete()" ng-if="!is_new && !isRecurring()" class="events--button button btn delete" type="button" tabindex="110">
 				<?php p($l->t('Delete')); ?>
 			</button>
+			<div class="btn-group" uib-dropdown ng-if="!is_new && isRecurring()">
+				<button id="single-button" type="button" class="btn delete" tabindex="110" uib-dropdown-toggle>
+					<?php p($l->t('Delete')); ?>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+					<li role="menuitem"><a ng-click="delete()" href="#"><?php p($l->t('Delete all')); ?></a></li>
+					<li role="menuitem"><a ng-click="deleteOccurrence()" href="#"><?php p($l->t('Delete just occurrence')); ?></a></li>
+				</ul>
+			</div>
 			<button ng-click="cancel()" class="events--button button btn" type="button" tabindex="111">
 				<?php p($l->t('Cancel')); ?>
 			</button>

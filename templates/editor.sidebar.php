@@ -101,13 +101,23 @@
 					<button
 						class="events--button button btn delete btn-half pull-left"
 						ng-click="delete()"
-						ng-if="!is_new"
+						ng-if="!is_new && !isRecurring()"
 						type="button"
 						tabindex="280">
 						<?php p($l->t('Delete')); ?>
 					</button>
+					<div class="btn-group btn-half pull-left" uib-dropdown ng-if="!is_new && isRecurring()">
+						<button id="single-button" type="button" class="events--button button btn delete single-button-sidebar" tabindex="280" uib-dropdown-toggle>
+							<?php p($l->t('Delete')); ?>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+							<li role="menuitem"><a ng-click="delete()" href="#"><?php p($l->t('Delete all')); ?></a></li>
+							<li role="menuitem"><a ng-click="deleteOccurrence()" href="#"><?php p($l->t('Delete just occurrence')); ?></a></li>
+						</ul>
+					</div>
 					<button
-						class="evens--button button btn btn-half pull-right"
+						class="evens--button button btn btn-half pull-right cancel-button-sidebar"
 						ng-click="cancel()"
 						ng-if="!is_new"
 						type="button"

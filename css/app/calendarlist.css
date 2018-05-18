@@ -471,29 +471,6 @@ li.calendar-share-item span {
 	white-space: nowrap;
 }
 
-ul.dropdown-menu {
-	max-height: 200px;
-	overflow-y: scroll;
-	overflow-x: hidden;
-	border: 1px #ddd solid;
-	border-radius: 0 0 4px 4px;
-	margin-top: -7px;
-	margin-left: 6px;
-	width: 89%;
-}
-
-ul.dropdown-menu li:last-child {
-	border-bottom: none !important;
-}
-
-#app-navigation ul.dropdown-menu a {
-	padding: 6px;
-}
-
-ul.dropdown-menu li > a:hover {
-	background-color: grey !important;
-}
-
 /* Fullcalendar modifications */
 
 .fc th,
