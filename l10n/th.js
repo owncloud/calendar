@@ -17,7 +17,7 @@ OC.L10N.register(
     "Optional" : "ตัวเลือก",
     "Does not attend" : "ไม่ได้เข้าร่วม",
     "{name} ({email})" : "{name} ({email})",
-    "You are in an unknown timezone ({tz}), falling back to UTC" : "คุณอยู่ในเขตเวลาที่ไม่รู้จัก ({tz}), กำลงกลับไปสู่ UTC",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "คุณอยู่ในเขตเวลาที่ไม่รู้จัก ({tz}), กำลงกลับไปใช้ UTC",
     "Please create a calendar first." : "กรุณาสร้างปฏิทินก่อน",
     "New event" : "เหตุการณ์ใหม่",
     "CalDAV address for clients" : "ที่อยู่ CalDAV  สำหรับไคลเอนต์",
