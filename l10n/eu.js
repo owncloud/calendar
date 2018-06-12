@@ -67,6 +67,7 @@ OC.L10N.register(
     "Title of the Event" : "Gertaeraren izenburua",
     "All day Event" : "Egun osoko gertaera",
     "Delete" : "Ezabatu",
+    "Delete all" : "Ezabatu dena",
     "Cancel" : "Ezeztatu",
     "More ..." : "Gehiago ...",
     "Create" : "Sortu",

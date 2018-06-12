@@ -89,6 +89,7 @@ OC.L10N.register(
     "Ends" : "结束于",
     "All day Event" : "全天事件",
     "Delete" : "删除",
+    "Delete all" : "删除所有",
     "Cancel" : "取消",
     "More ..." : "更多...",
     "Create" : "创建",

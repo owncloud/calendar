@@ -89,6 +89,7 @@ OC.L10N.register(
     "Ends" : "Slutter",
     "All day Event" : "Heldagshendelse",
     "Delete" : "Slett",
+    "Delete all" : "Slett alle",
     "Cancel" : "Avbryt",
     "More ..." : "Mer ...",
     "Create" : "Opprett",

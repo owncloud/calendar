@@ -83,6 +83,7 @@ OC.L10N.register(
     "Ends" : "Eindigt",
     "All day Event" : "Hele dag",
     "Delete" : "Verwijderen",
+    "Delete all" : "Verwijder alles",
     "Cancel" : "Annuleren",
     "More ..." : "Meer...",
     "Create" : "Aanmaken",

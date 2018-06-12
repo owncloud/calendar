@@ -89,6 +89,7 @@ OC.L10N.register(
     "Ends" : "Концы",
     "All day Event" : "Событие на весь день",
     "Delete" : "Удалить",
+    "Delete all" : "Удалить все",
     "Cancel" : "Отмена",
     "More ..." : "Больше ...",
     "Create" : "Создать",

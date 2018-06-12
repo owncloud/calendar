@@ -74,6 +74,7 @@ OC.L10N.register(
     "Title of the Event" : "Titel på begivenheden",
     "All day Event" : "Heldagsbegivenhed",
     "Delete" : "Slet",
+    "Delete all" : "Slet alle",
     "Cancel" : "Annullér",
     "More ..." : "Mere...",
     "Create" : "Ny",

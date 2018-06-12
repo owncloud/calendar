@@ -71,6 +71,7 @@ OC.L10N.register(
     "Title of the Event" : "Numele evenimentului",
     "All day Event" : "Toată ziua",
     "Delete" : "Șterge",
+    "Delete all" : "Șterge tot",
     "Cancel" : "Anulează",
     "More ..." : "Mai mult ...",
     "Create" : "Creează",

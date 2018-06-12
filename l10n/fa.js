@@ -88,6 +88,7 @@ OC.L10N.register(
     "Ends" : "پایان",
     "All day Event" : "رویداد های روزانه",
     "Delete" : "حذف",
+    "Delete all" : "حذف همه",
     "Cancel" : "منصرف شدن",
     "More ..." : "بیشتر ...",
     "Create" : "ایجاد کردن",

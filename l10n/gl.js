@@ -73,6 +73,7 @@ OC.L10N.register(
     "Title of the Event" : "Título da actividade",
     "All day Event" : "Evento para todo o día",
     "Delete" : "Eliminar",
+    "Delete all" : "Borrar todo",
     "Cancel" : "Cancelar",
     "More ..." : "Máis...",
     "Create" : "Crear",

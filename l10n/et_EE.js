@@ -70,6 +70,7 @@ OC.L10N.register(
     "Title of the Event" : "Sündmuse pealkiri",
     "All day Event" : "Kogu päeva sündmus",
     "Delete" : "Kustuta",
+    "Delete all" : "Kustuta kõik",
     "Cancel" : "Loobu",
     "More ..." : "Veel ...",
     "Create" : "Lisa",

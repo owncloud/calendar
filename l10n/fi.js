@@ -88,6 +88,7 @@ OC.L10N.register(
     "Ends" : "Loppuu",
     "All day Event" : "Koko päivän tapahtuma",
     "Delete" : "Poista",
+    "Delete all" : "Poista kaikki",
     "Cancel" : "Peruuta",
     "More ..." : "Lisää...",
     "Create" : "Luo",

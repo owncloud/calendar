@@ -82,6 +82,7 @@ OC.L10N.register(
     "Title of the Event" : "Τίτλος συμβάντος",
     "All day Event" : "Ολοήμερο συμβάν",
     "Delete" : "Διαγραφή",
+    "Delete all" : "Διαγραφή όλων",
     "Cancel" : "Άκυρο",
     "More ..." : "Περισσότερα ...",
     "Create" : "Δημιουργία",

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Ends" : "Slutar",
     "All day Event" : "Heldags evenemang",
     "Delete" : "Ta bort",
+    "Delete all" : "Radera alla",
     "Cancel" : "Avbryt",
     "More ..." : "Mer ...",
     "Create" : "Skapa",

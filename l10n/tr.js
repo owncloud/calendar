@@ -89,6 +89,7 @@ OC.L10N.register(
     "Ends" : "Biter",
     "All day Event" : "Tüm gün etkinliği",
     "Delete" : "Sil",
+    "Delete all" : "Hepsini sil",
     "Cancel" : "İptal",
     "More ..." : "Daha fazla ...",
     "Create" : "Oluştur",

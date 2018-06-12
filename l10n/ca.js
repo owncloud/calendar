@@ -84,6 +84,7 @@ OC.L10N.register(
     "Ends" : "Acaba",
     "All day Event" : "Esdeveniment de tot el dia",
     "Delete" : "Esborra",
+    "Delete all" : "Esborra-ho tot",
     "Cancel" : "Cancel·la",
     "More ..." : "Més",
     "Create" : "Crea",

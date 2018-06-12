@@ -75,6 +75,7 @@ OC.L10N.register(
     "Title of the Event" : "Az esemény címe",
     "All day Event" : "Mindennapos esemény",
     "Delete" : "Törlés",
+    "Delete all" : "Összes törlése",
     "Cancel" : "Mégsem",
     "More ..." : "Bővebben...",
     "Create" : "Létrehozás",

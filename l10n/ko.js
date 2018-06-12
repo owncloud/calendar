@@ -88,6 +88,7 @@ OC.L10N.register(
     "Ends" : "종료",
     "All day Event" : "종일 일정",
     "Delete" : "삭제",
+    "Delete all" : "모두 삭제",
     "Cancel" : "취소",
     "More ..." : "더 보기...",
     "Create" : "만들기",
