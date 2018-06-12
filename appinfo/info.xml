@@ -5,13 +5,13 @@
 	<summary>A Calendar app for ownCloud</summary>
 	<description>The Calendar app is a user interface for ownCloud's CalDAV server. Easily sync events from various devices with your ownCloud and edit them online.
 
-* 🚀 **Integration with other ownCloud apps!** Currently Contacts - more to come.
-* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
-* 🙋 **Attendees!** Invite people to your events.
+* 🚀**Integration with other ownCloud apps!** Currently Contacts - more to come.
+* **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
+* **Attendees!** Invite people to your events.
 </description>
-	<version>1.5.7</version>
+	<version>1.6.0</version>
 	<licence>AGPL</licence>
-	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler</author>
+	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler, Julian Müller</author>
 	<dependencies>
 		<owncloud min-version="9.1" max-version="10.1" />
 	</dependencies>

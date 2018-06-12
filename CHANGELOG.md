@@ -1,3 +1,29 @@
+## 1.6.0 - 2018-09-20
+### Fixed
+- Updating fullcalendar to fix translation issues
+  [#907](https://github.com/owncloud/calendar/pull/907)
+- Remove avatars from public calendars due to core change
+  [#909](https://github.com/owncloud/calendar/pull/909)
+- Add support for event series to specify a end
+  [#914](https://github.com/owncloud/calendar/pull/914)
+- Add support for recurrence rule BYDAY
+  [#918](https://github.com/owncloud/calendar/pull/918)
+- Add support to delete individual events of an event series
+  [#920](https://github.com/owncloud/calendar/pull/920)
+- Human friendly repeat options
+  [#922](https://github.com/owncloud/calendar/pull/922)
+- Various library updates
+  [#937](https://github.com/owncloud/calendar/pull/937)
+  [#938](https://github.com/owncloud/calendar/pull/938)
+  [#939](https://github.com/owncloud/calendar/pull/939)
+  [#941](https://github.com/owncloud/calendar/pull/941)
+- Fixing today marker
+  [#942](https://github.com/owncloud/calendar/pull/942)
+- Fixing event update handling to allow proper integration via e-mail. Tested with Thunderbird and GMail
+  [#944](https://github.com/owncloud/calendar/pull/944)
+- Recomputing EXDATE in case DTSTART changes
+  [#946](https://github.com/owncloud/calendar/pull/946)
+
 ## 1.5.7 - 2018-03-06
 ### Fixed
 - Fix user and group name escaping in sharing drop down

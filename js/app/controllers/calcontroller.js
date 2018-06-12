@@ -275,15 +275,19 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							createAndRenderEvent(result.calendar, result.vevent, view.start, view.end, $scope.defaulttimezone);
 						}
 					}).catch(function(reason) {
+						if (reason === 'cancel') {
+							return;
+						}
 						if (reason === 'delete') {
 							deleteAndRemoveEvent(vevent, fcEvent);
+							return;
 						}
-						else if(reason === 'deleteOccurrence') {
+						if(reason === 'deleteOccurrence') {
 							deleteOccurrence(vevent, fcEvent);
+							return;
 						}
-						else {
-							throw reason;
-						}
+						// unhandled -> throw
+						throw reason;
 					});
 				},
 				eventResize: function (fcEvent, delta, revertFunc) {
