@@ -575,13 +575,6 @@ app.factory('SimpleEvent', function () {
 				freq: newSimpleData.rrule.freq
 			};
 
-			if(newSimpleData.rrule.count && oldSimpleData.rrule.count && !oldSimpleData.rrule.until && newSimpleData.rrule.until) {
-				newSimpleData.rrule.count = null;
-			}
-			if(newSimpleData.rrule.until && oldSimpleData.rrule.until && !oldSimpleData.rrule.count && newSimpleData.rrule.count) {
-				newSimpleData.rrule.until = null;
-			}
-
 			if (newSimpleData.rrule.count) {
 				params.count = newSimpleData.rrule.count;
 			}

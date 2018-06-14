@@ -32,54 +32,96 @@
 <fieldset ng-hide="rruleNotSupported">
 	<select
 		id="frequency_select"
-		ng-options="repeat.val as repeat.displayname for repeat in repeat_options_simple"
+		ng-options="repeat.val as repeat.displayname for repeat in repeat_options"
 		ng-model="properties.rrule.freq">
 	</select>
 </fieldset>
 
 
 
-<fieldset class="event-fieldset" ng-hide="properties.rrule.freq === 'NONE' || rruleNotSupported">
-	<label class="pull-left">
-		<?php p($l->t('Repeat every ...')); ?>
-	</label>
-	<input
-		class="pull-right pull-half"
-		type="number"
-		min="1"
-		ng-model="properties.rrule.interval">
-	<div class="clear-both"></div>
-	<label class="pull-left inline">
-		<?php p($l->t('Repeat on every ...')); ?>
-	</label>
-	<div class="pull-right pull-half">
-		<div class="btn-group">
-			<label class="btn btn-default" ng-model="byDay.SU" uib-btn-checkbox>{{ weekdays[0] }}</label>
-			<label class="btn btn-default" ng-model="byDay.MO" uib-btn-checkbox>{{ weekdays[1] }}</label>
-			<label class="btn btn-default" ng-model="byDay.TU" uib-btn-checkbox>{{ weekdays[2] }}</label>
-			<label class="btn btn-default" ng-model="byDay.WE" uib-btn-checkbox>{{ weekdays[3] }}</label>
-			<label class="btn btn-default" ng-model="byDay.TH" uib-btn-checkbox>{{ weekdays[4] }}</label>
-			<label class="btn btn-default" ng-model="byDay.FR" uib-btn-checkbox>{{ weekdays[5] }}</label>
-			<label class="btn btn-default" ng-model="byDay.SA" uib-btn-checkbox>{{ weekdays[6] }}</label>
+<fieldset class="event-fieldset" ng-show="properties.rrule.freq === 'CUSTOM' && !rruleNotSupported">
+	<p class="block">
+		<?php p($l->t('Repeat every:')); ?>
+		<input
+			class="interval"
+			type="number"
+			min="1"
+			ng-model="properties.rrule.interval">
+		<select
+				id="frequency_select_simple"
+				class="custom-frequency"
+				ng-options="repeat.val as repeat.displayname for repeat in repeat_options_simple"
+				ng-model="custom.freq">
+		</select>
+	</p>
+	<p class="block">
+		<div ng-hide="custom.freq === 'DAILY' || custom.freq === 'YEARLY' || custom.freq === 'MONTHLY'">
+			<?php p($l->t('Repeat on:')); ?>
+			<div>
+				<div class="btn-group">
+					<label class="btn btn-default weekdays" ng-model="byDay.SU" uib-btn-checkbox>{{ weekdays[0] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.MO" uib-btn-checkbox>{{ weekdays[1] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.TU" uib-btn-checkbox>{{ weekdays[2] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.WE" uib-btn-checkbox>{{ weekdays[3] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.TH" uib-btn-checkbox>{{ weekdays[4] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.FR" uib-btn-checkbox>{{ weekdays[5] }}</label>
+					<label class="btn btn-default weekdays" ng-model="byDay.SA" uib-btn-checkbox>{{ weekdays[6] }}</label>
+				</div>
+			</div>
+		</div>
+	</p>
+	<p class="block">
+	<div ng-show="custom.freq === 'MONTHLY'">
+		<?php p($l->t('Repeat on every:')); ?>
+		<div class="radio radio-first">
+			<label>
+				<input type="radio" ng-model="selected_month_recurrence" value="DATE">
+				{{ day }} <?php p($l->t('of each month')); ?>
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" ng-model="selected_month_recurrence" value="WEEK">
+				<select
+					id="custom_interval"
+					class="custom-frequency"
+					ng-disabled="selected_month_recurrence!=='WEEK'"
+					ng-options="interval.val as interval.displayname for interval in custom_interval"
+					ng-model="custom.interval">
+				</select>
+				<select
+						id="custom_weekday"
+						class="custom-frequency"
+						ng-disabled="selected_month_recurrence!=='WEEK'"
+						ng-options="weekdays.val as weekdays.displayname for weekdays in custom_weekdays"
+						ng-model="custom.weekday">
+				</select>
+			</label>
 		</div>
 	</div>
-	<div class="clear-both"></div>
-	<label class="pull-left inline">
-		<?php p($l->t('end repeat ...')); ?>
-	</label>
-	<div class="pull-right pull-half">
-		<select id="frequency_select"
-				ng-options="repeat.val as repeat.displayname for repeat in repeat_end"
-				ng-model="selected_repeat_end">
-		</select>
-	</div>
-	<div class="clear-both"></div>
-	<div class="pull-right pull-half" ng-show="selected_repeat_end === 'COUNT'">
-		<input type="number" min="1" ng-model="properties.rrule.count">
-		<?php p($l->t('times')); ?>
-	</div>
-	<div class="pull-right pull-half" ng-show="selected_repeat_end === 'UNTIL'">
-		<ocdatetimepicker ng-model="properties.rrule.until" disabletime="true" readonly="true"></ocdatetimepicker>
-		<span ng-show="edittimezone">{{ properties.rrule.until.zone | timezoneFilter }}</span>
-	</div>
+	</p>
+	<p class="block">
+		<?php p($l->t('End:')); ?>
+		<div class="radio radio-first">
+			<label>
+				<input type="radio" ng-model="selected_repeat_end" value="NEVER">
+				<?php p($l->t('never')); ?>
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" ng-model="selected_repeat_end" value="COUNT">
+				<?php p($l->t('after')); ?>
+				<input type="number" min="1" ng-model="properties.rrule.count" ng-disabled="selected_repeat_end!=='COUNT'" class="count">
+				<?php p($l->t('event(s)')); ?>
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" ng-model="selected_repeat_end" value="UNTIL">
+				<?php p($l->t('on')); ?>
+				<ocdatetimepicker ng-model="properties.rrule.until" disabledate="selected_repeat_end!=='UNTIL'" hidetime="true" disabletime="true" readonly="true" class="until-datepicker"></ocdatetimepicker>
+			</label>
+		</div>
+	</p>
 </fieldset>

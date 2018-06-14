@@ -113,7 +113,7 @@
 						</button>
 						<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
 							<li role="menuitem"><a ng-click="delete()" href="#"><?php p($l->t('Delete all')); ?></a></li>
-							<li role="menuitem"><a ng-click="deleteOccurrence()" href="#"><?php p($l->t('Delete just occurrence')); ?></a></li>
+							<li role="menuitem"><a ng-click="deleteOccurrence()" href="#"><?php p($l->t('Delete this event ')); ?>({{ occurrence }})</a></li>
 						</ul>
 					</div>
 					<button

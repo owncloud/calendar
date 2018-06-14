@@ -397,15 +397,3 @@ fieldset[disabled] .btn-default.focus {
 		left: 0;
 	}
 }
-
-.single-button-sidebar {
-	width: 100%;
-}
-
-.cancel-button-sidebar {
-	margin-right: 0 !important;
-}
-
-.weekdays {
-	padding: 4px;
-}

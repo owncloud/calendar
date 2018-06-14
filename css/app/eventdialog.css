@@ -110,6 +110,11 @@
 	}
 }
 
+.until-datepicker .events--date {
+	width: 85px !important;
+	border-radius: 3px !important;
+}
+
 .advanced .events--date,
 .events .events--date,
 .advanced .events--time,
@@ -120,7 +125,6 @@
 .advanced .events--date,
 .events .events--date {
 	width: calc(100% - 70px);
-	border-right-width: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	margin-right: 0;
@@ -312,4 +316,65 @@ button.delete:focus {
 .attendeename {
 	width: 100%;
 	max-width: 470px;
+}
+
+.interval {
+	width: 50px !important;
+	text-align: right;
+	padding-top: 5px !important;
+	height: 20px;
+}
+
+.custom-frequency {
+	width: auto !important;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+
+.custom-frequency:disabled,
+.custom-frequency:disabled:hover {
+	background-color: rgba(230, 230, 230, .9);
+	color: #999;
+	cursor: default;
+}
+
+select {
+	padding-right: 26px !important;
+}
+
+.block {
+	margin-top: 15px;
+}
+
+.single-button-sidebar {
+	width: 100%;
+}
+
+.cancel-button-sidebar {
+	margin-right: 0 !important;
+}
+
+.weekdays {
+	padding: 7px;
+	margin-top: 3px;
+	margin-bottom: 10px;
+}
+
+.radio {
+	height: 35px;
+	margin-top: 3px;
+}
+
+.radio-first {
+	height: 25px;
+}
+
+.count {
+	text-align: right;
+	width: 50px !important;
+}
+
+input[type="radio"] {
+	margin-top: -1px;
+	vertical-align: middle;
 }

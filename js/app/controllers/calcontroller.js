@@ -32,6 +32,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 
 		is.loading = true;
 
+		$scope.occurrence = null;
 		$scope.calendars = [];
 		$scope.eventSource = {};
 		$scope.defaulttimezone = TimezoneService.current();
@@ -73,7 +74,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			});
 		}
 
-		function deleteOccurence(vevent, fcEvent) {
+		function deleteOccurrence(vevent, fcEvent) {
 			var exdate = fcEvent.event.getFirstProperty('exdate');
 			if(exdate !== null) {
 				exdate = exdate.getValues();
@@ -231,6 +232,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					var vevent = fcEvent.vevent;
 					var oldCalendar = vevent.calendar;
 					var fcEvt = fcEvent;
+					$scope.occurrence = moment(fcEvent.start).format(moment().localeData().longDateFormat('L').replace('YY', 'Y').replace('YYY', 'YY'));
 
 					EventsEditorDialogService.open($scope, fcEvent, function() {
 						return PopoverPositioningUtility.calculateByTarget(jsEvent.currentTarget, view);
@@ -259,7 +261,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							deleteAndRemoveEvent(vevent, fcEvent);
 						}
 						else if(reason === 'deleteOccurrence') {
-							deleteOccurence(vevent, fcEvent);
+							deleteOccurrence(vevent, fcEvent);
 						}
 					});
 				},
