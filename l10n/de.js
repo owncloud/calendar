@@ -152,6 +152,7 @@ OC.L10N.register(
     "Support for advanced rules will be added with subsequent updates." : "Unterstützung für fortgeschrittene Regeln wird mit späteren Updates hinzugefügt.",
     "Reset repeating rule" : "Wiederholungsregel zurücksetzen",
     "Repeat every ..." : "Wiederhole immer ...",
+    "Repeat on every ..." : "Wiederhole alle...",
     "end repeat ..." : "Wiederholung beenden ...",
     "times" : "Zeiten",
     "Import Calendars" : "Kalender importieren",
