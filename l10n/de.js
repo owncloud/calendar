@@ -90,6 +90,7 @@ OC.L10N.register(
     "All day Event" : "Ganztägige Veranstaltung",
     "Delete" : "Löschen",
     "Delete all" : "Alle löschen",
+    "Delete just occurrence" : "Ereignis jetzt löschen",
     "Cancel" : "Abbrechen",
     "More ..." : "Mehr ...",
     "Create" : "Erstellen",
