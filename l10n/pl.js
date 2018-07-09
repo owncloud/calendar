@@ -149,6 +149,7 @@ OC.L10N.register(
     "Support for advanced rules will be added with subsequent updates." : "Wsparcie dla zaawansowanych zasad będzie wprowadzane sukcesywnie wraz z kolejnymi aktualizacjami.",
     "Reset repeating rule" : "Zresetuj powtarzającą się zasadę",
     "Repeat every ..." : "Powtarzaj każdą...",
+    "Repeat on every ..." : "Powtarzaj co ...",
     "end repeat ..." : "zakończ powtarzanie ...",
     "times" : "razy",
     "Import Calendars" : "Importuj Kalendarze",
