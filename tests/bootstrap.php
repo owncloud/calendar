@@ -10,7 +10,6 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @copyright Bernhard Posselt 2016
  */
-define('PHPUNIT_RUN', 1);
 
 // ugly hack to fix issues with template code using static code
 $_SERVER['REQUEST_URI'] = '/index.php/apps/calendar/';
