@@ -56,24 +56,24 @@ const cssSources = [
 	'../css/app/*.css'
 ];
 const vendorSources = [
-	'vendor/angular/angular.js',
-	'vendor/angular-animate/angular-animate.js',
-	'vendor/angular-sanitize/angular-sanitize.js',
-	'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
-	'vendor/fullcalendar/dist/fullcalendar.js',
-	'vendor/fullcalendar/dist/locale-all.js',
+	'node_modules/angular/angular.js',
+    'node_modules/angular-animate/angular-animate.js',
+    'node_modules/angular-sanitize/angular-sanitize.js',
+	'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+	'node_modules/fullcalendar/dist/fullcalendar.js',
+	'node_modules/fullcalendar/dist/locale-all.js',
 	'licenses/hsl_rgb_converter.js',
-	'vendor/hsl_rgb_converter/converter.js',
-	'vendor/ical.js/build/ical.js',
-	'vendor/jquery-timepicker/jquery.ui.timepicker.js',
-	'vendor/jstzdetect/dist/jstz.js',
-	'vendor/autosize/dist/autosize.js'
+	'node_modules/hsl_rgb_converter/converter.js',
+	'node_modules/ical.js/build/ical.js',
+	'node_modules/jquery-timepicker/jquery.ui.timepicker.js',
+	'node_modules/jstzdetect/dist/jstz.js',
+    'node_modules/autosize/dist/autosize.js'
 ];
 const vendorCssSources = [
-	'vendor/fullcalendar/dist/fullcalendar.css',
-	'vendor/angular/angular-csp.css',
+	'node_modules/fullcalendar/dist/fullcalendar.css',
+	'node_modules/angular/angular-csp.css',
 	'licenses/jquery.timepicker.css',
-	'vendor/jquery-timepicker/jquery.ui.timepicker.css'
+	'node_modules/jquery-timepicker/jquery.ui.timepicker.css'
 ];
 
 const testSources = ['../tests/js/unit/**/*.js'];
