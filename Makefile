@@ -31,13 +31,13 @@
 # build tools and additional package managers should be installed locally in
 # your project, since this won't pollute people's global namespace.
 #
-# The following npm scripts in your package.json install and update the bower
-# and npm dependencies and use gulp as build system (notice how everything is
+# The following npm scripts in your package.json install and update the npm
+# dependencies and use gulp as build system (notice how everything is
 # run from the node_modules folder):
 #
 #    "scripts": {
 #        "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-#        "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
+#        "prebuild": "npm install",
 #        "build": "node node_modules/gulp-cli/bin/gulp.js"
 #    },
 
@@ -99,13 +99,11 @@ clean:
 	rm -rf css/public
 	rm -rf js/public
 
-# Same as clean but also removes dependencies installed by composer, bower and
-# npm
+# Same as clean but also removes dependencies installed by composer and npm
 .PHONY: distclean
 distclean: clean
 	rm -rf vendor
 	rm -rf node_modules
-	rm -rf js/vendor
 	rm -rf js/node_modules
 
 # Builds the source and appstore package
@@ -168,6 +166,6 @@ test:
 ifneq ("$(wildcard $(phpunit_oc10))","")
 	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
 else
-	phpunit -c phpunit.xml --coverage-clover coverage.clover
+	phpunit -c phpunit.xml --coverage-clover coverage.clover --bootstrap
 	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
 endif
