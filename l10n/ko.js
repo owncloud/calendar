@@ -151,6 +151,7 @@ OC.L10N.register(
     "Support for advanced rules will be added with subsequent updates." : "고급 규칙 지원은 차후 업데이트로 추가됩니다.",
     "Reset repeating rule" : "반복 규칙 초기화",
     "Repeat every ..." : "다음마다 반복 ...",
+    "Repeat on every ..." : "매일 반복",
     "end repeat ..." : "반복 끝 ...",
     "times" : "회",
     "Import Calendars" : "달력 가져오기",
