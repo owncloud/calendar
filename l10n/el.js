@@ -39,6 +39,8 @@ OC.L10N.register(
     "The event can not end before it starts." : "Το συμβάν δεν μπορεί να τελειώνει πριν καν αρχίσει.",
     "Global" : "Καθολικό",
     "None" : "Τίποτα",
+    "Never" : "Ποτέ",
+    "Daily" : "Καθημερινώς",
     "Custom" : "Προσαρμοσμένο",
     "At time of event" : "Την ώρα του συνβάντος",
     "5 minutes before" : "πριν 5 λεπτά",

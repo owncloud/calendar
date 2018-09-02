@@ -41,6 +41,8 @@ OC.L10N.register(
     "The event can not end before it starts." : "Tapajtuma ei voi päättyä ennen kuin on alkanut.",
     "Global" : "Globaali",
     "None" : "Ei mitään",
+    "Never" : "Ei koskaan",
+    "Daily" : "Päivittäin",
     "Custom" : "Omavalintainen",
     "How about getting started by importing some calendars?" : "Jospa aloittaisit tuomalla kalenterin?",
     "At time of event" : "Tapahtuman aikaan",

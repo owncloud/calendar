@@ -40,6 +40,8 @@ OC.L10N.register(
     "The event can not end before it starts." : "O evento não pode acabar antes de começar.",
     "Global" : "Global",
     "None" : "Nenhum",
+    "Never" : "Nunca",
+    "Daily" : "Diariamente",
     "Custom" : "Personalizado",
     "How about getting started by importing some calendars?" : "Que tal começar e importar alguns calendários?",
     "At time of event" : "À hora do evento",
