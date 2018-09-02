@@ -75,16 +75,34 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 		}
 
 		function deleteOccurrence(vevent, fcEvent) {
-			var exdate = fcEvent.event.getFirstProperty('exdate');
-			if(exdate !== null) {
-				exdate = exdate.getValues();
+			var exdates = fcEvent.event.getFirstProperty('exdate');
+			if(exdates !== null) {
+				exdates = exdates.getValues();
 			}
 			else {
-				exdate = [];
+				exdates = [];
 			}
-			exdate.push(ICAL.Time.fromJSDate(fcEvent.start.toDate(), true));
+
+			var dtstart = fcEvent.event.getFirstPropertyValue('dtstart');
+			var data = {
+				year: fcEvent.start.year(),
+				month: fcEvent.start.month() + 1,
+				day: fcEvent.start.date(),
+			};
+			data.isDate = dtstart.isDate;
+			if (!dtstart.isDate) {
+				data.hour = fcEvent.start.hour();
+				data.minute = fcEvent.start.minute();
+				data.second = fcEvent.start.second();
+			}
+			var newExDate = new ICAL.Time(data, dtstart.zone);
+			exdates.push(newExDate);
+
 			const exdateProp = new ICAL.Property('exdate', fcEvent.event);
-			exdateProp.setValues(exdate);
+			exdateProp.setValues(exdates);
+			if (angular.isDefined(dtstart.timezone)) {
+				exdateProp.setParameter('tzid', dtstart.zone.tzid);
+			}
 
 			fcEvent.event.removeAllProperties('exdate');
 			fcEvent.event.addProperty(exdateProp);
