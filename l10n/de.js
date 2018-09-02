@@ -42,7 +42,7 @@ OC.L10N.register(
     "Global" : "Global",
     "None" : "Keine",
     "Never" : "Nie",
-    "Daily" : "Täglich",
+    "Daily" : "Jeden Tag",
     "Weekly on {weekday}" : "Wöchentlich am {weekday}",
     "Monthly on {day}" : "Monatlich am {day}",
     "Yearly on {day} of {month}" : "Jährlich am {day} {month}",
