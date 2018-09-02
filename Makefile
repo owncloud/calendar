@@ -166,6 +166,6 @@ test:
 ifneq ("$(wildcard $(phpunit_oc10))","")
 	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
 else
-	phpunit -c phpunit.xml --coverage-clover coverage.clover --bootstrap
+	phpunit -c phpunit.xml --coverage-clover coverage.clover
 	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
 endif
