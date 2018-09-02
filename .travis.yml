@@ -1,6 +1,5 @@
 sudo: required
 dist: trusty
-sudo: required
 language: php
 php:
   - 5.6
@@ -66,8 +65,10 @@ before_install:
   - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
 
 cache:
+  yarn: true
   directories:
-  - $HOME/.cache/yarn
+  - owncloud/apps/calendar/js/node_modules
+  - $HOME/.composer/cache/files
 
 before_script:
   # Repo for Yarn
@@ -93,7 +94,6 @@ before_script:
 
 script:
   - make
-  - phpunit --version
   - make test
   - make dist
 
