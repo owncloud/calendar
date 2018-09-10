@@ -225,9 +225,9 @@ angular-ui-bootstrap@^2.5.0:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/angular-ui-bootstrap/-/angular-ui-bootstrap-2.5.6.tgz#23937322ec641a6fbee16498cc32452aa199e7c5"
 
-angular@^1.7.2:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.7.3.tgz#0f25a661d079fc84d5ccc877a2ef9d7178575ddb"
+angular@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.7.4.tgz#c1bf4884c2d470c06907737a1bf0835a9f646f31"
 
 ansi-colors@^1.0.1:
   version "1.1.0"
