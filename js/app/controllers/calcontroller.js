@@ -314,9 +314,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 						$scope.defaultView = newView;
 					}
 					if (newView === 'agendaDay') {
-						angular.element('td.fc-state-highlight').css('background-color', '#ffffff');
+						angular.element('td.fc-today').css('background-color', '#ffffff');
 					} else {
-						angular.element('.fc-bg td.fc-state-highlight').css('background-color', '#ffa');
+						angular.element('.fc-bg td.fc-today').css('background-color', '#ffa');
 					}
 					if (newView ==='agendaWeek') {
 						element.fullCalendar('option', 'aspectRatio', 0.1);
