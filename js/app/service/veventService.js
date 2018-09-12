@@ -49,6 +49,15 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		return utc.format('YYYYMMDD') + 'T' + utc.format('HHmmss') + 'Z';
 	};
 
+	context.updateSequenceAndDtStamp = function(event) {
+		const vevent = event.comp.getFirstSubcomponent('vevent');
+		const nowInUtc = ICAL.Time.fromJSDate(new Date(), true);
+		const seq = vevent.getFirstProperty('sequence') ? vevent.getFirstPropertyValue('sequence') : -1;
+		vevent.updatePropertyWithValue('last-modified', nowInUtc);
+		vevent.updatePropertyWithValue('dtstamp', nowInUtc);
+		vevent.updatePropertyWithValue('sequence', seq + 1);
+	};
+
 	/**
 	 * get all events from a calendar within a time-range
 	 * @param {Calendar} calendar
@@ -158,19 +167,23 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	/**
 	 * create a new event
 	 * @param {Calendar} calendar
-	 * @param {data} data
+	 * @param {VEvent} vevent
 	 * @param {boolean} returnEvent
 	 * @param {boolean} isImport
 	 * @returns {Promise}
 	 */
-	this.create = function (calendar, data, returnEvent=true, isImport=false) {
+	this.create = function (calendar, vevent, returnEvent=true, isImport=false) {
 		var headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
 			'requesttoken': OC.requestToken
 		};
 
+		let data = vevent;
 		if(isImport) {
 			headers['OC-CalDav-Import'] = true;
+		} else {
+			context.updateSequenceAndDtStamp(vevent);
+			data = vevent.data;
 		}
 
 		const uri = StringUtility.uid('ownCloud', 'ics');
@@ -195,6 +208,8 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @returns {Promise}
 	 */
 	this.update = function (event) {
+		context.updateSequenceAndDtStamp(event);
+
 		const url = context.getEventUrl(event);
 		const headers = {
 			'Content-Type': 'text/calendar; charset=utf-8',
