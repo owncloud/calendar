@@ -157,7 +157,6 @@ app.factory('FcEvent', function(SimpleEvent) {
 			}
 
 			context.allDay = isAllDay;
-			context.vevent.touch();
 		};
 
 		/**
@@ -187,8 +186,6 @@ app.factory('FcEvent', function(SimpleEvent) {
 					prop.setParameter('tzid', tzid);
 				}
 			}
-
-			context.vevent.touch();
 		};
 
 		/**

@@ -60,8 +60,8 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 			}
 		}
 
-		function createAndRenderEvent(calendar, data, start, end, tz) {
-			VEventService.create(calendar, data).then(function(vevent) {
+		function createAndRenderEvent(calendar, vevent, start, end, tz) {
+			VEventService.create(calendar, vevent).then(function(vevent) {
 				if (calendar.enabled) {
 					fc.elm.fullCalendar('refetchEventSources', calendar.fcEventSource);
 				}
@@ -106,7 +106,6 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 
 			fcEvent.event.removeAllProperties('exdate');
 			fcEvent.event.addProperty(exdateProp);
-			fcEvent.vevent.touch();
 			VEventService.update(vevent).then(function() {
 				fc.elm.fullCalendar('refetchEventSources', vevent.calendar.fcEventSource);
 			});
@@ -239,7 +238,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 								}
 							});
 						}).then(function(result) {
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+							createAndRenderEvent(result.calendar, result.vevent, view.start, view.end, $scope.defaulttimezone);
 						}).catch(function(reason) {
 							//fcEvent is removed by unlock callback
 							//no need to anything
@@ -264,7 +263,6 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					}).then(function(result) {
 						// was the event moved to another calendar?
 						if (result.calendar === oldCalendar) {
-							fcEvt.vevent.touch();
 							VEventService.update(vevent).then(function() {
 								fc.elm.fullCalendar('removeEvents', fcEvent.id);
 
@@ -274,7 +272,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 							});
 						} else {
 							deleteAndRemoveEvent(vevent, fcEvent);
-							createAndRenderEvent(result.calendar, result.vevent.data, view.start, view.end, $scope.defaulttimezone);
+							createAndRenderEvent(result.calendar, result.vevent, view.start, view.end, $scope.defaulttimezone);
 						}
 					}).catch(function(reason) {
 						if (reason === 'delete') {
