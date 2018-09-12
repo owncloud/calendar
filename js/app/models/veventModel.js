@@ -265,7 +265,9 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 		 */
 		iface.touch = function() {
 			const vevent = context.comp.getFirstSubcomponent('vevent');
-			vevent.updatePropertyWithValue('last-modified', ICAL.Time.now());
+			const nowInUtc = ICAL.Time.fromJSDate(new Date(), true);
+			vevent.updatePropertyWithValue('last-modified', nowInUtc);
+			vevent.updatePropertyWithValue('dtstamp', nowInUtc);
 		};
 
 		return iface;
