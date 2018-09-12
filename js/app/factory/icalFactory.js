@@ -50,14 +50,15 @@ app.service('ICalFactory', function(constants) {
 
 		const event = new ICAL.Component('vevent');
 		comp.addSubcomponent(event);
+		const nowInUtc = ICAL.Time.fromJSDate(new Date(), true);
 
-		event.updatePropertyWithValue('created', ICAL.Time.now());
-		event.updatePropertyWithValue('dtstamp', ICAL.Time.now());
-		event.updatePropertyWithValue('last-modified', ICAL.Time.now());
+		event.updatePropertyWithValue('created', nowInUtc);
+		event.updatePropertyWithValue('dtstamp', nowInUtc);
+		event.updatePropertyWithValue('last-modified', nowInUtc);
 		event.updatePropertyWithValue('uid', uid);
 
 		//add a dummy dtstart, so it's a valid ics
-		event.updatePropertyWithValue('dtstart', ICAL.Time.now());
+		event.updatePropertyWithValue('dtstart', nowInUtc);
 
 		return comp;
 	};

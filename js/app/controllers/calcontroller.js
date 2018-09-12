@@ -106,6 +106,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 
 			fcEvent.event.removeAllProperties('exdate');
 			fcEvent.event.addProperty(exdateProp);
+			fcEvent.vevent.touch();
 			VEventService.update(vevent).then(function() {
 				fc.elm.fullCalendar('refetchEventSources', vevent.calendar.fcEventSource);
 			});
@@ -263,6 +264,7 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 					}).then(function(result) {
 						// was the event moved to another calendar?
 						if (result.calendar === oldCalendar) {
+							fcEvt.vevent.touch();
 							VEventService.update(vevent).then(function() {
 								fc.elm.fullCalendar('removeEvents', fcEvent.id);
 
@@ -280,6 +282,9 @@ app.controller('CalController', ['$scope', 'Calendar', 'CalendarService', 'VEven
 						}
 						else if(reason === 'deleteOccurrence') {
 							deleteOccurrence(vevent, fcEvent);
+						}
+						else {
+							throw reason;
 						}
 					});
 				},
