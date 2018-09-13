@@ -25,7 +25,7 @@ describe('ICalFactory tests', function () {
 	});
 
 	it ('should return an ICAL object with an event in it', function() {
-		const baseTime = new Date(2016, 0, 1);
+		const baseTime = new Date(Date.UTC(2016, 0, 1));
 		jasmine.clock().mockDate(baseTime);
 
 		const uid = 'foobar';
@@ -41,10 +41,10 @@ describe('ICalFactory tests', function () {
 		expect(components[0].name).toEqual('vevent');
 		expect(components[0].getAllProperties().length).toEqual(5);
 
-		expect(components[0].getFirstPropertyValue('created').toString()).toEqual('2016-01-01T00:00:00');
-		expect(components[0].getFirstPropertyValue('dtstamp').toString()).toEqual('2016-01-01T00:00:00');
-		expect(components[0].getFirstPropertyValue('last-modified').toString()).toEqual('2016-01-01T00:00:00');
+		expect(components[0].getFirstPropertyValue('created').toString()).toEqual('2016-01-01T00:00:00Z');
+		expect(components[0].getFirstPropertyValue('dtstamp').toString()).toEqual('2016-01-01T00:00:00Z');
+		expect(components[0].getFirstPropertyValue('last-modified').toString()).toEqual('2016-01-01T00:00:00Z');
 		expect(components[0].getFirstPropertyValue('uid')).toEqual('foobar');
-		expect(components[0].getFirstPropertyValue('dtstart').toString()).toEqual('2016-01-01T00:00:00');
+		expect(components[0].getFirstPropertyValue('dtstart').toString()).toEqual('2016-01-01T00:00:00Z');
 	});
 });

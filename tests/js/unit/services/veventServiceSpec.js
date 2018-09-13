@@ -302,7 +302,10 @@ describe('VEventService', function () {
 		const calendar = {
 			url: 'calendar-url-123/'
 		};
-		const data = 'fancy-ical-data';
+		const event = {
+			data: 'fancy-ical-data',
+			updateSequenceAndDtStamp: jasmine.createSpy()
+		};
 		const returnEvent = false;
 
 		StringUtility.uid.and.returnValue('awesome-uid');
@@ -311,7 +314,7 @@ describe('VEventService', function () {
 		DavClient.request.and.returnValue(deferred.promise);
 		DavClient.wasRequestSuccessful.and.returnValue(true);
 
-		const createRequest = VEventService.create(calendar, data, returnEvent);
+		const createRequest = VEventService.create(calendar, event, returnEvent);
 
 		expect(DavClient.request).toHaveBeenCalledWith('PUT', 'calendar-url-123/awesome-uid', {
 			'Content-Type': 'text/calendar; charset=utf-8',
@@ -341,7 +344,10 @@ describe('VEventService', function () {
 		const calendar = {
 			url: 'calendar-url-123/'
 		};
-		const data = 'fancy-ical-data';
+		const event = {
+			data: 'fancy-ical-data',
+			updateSequenceAndDtStamp: jasmine.createSpy()
+		};
 		const returnEvent = true;
 
 		StringUtility.uid.and.returnValue('awesome-uid');
@@ -351,7 +357,7 @@ describe('VEventService', function () {
 		DavClient.request.and.returnValues(deferred1.promise, deferred2.promise);
 		DavClient.wasRequestSuccessful.and.returnValue(true);
 
-		const createRequest = VEventService.create(calendar, data, returnEvent);
+		const createRequest = VEventService.create(calendar, event, returnEvent);
 
 		expect(DavClient.request).toHaveBeenCalledWith('PUT', 'calendar-url-123/awesome-uid', {
 			'Content-Type': 'text/calendar; charset=utf-8',
@@ -401,7 +407,10 @@ describe('VEventService', function () {
 		const calendar = {
 			url: 'calendar-url-123/'
 		};
-		const data = 'fancy-ical-data';
+		const event = {
+			data: 'fancy-ical-data',
+			updateSequenceAndDtStamp: jasmine.createSpy()
+		};
 		const returnEvent = false;
 
 		StringUtility.uid.and.returnValue('awesome-uid');
@@ -410,7 +419,7 @@ describe('VEventService', function () {
 		DavClient.request.and.returnValue(deferred.promise);
 		DavClient.wasRequestSuccessful.and.returnValue(false);
 
-		const createRequest = VEventService.create(calendar, data, returnEvent);
+		const createRequest = VEventService.create(calendar, event, returnEvent);
 
 		expect(DavClient.request).toHaveBeenCalledWith('PUT', 'calendar-url-123/awesome-uid', {
 			'Content-Type': 'text/calendar; charset=utf-8',
@@ -440,7 +449,10 @@ describe('VEventService', function () {
 		const calendar = {
 			url: 'calendar-url-123/'
 		};
-		const data = 'fancy-ical-data';
+		const event = {
+			data: 'fancy-ical-data',
+			updateSequenceAndDtStamp: jasmine.createSpy()
+		};
 		const returnEvent = true;
 
 		StringUtility.uid.and.returnValue('awesome-uid');
@@ -449,7 +461,7 @@ describe('VEventService', function () {
 		DavClient.request.and.returnValue(deferred.promise);
 		DavClient.wasRequestSuccessful.and.returnValue(false);
 
-		const createRequest = VEventService.create(calendar, data, returnEvent);
+		const createRequest = VEventService.create(calendar, event, returnEvent);
 
 		expect(DavClient.request).toHaveBeenCalledWith('PUT', 'calendar-url-123/awesome-uid', {
 			'Content-Type': 'text/calendar; charset=utf-8',
@@ -482,7 +494,8 @@ describe('VEventService', function () {
 			calendar: {
 				url: 'calendarurl1337/'
 			},
-			data: 'foobar3.14159'
+			data: 'foobar3.14159',
+			updateSequenceAndDtStamp: jasmine.createSpy()
 		};
 
 		const deferred = $q.defer();
@@ -529,7 +542,8 @@ describe('VEventService', function () {
 			calendar: {
 				url: 'calendarurl1337/'
 			},
-			data: 'foobar3.14159'
+			data: 'foobar3.14159',
+			updateSequenceAndDtStamp: jasmine.createSpy()
 		};
 
 		const deferred = $q.defer();
