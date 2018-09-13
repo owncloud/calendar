@@ -237,8 +237,7 @@ END:VTIMEZONE`)));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy().and.returnValue(true)
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -292,8 +291,7 @@ END:VTIMEZONE`)));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getAllSubcomponents('vevent')[1];
 		const start = event.getFirstPropertyValue('dtstart');
@@ -312,8 +310,7 @@ END:VTIMEZONE`)));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -335,8 +332,7 @@ END:VTIMEZONE`)));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -368,7 +364,6 @@ DTSTART;TZID=Europe/Berlin:20160816T110000
 DTSTAMP:20160809T163632Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly within grid - without DTEND', function() {
@@ -380,8 +375,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -412,7 +406,6 @@ DTSTART;TZID=America/New_York:20161106T015900
 DTSTAMP:20161002T105648Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 
@@ -425,8 +418,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -456,7 +448,6 @@ DTSTART;VALUE=DATE:20161007
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 
@@ -469,8 +460,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -499,7 +489,6 @@ DTSTART;VALUE=DATE:20161007
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - DTEND - tz', function() {
@@ -512,7 +501,6 @@ END:VEVENT`.split("\n").join("\r\n"));
 				isWritable: jasmine.createSpy()
 			},
 			uri: 'fancy1337',
-			touch: jasmine.createSpy()
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -542,7 +530,6 @@ DTSTART;TZID=Europe/Berlin:20161007T130000
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - DTEND - UTC', function() {
@@ -554,8 +541,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -585,7 +571,6 @@ DTSTART:20161007T130000Z
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - DURATION - tz', function() {
@@ -597,8 +582,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -627,7 +611,6 @@ DTSTART;TZID=Europe/Berlin:20161007T130000
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - DURATION - UTC', function() {
@@ -639,8 +622,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -669,7 +651,6 @@ DTSTART:20161007T130000Z
 DTSTAMP:20161004T144437Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - neither DTEND nor DURATION - tz', function() {
@@ -681,8 +662,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -710,7 +690,6 @@ DTSTAMP:20161004T144437Z
 SEQUENCE:0
 DTEND;TZID=Europe/Berlin:20161007T180000
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - allDay to grid - neither DTEND nor DURATION - UTC', function() {
@@ -722,8 +701,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -751,7 +729,6 @@ DTSTAMP:20161004T144437Z
 SEQUENCE:0
 DTEND:20161007T180000Z
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - grid to allDay - DTEND', function() {
@@ -763,8 +740,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -796,7 +772,6 @@ DTSTART;VALUE=DATE:20160816
 DTSTAMP:20160809T163632Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - grid to allDay - DURATION', function() {
@@ -808,8 +783,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -842,7 +816,6 @@ DURATION:P3D
 DTSTAMP:20161002T105633Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - grid to allDay - neither DTEND nor DURATION', function() {
@@ -854,8 +827,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -887,7 +859,6 @@ DTSTAMP:20161002T105648Z
 SEQUENCE:0
 DTEND;VALUE=DATE:20161111
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should drop an event correctly - grid to allDay to grid - DTEND', function() {
@@ -899,8 +870,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -932,7 +902,6 @@ DTSTART;VALUE=DATE:20160814
 DTSTAMP:20160809T163632Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 
 		const delta2 = moment.duration(3, 'days').add(15, 'hours').add(30, 'minutes');
 		fcEvent.drop(delta2, false, 'Europe/Berlin', moment.duration(5, 'hours'), moment.duration(3, 'days'));
@@ -947,7 +916,6 @@ DTSTART;TZID=Europe/Berlin:20160817T153000
 DTSTAMP:20160809T163632Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should resize an event correctly - with DURATION', function() {
@@ -959,8 +927,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -993,7 +960,6 @@ DURATION:P15DT7H20S
 DTSTAMP:20161002T105633Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should resize an event correctly - with DTEND', function() {
@@ -1005,8 +971,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -1038,7 +1003,6 @@ DTSTART;TZID=Europe/Berlin:20160816T090000
 DTSTAMP:20160809T163632Z
 SEQUENCE:0
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 
 	it ('should resize an event correctly - with neither DURATION nor DTEND', function() {
@@ -1050,8 +1014,7 @@ END:VEVENT`.split("\n").join("\r\n"));
 				tmpId: '3.1415926536',
 				isWritable: jasmine.createSpy()
 			},
-			uri: 'fancy1337',
-			touch: jasmine.createSpy()
+			uri: 'fancy1337'
 		};
 		const event = comp.getFirstSubcomponent('vevent');
 		const start = event.getFirstPropertyValue('dtstart');
@@ -1083,6 +1046,5 @@ DTSTAMP:20161002T105648Z
 SEQUENCE:0
 DTEND;TZID=America/New_York:20161106T015900
 END:VEVENT`.split("\n").join("\r\n"));
-		expect(vevent.touch).toHaveBeenCalled();
 	});
 });

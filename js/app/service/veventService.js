@@ -49,15 +49,6 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		return utc.format('YYYYMMDD') + 'T' + utc.format('HHmmss') + 'Z';
 	};
 
-	context.updateSequenceAndDtStamp = function(event) {
-		const vevent = event.comp.getFirstSubcomponent('vevent');
-		const nowInUtc = ICAL.Time.fromJSDate(new Date(), true);
-		const seq = vevent.getFirstProperty('sequence') ? vevent.getFirstPropertyValue('sequence') : -1;
-		vevent.updatePropertyWithValue('last-modified', nowInUtc);
-		vevent.updatePropertyWithValue('dtstamp', nowInUtc);
-		vevent.updatePropertyWithValue('sequence', seq + 1);
-	};
-
 	/**
 	 * get all events from a calendar within a time-range
 	 * @param {Calendar} calendar
@@ -182,7 +173,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 		if(isImport) {
 			headers['OC-CalDav-Import'] = true;
 		} else {
-			context.updateSequenceAndDtStamp(vevent);
+			vevent.updateSequenceAndDtStamp();
 			data = vevent.data;
 		}
 
@@ -208,7 +199,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 	 * @returns {Promise}
 	 */
 	this.update = function (event) {
-		context.updateSequenceAndDtStamp(event);
+		event.updateSequenceAndDtStamp();
 
 		const url = context.getEventUrl(event);
 		const headers = {

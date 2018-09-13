@@ -260,6 +260,15 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			throw new Error('Event not found');
 		};
 
+		iface.updateSequenceAndDtStamp = function() {
+			const vevent = context.comp.getFirstSubcomponent('vevent');
+			const nowInUtc = ICAL.Time.fromJSDate(new Date(), true);
+			const seq = vevent.getFirstProperty('sequence') ? vevent.getFirstPropertyValue('sequence') : -1;
+			vevent.updatePropertyWithValue('last-modified', nowInUtc);
+			vevent.updatePropertyWithValue('dtstamp', nowInUtc);
+			vevent.updatePropertyWithValue('sequence', seq + 1);
+		};
+
 		return iface;
 	}
 
