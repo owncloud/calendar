@@ -2050,4 +2050,90 @@ END:VEVENT`.split("\n").join("\r\n"));
 
 		expect(called).toEqual(true);
 	});
+
+	var using = function (values, func) {
+		if (values instanceof Function) {
+			values = values();
+		}
+
+		if (values instanceof Array) {
+			values.forEach(function(value) {
+				if (!(value instanceof Array)) {
+					value = [value];
+				}
+
+				func.apply(this, value);
+			});
+		} else {
+			var objectKeys = Object.keys(values);
+
+			objectKeys.forEach(function(key) {
+				if (!(values[key] instanceof Array)) {
+					values[key] = [values[key]];
+				}
+
+				values[key].push(key);
+
+				func.apply(this, values[key]);
+			});
+		}
+	};
+
+	const icsExDate1 = `BEGIN:VCALENDAR
+PRODID:-//ownCloud calendar v1.5.7
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20180914T204534Z
+DTSTAMP:20160101T000000Z
+LAST-MODIFIED:20160101T000000Z
+UID:D9ASJHSF7O4TUY55VM09KB
+SUMMARY:repeat
+CLASS:PUBLIC
+STATUS:CONFIRMED
+DTSTART;VALUE=DATE:20180918
+DTEND;VALUE=DATE:20180919
+RRULE:FREQ=DAILY
+SEQUENCE:1
+EXDATE;VALUE=DATE:20180920
+END:VEVENT
+END:VCALENDAR`;
+
+	const icsExDate2 = `BEGIN:VCALENDAR
+PRODID:-//ownCloud calendar v1.5.7
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20180914T204534Z
+DTSTAMP:20160101T000000Z
+LAST-MODIFIED:20160101T000000Z
+UID:D9ASJHSF7O4TUY55VM09KB
+SUMMARY:repeat
+CLASS:PUBLIC
+STATUS:CONFIRMED
+DTSTART;TZID=Europe/Berlin:20180913T173000
+DTEND;TZID=Europe/Berlin:20180913T183000
+RRULE:FREQ=DAILY
+SEQUENCE:12
+EXDATE;VALUE=DATE:20180920,20180925
+END:VEVENT
+END:VCALENDAR`;
+
+	var objectDataProvider = {
+		'should have unchanged exdates if format matches': {input: icsExDate1, sequence: 'SEQUENCE:2', exdate: 'EXDATE;VALUE=DATE:20180920'},
+		'should change exdates from date to date time with time zone': {input: icsExDate2, sequence: 'SEQUENCE:13', exdate: 'EXDATE;TZID=Europe/Berlin:20180920T173000,20180925T173000'},
+	};
+
+	using(objectDataProvider, function (data, description) {
+		it(description, function () {
+			const calendar = {this_is_a_fancy_calendar: true};
+			const vevent = VEvent.fromRawICS(calendar, data.input);
+
+			vevent.updateSequenceAndDtStamp();
+			var innerEvent = vevent.comp.getFirstSubcomponent('vevent');
+			expect(data.sequence).toEqual(innerEvent.getFirstProperty('sequence').toICALString());
+			expect(data.exdate).toEqual(innerEvent.getFirstProperty('exdate').toICALString());
+		});
+	});
+
 });

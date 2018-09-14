@@ -267,6 +267,38 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			vevent.updatePropertyWithValue('last-modified', nowInUtc);
 			vevent.updatePropertyWithValue('dtstamp', nowInUtc);
 			vevent.updatePropertyWithValue('sequence', seq + 1);
+
+			// re-calcuate EXDATE
+			var exdates = vevent.getFirstProperty('exdate');
+			if(exdates === null) {
+				return;
+			}
+			exdates = exdates.getValues('exdate');
+
+			var dtstart = vevent.getFirstPropertyValue('dtstart');
+			exdates = exdates.map(function(exdate) {
+				var data = {
+					year: exdate.year,
+					month: exdate.month,
+					day: exdate.day,
+				};
+				data.isDate = dtstart.isDate;
+				if (!dtstart.isDate) {
+					data.hour = dtstart.hour;
+					data.minute = dtstart.minute;
+					data.second = dtstart.second;
+				}
+				return new ICAL.Time(data, dtstart.zone);
+			});
+
+			const exdateProp = new ICAL.Property('exdate', vevent);
+			exdateProp.setValues(exdates);
+			if (angular.isDefined(dtstart.timezone)) {
+				exdateProp.setParameter('tzid', dtstart.timezone);
+			}
+
+			vevent.removeAllProperties('exdate');
+			vevent.addProperty(exdateProp);
 		};
 
 		return iface;
