@@ -217,9 +217,9 @@ angular-mocks@^1.7.4:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.7.4.tgz#106d9c96eae0117ad9962ee688da5e514edae645"
 
-angular-sanitize@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.4.tgz#c7d80176ed31507fd0e08bbb3a6c25bf09db2a61"
+angular-sanitize@^1.7.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.5.tgz#75d49e15071ca9c70581e76d20940f26372e24d2"
 
 angular-ui-bootstrap@^2.5.0:
   version "2.5.6"
