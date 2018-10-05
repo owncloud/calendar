@@ -43,6 +43,7 @@ OC.L10N.register(
     "None" : "None",
     "Never" : "Never",
     "Daily" : "Daily",
+    "Weekly on {weekday}" : "Weekly on {weekday}",
     "Custom" : "Custom",
     "How about getting started by importing some calendars?" : "How about getting started by importing some calendars?",
     "At time of event" : "At time of event",
