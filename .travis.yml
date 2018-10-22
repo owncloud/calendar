@@ -98,8 +98,6 @@ script:
   - make dist
 
 after_success:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
   - cat ./coverage/*/lcov.info | ./js/node_modules/coveralls/bin/coveralls.js
   - bash <(curl -s https://codecov.io/bash)
 
