@@ -1,5 +1,12 @@
+## 1.6.1
+
+- Set max version to 10 because core platform is switching to Semver
+- Adjust showing timezone
+  [#961](https://github.com/owncloud/calendar/issues/961)
+
 ## 1.6.0 - 2018-09-20
 ### Fixed
+
 - Updating fullcalendar to fix translation issues
   [#907](https://github.com/owncloud/calendar/pull/907)
 - Remove avatars from public calendars due to core change
