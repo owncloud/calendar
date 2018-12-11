@@ -1,5 +1,19 @@
-## 1.6.0 - 2018-09-20
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+
+## [Unreleased]
+
+## [1.6.1] - 2018-12-11
+
+- Set max version to 10 because core platform is switching to Semver
+- Adjust showing timezone
+  [#961](https://github.com/owncloud/calendar/issues/961)
+
+## [1.6.0] - 2018-09-20
 ### Fixed
+
 - Updating fullcalendar to fix translation issues
   [#907](https://github.com/owncloud/calendar/pull/907)
 - Remove avatars from public calendars due to core change
@@ -24,31 +38,31 @@
 - Recomputing EXDATE in case DTSTART changes
   [#946](https://github.com/owncloud/calendar/pull/946)
 
-## 1.5.7 - 2018-03-06
+## [1.5.7] - 2018-03-06
 ### Fixed
 - Fix user and group name escaping in sharing drop down
   [#895](https://github.com/owncloud/calendar/pull/895)
 
-## 1.5.6 - 2018-02-28
+## [1.5.6] - 2018-02-28
 ### Fixed
 - Fix calendar UI for ownCloud 10.0.7
   [#884](https://github.com/owncloud/calendar/pull/884)
 
-## 1.5.5 - 2018-02-12
+## [1.5.5] - 2018-02-12
 ### Fixed
 - Fix calendar UI for ownCloud 9.1
   [#822](https://github.com/owncloud/calendar/pull/822)
 - Fix calendar sharing for users who have a display name set
   [#839](https://github.com/owncloud/calendar/pull/839)
 
-## 1.5.4 - 2017-09-18
+## [1.5.4] - 2017-09-18
 ### Fixed
 - Detailed editor back in action
   [#811](https://github.com/owncloud/calendar/pull/811)
 - Change Nextcloud to ownCloud
   [#809](https://github.com/owncloud/calendar/pull/809)
 
-## 1.5.3 - 2017-05-21
+## [1.5.3] - 2017-05-21
 ### Added
 - allow editing props of shared calendars (Nextcloud 12 and above only)
   [#406](https://github.com/nextcloud/calendar/issues/406)
@@ -103,7 +117,7 @@
 - fixed issue with "three-part-timezone" like America/Argentina/Buenos_Aires
   [#358](https://github.com/nextcloud/calendar/issues/358)
 
-## 1.5.1 - 2017-02-28
+## [1.5.1] - 2017-02-28
 ### Added
 - advanced color-picker
   [#4](https://github.com/nextcloud/calendar/issues/4)
@@ -120,7 +134,7 @@
 - fix missing am/pm label in timepicker
   [#345](https://github.com/nextcloud/calendar/issues/345)
 
-## 1.5.0 - 2017-01-17
+## [1.5.0] - 2017-01-17
 ### Added
 - enable calendar when selecting it in editor
   [#24](https://github.com/nextcloud/calendar/issues/24)
@@ -155,7 +169,7 @@
 - fix glitchy looking whitespace in event details
   [#242](https://github.com/nextcloud/calendar/issues/242)
 
-## 1.4.1 - 2016-11-22
+## [1.4.1] - 2016-11-22
 ### Fixed
 - more consistent styles with Nextcloud
 - fixed scrolling of calendar-list
@@ -181,3 +195,17 @@
 - Delete alarms from events
 - Adjusted colors to Nextcloud
 - Properly display line breaks in agenda views
+
+[Unreleased]: https://github.com/owncloud/calendar/compare/v1.6.1...master
+[1.6.1]: https://github.com/owncloud/calendar/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/owncloud/calendar/compare/v1.5.7...v1.6.0
+[1.5.7]: https://github.com/owncloud/calendar/compare/v1.5.6...v1.5.7
+[1.5.6]: https://github.com/owncloud/calendar/compare/v1.5.5...v1.5.6
+[1.5.5]: https://github.com/owncloud/calendar/compare/v1.5.4...v1.5.5
+[1.5.4]: https://github.com/owncloud/calendar/compare/v1.5.3...v1.5.4
+[1.5.3]: https://github.com/owncloud/calendar/compare/v1.5.2...v1.5.3
+[1.5.2]: https://github.com/owncloud/calendar/compare/v1.5.1...v1.5.2
+[1.5.1]: https://github.com/owncloud/calendar/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/owncloud/calendar/compare/v1.4.1...v1.5.0
+[1.4.1]: https://github.com/owncloud/calendar/compare/v1.4.0...v1.4.1
+
