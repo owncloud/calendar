@@ -14,7 +14,7 @@ OC.L10N.register(
     "Room" : "Sala",
     "Unknown" : "Descoñecido",
     "Required" : "Requirido",
-    "Optional" : "Optativo",
+    "Optional" : "Opcional",
     "Does not attend" : "Non responde",
     "{name} ({email})" : "{name} ({email})",
     "You are in an unknown timezone ({tz}), falling back to UTC" : "Vostede está nun fuso horario descoñecido ({tz}), establécese UTC",
