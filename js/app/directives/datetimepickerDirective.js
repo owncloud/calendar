@@ -95,11 +95,15 @@ app.directive('ocdatetimepicker', function($compile, $timeout) {
 				});
 			}
 			function initTimepicker() {
-				element.find('.events--time').timepicker({
+				var picker = element.find('.events--time');
+				picker.timepicker({
 					showPeriodLabels: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1),
 					showLeadingZero: true,
 					showPeriod: (localeData.longDateFormat('LT').toLowerCase().indexOf('a') !== -1),
 					duration: 0,
+					hourText: t('calendar', 'Hour'),
+					minuteText: t('calendar', 'Minute'),
+					nowButtonText: t('calendar', 'Now'),
 					onClose: updateFromUserInput
 				});
 			}
