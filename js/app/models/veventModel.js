@@ -359,9 +359,13 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 	 * @returns {string}
 	 */
 	VEvent.sanTrigger = function(ics) {
-		const regex = /^TRIGGER:P$/gm;
-		if (ics.match(regex)) {
-			ics = ics.replace(regex, 'TRIGGER:P0D');
+		const regex0 = /^TRIGGER:P$/gm;
+		const regex1 = /^TRIGGER:-P$/gm;
+		if (ics.match(regex0)) {
+			ics = ics.replace(regex0, 'TRIGGER:P0D');
+		}
+		if (ics.match(regex1)) {
+			ics = ics.replace(regex1, 'TRIGGER:P0D');
 		}
 
 		return ics;
@@ -382,7 +386,7 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			ics = VEvent.sanDate(ics);
 		}
 
-		if (ics.search('TRIGGER:P') > 0) {
+		if (ics.search('TRIGGER:P') > 0 || ics.search('TRIGGER:-P') > 0) {
 			ics = VEvent.sanTrigger(ics);
 		}
 
