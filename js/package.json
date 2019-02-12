@@ -53,7 +53,7 @@
     "node": ">=6"
   },
   "dependencies": {
-    "angular": "^1.7.4",
+    "angular": "^1.7.7",
     "angular-animate": "^1.7.4",
     "angular-sanitize": "^1.7.4",
     "angular-ui-bootstrap": "^2.5.0",
