@@ -3,7 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
+## [1.6.2] - 2019-02-22
+
+- Translate timepicker elements 
+  [#977](https://github.com/owncloud/calendar/issues/977)
+- Fixes invalid ics with TRIGGER:-P  
+  [#978](https://github.com/owncloud/calendar/issues/978)
+- Update to Angular 1.7.7  
 
 ## [1.6.1] - 2018-12-11
 
