@@ -1,6 +1,6 @@
 /*
  * credits to http://getbootstrap.com/
- * Here are all angular-bootstrap necessary elements stored
+ * Here are all necessary angular-bootstrap elements stored
  */
 
 .btn-group {
@@ -138,7 +138,6 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	background-image: none;
 	border: 1px solid transparent;
 	border-radius: 4px;
 }
