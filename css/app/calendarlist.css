@@ -95,6 +95,10 @@
 	width: 80px;
 }
 
+#app-navigation .active {
+	background-color: transparent;
+}
+
 #app-navigation .app-navigation-list {
 	width: 100%;
 }
