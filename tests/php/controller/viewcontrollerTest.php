@@ -27,18 +27,18 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 
-class ViewControllerTest extends \PHPUnit_Framework_TestCase {
+class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 
 	private $appName;
-	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession | \PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var  IUser | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUser | \PHPUnit\Framework\MockObject\MockObject */
 	private $dummyUser;
 	/** @var ViewController */
 	private $controller;
