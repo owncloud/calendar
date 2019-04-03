@@ -22,8 +22,4 @@ if (version_compare(implode('.', \OCP\Util::getVersion()), '8.2', '>=')) {
 	\OC_App::loadApp('calendar');
 }
 
-if(!class_exists('PHPUnit_Framework_TestCase')) {
-	require_once('PHPUnit/Autoload.php');
-}
-
 OC_Hook::clear();
