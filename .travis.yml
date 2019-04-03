@@ -55,6 +55,7 @@ before_install:
   - git clone https://github.com/owncloud/core.git --recursive --depth 1 -b $CORE_BRANCH owncloud
   - mv calendar owncloud/apps/
   - cd owncloud
+  - composer install
   - if [ "$CORE_BRANCH" != 'stable9' ] && [ "$CORE_BRANCH" != 'stable9.1' ]; then make; fi
 
 cache:
