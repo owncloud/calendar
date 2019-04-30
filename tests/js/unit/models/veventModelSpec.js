@@ -2118,10 +2118,39 @@ SEQUENCE:12
 EXDATE;VALUE=DATE:20180920,20180925
 END:VEVENT
 END:VCALENDAR`;
+	const icsExDate3 = `BEGIN:VCALENDAR
+PRODID:-//ownCloud calendar v1.6.2
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20190425T082646Z
+DTSTAMP:20190425T085233Z
+LAST-MODIFIED:20190425T085233Z
+UID:QCHAJOMUPGK7T91TRSOGDJ
+SUMMARY:test
+CLASS:PUBLIC
+STATUS:CONFIRMED
+RRULE:FREQ=DAILY
+SEQUENCE:20
+DTSTART;TZID=Europe/Istanbul:20190417T000000
+DTEND;TZID=Europe/Istanbul:20190417T010000
+EXDATE;TZID=Europe/Istanbul:20190424T000000
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:Europe/Istanbul
+BEGIN:STANDARD
+TZOFFSETFROM:+0300
+TZOFFSETTO:+0300
+TZNAME:+03
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR`;
 
 	var objectDataProvider = {
 		'should have unchanged exdates if format matches': {input: icsExDate1, sequence: 'SEQUENCE:2', exdate: 'EXDATE;VALUE=DATE:20180920'},
 		'should change exdates from date to date time with time zone': {input: icsExDate2, sequence: 'SEQUENCE:13', exdate: 'EXDATE;TZID=Europe/Berlin:20180920T173000,20180925T173000'},
+		'should have unchanged exdates if format matches and exdates has tzid': {input: icsExDate3, sequence: 'SEQUENCE:21', exdate: 'EXDATE;TZID=Europe/Istanbul:20190424T000000'},
 	};
 
 	using(objectDataProvider, function (data, description) {
