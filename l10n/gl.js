@@ -32,7 +32,7 @@ OC.L10N.register(
     "Repeating" : "Repetido",
     "When shared show full event" : "Amosar o evento completo se está compartido",
     "When shared show only busy" : "Amosar como ocupado se está compartido",
-    "When shared hide this event" : "Agachar este evento se está compartido",
+    "When shared hide this event" : "Agochar este evento se está compartido",
     "Confirmed" : "Confirmado",
     "Tentative" : "Intento",
     "Cancelled" : "Cancelado",
