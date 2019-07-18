@@ -186,8 +186,14 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					});
 				}).then(() => {
 					const vevents = context.comp.getAllSubcomponents('vevent');
-					const exceptions = vevents.filter((vevent) => vevent.hasProperty('recurrence-id'));
-					const vevent = vevents.find((vevent) => !vevent.hasProperty('recurrence-id'));
+					let vevent, exceptions;
+					if (vevents.length > 1) {
+						exceptions = vevents.filter((vevent) => vevent.hasProperty('recurrence-id'));
+						vevent = vevents.find((vevent) => !vevent.hasProperty('recurrence-id'));
+					} else {
+						vevent = vevents[0];
+						exceptions = [];
+					}
 					const iCalEvent = new ICAL.Event(vevent, {exceptions});
 
 					if (!vevent.hasProperty('dtstart')) {
