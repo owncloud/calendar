@@ -27,7 +27,6 @@ const gulp = require('gulp'),
 	strip = require('gulp-strip-comments'),
 	stripCSS = require('gulp-strip-css-comments'),
 	babel = require('gulp-babel'),
-	stylelint = require('gulp-stylelint'),
 	sourcemaps = require('gulp-sourcemaps'),
 	fs = require('fs');
 const gulpsync = require('gulp-sync')(gulp);
@@ -81,7 +80,7 @@ const lintJsSources = jsSources.concat(testSources).concat(['*.js']);
 const watchSources = lintJsSources.concat(cssSources);
 
 // tasks
-gulp.task('lint', ['jslint', 'csslint']);
+gulp.task('lint', ['jslint']);
 gulp.task('default', ['lint', '_buildSource', '_buildVendor']);
 gulp.task('build', ['lint', '_buildSource']);
 
@@ -211,16 +210,6 @@ gulp.task('jslint', () => {
 		.pipe(jshint('.jshintrc'))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail'));
-});
-
-gulp.task('csslint', () => {
-	return gulp.src(cssSources)
-		.pipe(stylelint ({
-			reporters: [{
-				formatter: 'string',
-				console: true
-			}]
-		}));
 });
 
 gulp.task('watch', () => {

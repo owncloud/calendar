@@ -31,7 +31,6 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-strip-comments": "^2.4.3",
     "gulp-strip-css-comments": "^1.2.0",
-    "gulp-stylelint": "^3.7.0",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifycss": "^1.0.9",
@@ -45,9 +44,7 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.4",
-    "phantomjs-prebuilt": "^2.1.16",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^13.0.0"
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "engines": {
     "node": ">=6"
