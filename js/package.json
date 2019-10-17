@@ -39,7 +39,7 @@
     "jasmine-core": "^3.0.0",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
-    "karma": "^4.2.0",
+    "karma": "^4.4.0",
     "karma-coverage": "^1.1.2",
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
