@@ -50,7 +50,7 @@ OC.L10N.register(
     "1 hour before" : "1 uur vooraf",
     "2 hours before" : "2 uur vooraf",
     "Audio" : "Audio",
-    "Email" : "mailadres",
+    "Email" : "E-mailadres",
     "Pop-up" : "Pop-up",
     "sec" : "sec",
     "min" : "min",
