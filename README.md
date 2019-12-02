@@ -26,6 +26,16 @@ This is the new calendar app that has replaced the [old calendar app](https://gi
 If you’d like to join, just go through the [issue list](https://github.com/owncloud/calendar/issues) and fix some. :)   
 We’re also in [#owncloud-calendar on freenode IRC](https://webchat.freenode.net/?channels=owncloud-calendar).
 
+## Install
+
+To install the Calendar app:
+
+- Open the Market app in your ownCloud installation
+![Using the Market app in ownCloud](./img/using-the-market-app-in-owncloud.png)
+- Either scroll to the "_Calendar_" app in the "_Productivity_" category, or navigate to `https://<your/owncloud/install>/apps/market/#/app/calendar`.
+- Click "**INSTALL**".
+![Installing the Calendar app in ownCloud](./img/install-calendar-app-from-market-app.png)
+
 ## Support:
 
 Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you don't find a solution, you are welcome to [ask for support](https://owncloud.org/support/) in our Forums or the IRC-Channel. If you have found a bug, feel free to open a new Issue on GitHub. Keep in mind, that this repository only manages the frontend. If you find bugs or have problems with the CalDAV-Backend, you should ask the guys at [ownCloud Core](https://github.com/owncloud/core) for help!
