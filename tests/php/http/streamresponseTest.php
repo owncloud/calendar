@@ -23,7 +23,7 @@ namespace OCA\Calendar\Http;
 
 class StreamResponseTest extends \PHPUnit\Framework\TestCase {
 
-	public function setUp() {
+	public function setUp(): void {
 
 	}
 
