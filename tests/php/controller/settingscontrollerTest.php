@@ -32,7 +32,7 @@ class SettingsControllerTest extends \PHPUnit\Framework\TestCase {
 
 	private $controller;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->appName = 'calendar';
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()

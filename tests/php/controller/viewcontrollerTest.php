@@ -43,7 +43,7 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	/** @var ViewController */
 	private $controller;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->appName = 'calendar';
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
