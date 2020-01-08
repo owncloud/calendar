@@ -78,7 +78,8 @@ before_script:
 
 script:
   - make
-  - make test
+  - make test-js
+  - make test-php-unit
   - make dist
 
 after_success:
