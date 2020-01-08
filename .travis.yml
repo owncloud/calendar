@@ -9,7 +9,7 @@ php:
 services:
   - postgresql
 addons:
-  firefox: "latest"
+  firefox: "70.0.1"
 
 branches:
   only:
@@ -78,7 +78,8 @@ before_script:
 
 script:
   - make
-  - make test
+  - make test-js
+  - make test-php-unit
   - make dist
 
 after_success:

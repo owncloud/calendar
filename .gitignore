@@ -96,3 +96,6 @@ coverage/
 
 js/public
 css/public
+js/node_modules
+.php_cs.cache
+node_modules
