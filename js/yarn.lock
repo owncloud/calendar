@@ -2927,10 +2927,12 @@ karma-firefox-launcher@^1.2.0:
   dependencies:
     is-wsl "^2.1.0"
 
-karma-jasmine@^1.0.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-1.1.2.tgz#394f2b25ffb4a644b9ada6f22d443e2fd08886c3"
-  integrity sha1-OU8rJf+0pkS5rabyLUQ+L9CIhsM=
+karma-jasmine@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-3.0.3.tgz#751ae15d84d16e9148d0af42787fc12f5959f66d"
+  integrity sha512-80iBR8/hLFY2Uw3S2GG6EndWtMCGMJjrCYNwYROWsJFVTjWrRSsLqcA2ye+U3ygW5sjOQo8f+78L8cGUxjC/+A==
+  dependencies:
+    jasmine-core "^3.5.0"
 
 karma-phantomjs-launcher@^1.0.4:
   version "1.0.4"
