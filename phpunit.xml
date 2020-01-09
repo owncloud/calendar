@@ -16,10 +16,11 @@
 	<!-- filters for code coverage -->
 	<filter>
 		<whitelist>
-			<directory suffix=".php">.</directory>
+			<directory suffix=".php">controller</directory>
+			<directory suffix=".php">http</directory>
 			<exclude>
-				<directory suffix=".php">./l10n</directory>
-				<directory suffix=".php">./tests</directory>
+				<directory suffix=".php">appinfo</directory>
+				<directory suffix=".php">templates</directory>
 			</exclude>
 		</whitelist>
 	</filter>

@@ -40,7 +40,19 @@ endif
 endif
 endif
 
-all: appstore
+all: build
+
+# Fetches the PHP and JS dependencies and compiles the JS. If no composer.json
+# is present, the composer step is skipped, if no package.json or js/package.json
+# is present, the npm step is skipped
+.PHONY: build
+build:
+	make yarn
+
+# Installs yarn dependencies
+.PHONY: yarn
+yarn:
+	cd js && $(yarn) run build
 
 # Remove the appstore build and generated guests bundle
 .PHONY: clean
@@ -106,8 +118,20 @@ $(KARMA): $(nodejs_deps)
 
 # Command for running all tests.
 .PHONY: test
-test: ## Run all tests
-test: test-php test-js
+test: test-php-unit test-js
+
+# Command for running JS and PHP tests. Works for package.json files in the js/
+# and root directory. If phpunit is not installed systemwide, a copy is fetched
+# # from the internet
+# .PHONY: test
+# test:
+# 	cd js && $(yarn) run test
+# ifneq ("$(wildcard $(phpunit_oc10))","")
+# 	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
+# else
+# 	phpunit -c phpunit.xml --coverage-clover coverage.clover
+# 	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
+# endif
 
 .PHONY: test-php-codecheck
 test-php-codecheck:
@@ -130,7 +154,7 @@ test-php-style-fix: vendor-bin/owncloud-codestyle/vendor
 .PHONY: test-php-unit
 test-php-unit: ## Run php unit tests
 test-php-unit:
-	$(PHPUNIT) --configuration phpunit.xml --testsuite unit
+	$(PHPUNIT) --configuration phpunit.xml --testsuite unit --coverage-clover coverage.clover
 
 .PHONY: test-php-unit-dbg
 test-php-unit-dbg: ## Run php unit tests using phpdbg

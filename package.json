@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "https://github.com/owncloud/calendar",
   "scripts": {
-    "test": "node ./node_modules/gulp-cli/bin/gulp.js karma",
+    "test": "node node_modules/gulp-cli/bin/gulp.js karma",
     "prebuild": "yarn",
-    "build": "node ./node_modules/gulp-cli/bin/gulp.js"
+    "build": "node node_modules/gulp-cli/bin/gulp.js"
   },
   "repository": {
     "type": "git",
