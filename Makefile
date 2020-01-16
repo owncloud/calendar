@@ -122,7 +122,7 @@ test: test-php-unit test-js
 
 # Command for running JS and PHP tests. Works for package.json files in the js/
 # and root directory. If phpunit is not installed systemwide, a copy is fetched
-# # from the internet
+# from the internet
 # .PHONY: test
 # test:
 # 	cd js && $(yarn) run test
@@ -130,21 +130,20 @@ test: test-php-unit test-js
 # 	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
 # else
 # 	phpunit -c phpunit.xml --coverage-clover coverage.clover
-# 	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
+#   phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
 # endif
 
 .PHONY: test-php-codecheck
 test-php-codecheck:
-	# currently failes - as we use a private api
-	#	$(occ) app:check-code $(app_name) -c private
+	# currently fails - as we use a private api
+	# $(occ) app:check-code $(app_name) -c private
 	$(occ) app:check-code $(app_name) -c strong-comparison
 	$(occ) app:check-code $(app_name) -c deprecation
 
 .PHONY: test-php-style
 test-php-style: ## Run php-cs-fixer and check owncloud code-style
-test-php-style: vendor-bin/owncloud-codestyle/vendor vendor-bin/php_codesniffer/vendor
+test-php-style: vendor-bin/owncloud-codestyle/vendor
 	$(PHP_CS_FIXER) fix -v --diff --diff-format udiff --dry-run --allow-risky yes
-	$(PHP_CODESNIFFER) --runtime-set ignore_warnings_on_exit --standard=phpcs.xml tests/acceptance
 
 .PHONY: test-php-style-fix
 test-php-style-fix: ## Run php-cs-fixer and fix code style issues
@@ -184,12 +183,6 @@ vendor-bin/owncloud-codestyle/vendor: vendor/bamarni/composer-bin-plugin vendor-
 
 vendor-bin/owncloud-codestyle/composer.lock: vendor-bin/owncloud-codestyle/composer.json
 	@echo owncloud-codestyle composer.lock is not up to date.
-
-vendor-bin/php_codesniffer/vendor: vendor/bamarni/composer-bin-plugin vendor-bin/php_codesniffer/composer.lock
-	composer bin php_codesniffer install --no-progress
-
-vendor-bin/php_codesniffer/composer.lock: vendor-bin/php_codesniffer/composer.json
-	@echo php_codesniffer composer.lock is not up to date.
 
 vendor-bin/phan/vendor: vendor/bamarni/composer-bin-plugin vendor-bin/phan/composer.lock
 	composer bin phan install --no-progress

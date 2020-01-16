@@ -9,7 +9,7 @@ php:
 services:
   - postgresql
 addons:
-  firefox: "70.0.1"
+  firefox: "latest"
 
 branches:
   only:
