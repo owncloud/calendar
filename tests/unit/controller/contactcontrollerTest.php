@@ -22,7 +22,6 @@
 namespace OCA\Calendar\Controller;
 
 class ContactControllerTest extends \PHPUnit\Framework\TestCase {
-
 	private $appName;
 	private $request;
 	private $contacts;
@@ -84,7 +83,6 @@ class ContactControllerTest extends \PHPUnit\Framework\TestCase {
 		$actual = $this->controller->searchLocation('Person');
 
 		$this->assertEquals($expected, $actual->getData());
-
 	}
 
 	public function testSearchAttendee() {

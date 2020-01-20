@@ -106,7 +106,6 @@ class SettingsController extends Controller {
 		}
 	}
 
-
 	/**
 	 * set a new view
 	 *
@@ -125,13 +124,12 @@ class SettingsController extends Controller {
 				'currentView',
 				$view
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return new JSONResponse();
 	}
-
 
 	/**
 	 * get a config value
@@ -146,7 +144,7 @@ class SettingsController extends Controller {
 				'currentView',
 				'month'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -168,7 +166,7 @@ class SettingsController extends Controller {
 			'month',
 		];
 
-		return in_array($view, $allowedViews);
+		return \in_array($view, $allowedViews);
 	}
 
 	/**
@@ -189,7 +187,7 @@ class SettingsController extends Controller {
 				'skipPopover',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -209,7 +207,7 @@ class SettingsController extends Controller {
 				'skipPopover',
 				'no'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -230,7 +228,7 @@ class SettingsController extends Controller {
 			'no'
 		];
 
-		return in_array($value, $allowedValues);
+		return \in_array($value, $allowedValues);
 	}
 
 	/**
@@ -251,7 +249,7 @@ class SettingsController extends Controller {
 				'showWeekNr',
 				$value
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -271,7 +269,7 @@ class SettingsController extends Controller {
 				'showWeekNr',
 				'no'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -292,7 +290,7 @@ class SettingsController extends Controller {
 			'no'
 		];
 
-		return in_array($value, $allowedValues);
+		return \in_array($value, $allowedValues);
 	}
 
 	/**
@@ -308,7 +306,7 @@ class SettingsController extends Controller {
 				'firstRun',
 				'no'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -328,7 +326,7 @@ class SettingsController extends Controller {
 				'firstRun',
 				'yes'
 			);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

@@ -85,7 +85,6 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink($to, $url, $name) {
-
 		$user = $this->userSession->getUser();
 		$username = $user->getDisplayName();
 

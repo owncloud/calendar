@@ -26,7 +26,6 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 
 class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
-
 	private $appName;
 	private $request;
 	private $client;
@@ -309,7 +308,7 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			->will($this->returnValue(307));
 		$this->newClient->expects($this->at(1))
 			->method('get')
-			->with('http://abc.def/foobar?123' , [
+			->with('http://abc.def/foobar?123', [
 				'stream' => true,
 				'allow_redirects' => [
 					'max' => 5,
@@ -342,14 +341,14 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			->will($this->returnValue($this->response0));
 		$this->newClient->expects($this->at(1))
 			->method('get')
-			->with('http://def.abc/foobar?456' , [
+			->with('http://def.abc/foobar?456', [
 				'stream' => true,
 				'allow_redirects' => false,
 			])
 			->will($this->returnValue($this->response1));
 		$this->newClient->expects($this->at(2))
 			->method('get')
-			->with('http://xyz.abc/foobar?789' , [
+			->with('http://xyz.abc/foobar?789', [
 				'stream' => true,
 				'allow_redirects' => false,
 			])
@@ -399,7 +398,7 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			->will($this->returnValue($this->response0));
 		$this->newClient->expects($this->at(1))
 			->method('get')
-			->with('http://def.abc/foobar?456' , [
+			->with('http://def.abc/foobar?456', [
 				'stream' => true,
 				'allow_redirects' => false,
 			])
@@ -537,6 +536,4 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			'message' => 'translated string 1337',
 		], $actual->getData());
 	}
-
-
 }

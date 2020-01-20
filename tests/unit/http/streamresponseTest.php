@@ -22,13 +22,11 @@
 namespace OCA\Calendar\Http;
 
 class StreamResponseTest extends \PHPUnit\Framework\TestCase {
-
 	public function setUp(): void {
-
 	}
 
 	public function testCallback() {
-		$stream = fopen('data://text/plain,test_data', 'r');
+		$stream = \fopen('data://text/plain,test_data', 'r');
 		$this->expectOutputString('test_data');
 
 		$ioutput = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')

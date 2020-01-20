@@ -34,7 +34,6 @@ class ContactController extends Controller {
 	 */
 	private $contacts;
 
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
@@ -44,7 +43,6 @@ class ContactController extends Controller {
 		parent::__construct($appName, $request);
 		$this->contacts = $contacts;
 	}
-
 
 	/**
 	 * @param string $location
@@ -62,12 +60,12 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (is_string($r['ADR'])) {
+			if (\is_string($r['ADR'])) {
 				$r['ADR'] = [$r['ADR']];
 			}
 
 			foreach ($r['ADR'] as $address) {
-				$address = trim(preg_replace("/\n+/", "\n", str_replace(';', "\n", $address)));
+				$address = \trim(\preg_replace("/\n+/", "\n", \str_replace(';', "\n", $address)));
 				$contacts[] = [
 					'label' => $address,
 					'name' => $name
@@ -77,7 +75,6 @@ class ContactController extends Controller {
 
 		return new JSONResponse($contacts);
 	}
-
 
 	/**
 	 * @param string $search
@@ -95,7 +92,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (is_string($r['EMAIL'])) {
+			if (\is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
@@ -107,7 +104,6 @@ class ContactController extends Controller {
 
 		return new JSONResponse($contacts);
 	}
-
 
 	/**
 	 * Extract name from an array containing a contact's information

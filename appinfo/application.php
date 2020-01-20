@@ -35,14 +35,14 @@ class Application extends App {
 		parent::__construct('calendar', $params);
 		$container = $this->getContainer();
 
-		$container->registerService('ContactController', function(IAppContainer $c) {
+		$container->registerService('ContactController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 			$contacts = $c->getServer()->getContactsManager();
 
 			return new Controller\ContactController($c->getAppName(), $request, $contacts);
 		});
 
-		$container->registerService('EmailController', function(IAppContainer $c) {
+		$container->registerService('EmailController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 			$config = $c->getServer()->getConfig();
@@ -53,7 +53,7 @@ class Application extends App {
 			return new Controller\EmailController($c->getAppName(), $request, $userSession, $config, $mailer, $l10n, $defaults);
 		});
 
-		$container->registerService('ProxyController', function(IAppContainer $c) {
+		$container->registerService('ProxyController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 			$client = $c->getServer()->getHTTPClientService();
 			$l10n = $c->getServer()->getL10N($c->query('AppName'));
@@ -62,7 +62,7 @@ class Application extends App {
 			return new Controller\ProxyController($c->getAppName(), $request, $client, $l10n, $logger);
 		});
 
-		$container->registerService('SettingsController', function(IAppContainer $c) {
+		$container->registerService('SettingsController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 			$config = $c->getServer()->getConfig();
 			$userSession = $c->getServer()->getUserSession();
@@ -70,13 +70,13 @@ class Application extends App {
 			return new Controller\SettingsController($c->getAppName(), $request, $userSession, $config);
 		});
 
-		$container->registerService('TimezoneController', function(IAppContainer $c) {
+		$container->registerService('TimezoneController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 
 			return new Controller\TimezoneController($c->getAppName(), $request);
 		});
 
-		$container->registerService('ViewController', function(IAppContainer $c) {
+		$container->registerService('ViewController', function (IAppContainer $c) {
 			$request = $c->query('Request');
 			$userSession = $c->getServer()->getUserSession();
 			$config = $c->getServer()->getConfig();
@@ -93,7 +93,7 @@ class Application extends App {
 		$appName = $this->getContainer()->getAppName();
 		$server = $this->getContainer()->getServer();
 
-		$server->getNavigationManager()->add(function() use ($appName, $server) {
+		$server->getNavigationManager()->add(function () use ($appName, $server) {
 			return [
 				'id' => $appName,
 				'order' => 5,

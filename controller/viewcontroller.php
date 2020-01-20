@@ -102,7 +102,7 @@ class ViewController extends Controller {
 			$initialView = 'month';
 		}
 
-		return new TemplateResponse('calendar', 'main', array_merge($templateParameters, [
+		return new TemplateResponse('calendar', 'main', \array_merge($templateParameters, [
 			'initialView' => $initialView,
 			'emailAddress' => $emailAddress,
 			'skipPopover' => $skipPopover,
@@ -129,7 +129,7 @@ class ViewController extends Controller {
 
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
-		$params = array_merge($templateParameters, $publicTemplateParameters);
+		$params = \array_merge($templateParameters, $publicTemplateParameters);
 		$params['isEmbedded'] = false;
 
 		return new TemplateResponse('calendar', 'public', $params, 'base');
@@ -162,7 +162,7 @@ class ViewController extends Controller {
 
 		$templateParameters = $this->getTemplateParams();
 		$publicTemplateParameters = $this->getPublicTemplateParameters($token);
-		$params = array_merge($templateParameters, $publicTemplateParameters);
+		$params = \array_merge($templateParameters, $publicTemplateParameters);
 		$params['isEmbedded'] = true;
 
 		$response = new TemplateResponse('calendar', 'main', $params, 'public');
@@ -193,7 +193,7 @@ class ViewController extends Controller {
 	 */
 	private function getTemplateParams() {
 		$runningOn = $this->config->getSystemValue('version');
-		$runningOnServer91OrLater = version_compare($runningOn, '9.1', '>=');
+		$runningOnServer91OrLater = \version_compare($runningOn, '9.1', '>=');
 
 		$supportsClass = $runningOnServer91OrLater;
 
@@ -236,8 +236,8 @@ class ViewController extends Controller {
 
 		$downloadUrl = $this->urlGenerator->getAbsoluteURL($remoteBase);
 
-		$protocolLength = strlen($this->request->getServerProtocol()) + 3;
-		$webcalUrl = 'webcal://' . substr($downloadUrl, $protocolLength);
+		$protocolLength = \strlen($this->request->getServerProtocol()) + 3;
+		$webcalUrl = 'webcal://' . \substr($downloadUrl, $protocolLength);
 
 		return [
 			'initialView' => 'month',
@@ -261,7 +261,7 @@ class ViewController extends Controller {
 	 */
 	private function needsAssetPipelineWarning() {
 		$runningOn = $this->config->getSystemValue('version');
-		$assetPipelineBroken = version_compare($runningOn, '9.1', '<');
+		$assetPipelineBroken = \version_compare($runningOn, '9.1', '<');
 		$isAssetPipelineEnabled = $this->config->getSystemValue('asset-pipeline.enabled', false);
 
 		return ($isAssetPipelineEnabled && $assetPipelineBroken);
