@@ -22,7 +22,6 @@
 namespace OCA\Calendar\Controller;
 
 class EmailControllerTest extends \PHPUnit\Framework\TestCase {
-
 	private $appName;
 	private $request;
 	private $config;
@@ -71,7 +70,6 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 	 * @dataProvider indexEmailPublicLink
 	 */
 	public function testEmailPublicLink($to, $url, $name) {
-
 		$this->userSession->expects($this->exactly(1))
 			->method('getUser')
 			->will($this->returnValue($this->dummyUser));
@@ -79,7 +77,6 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 		$actual = $this->controller->sendEmailPublicLink($to, $url, $name);
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
-
 	}
 
 	public function indexEmailPublicLink() {

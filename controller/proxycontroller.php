@@ -110,7 +110,7 @@ class ProxyController extends Controller {
 				} else {
 					$done = true;
 				}
-			} while(!$done && $redirect_count <= $max_redirects);
+			} while (!$done && $redirect_count <= $max_redirects);
 
 			if ($redirect_count > 0 && $redirect_count <= $max_redirects) {
 				$response = new JSONResponse([
@@ -148,7 +148,7 @@ class ProxyController extends Controller {
 		} catch (RequestException $e) {
 			$this->logger->debug($e->getMessage());
 
-			if (substr($url, 0, 8) === 'https://') {
+			if (\substr($url, 0, 8) === 'https://') {
 				$message = $this->l10n->t('Error requesting resource on remote server. This could possibly be related to a certificate mismatch');
 			} else {
 				$message = $this->l10n->t('Error requesting resource on remote server');

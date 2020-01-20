@@ -35,16 +35,14 @@ class StreamResponse extends Response implements ICallbackResponse {
 	/**
 	 * @param resource $stream
 	 */
-	public function __construct ($stream) {
+	public function __construct($stream) {
 		$this->stream = $stream;
 	}
-
 
 	/**
 	 * @param IOutput $output a small wrapper that handles output
 	 */
-	public function callback (IOutput $output) {
-		fpassthru($this->stream);
+	public function callback(IOutput $output) {
+		\fpassthru($this->stream);
 	}
-
 }

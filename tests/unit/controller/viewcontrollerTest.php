@@ -28,7 +28,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class ViewControllerTest extends \PHPUnit\Framework\TestCase {
-
 	private $appName;
 	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -72,7 +71,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	 */
 	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
 							  $expectsSupportsClass, $expectsWebcalWorkaround, $isIE) {
-
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -90,7 +88,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
 				->with('version')
@@ -182,7 +179,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	 * @dataProvider indexFirstRunDetectionProvider
 	 */
 	public function testIndexFirstRunDetection($initialView, $expectedFirstRun, $expectsSetRequest) {
-
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -325,7 +321,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
 				->with('version')
@@ -432,7 +427,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
 				->with('version')

@@ -22,7 +22,6 @@
 namespace OCA\Calendar\Controller;
 
 class SettingsControllerTest extends \PHPUnit\Framework\TestCase {
-
 	private $appName;
 	private $request;
 	private $userSession;
@@ -84,7 +83,7 @@ class SettingsControllerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetViewWithForbiddenView() {
-		$actual = $this->controller->setConfig('view','someForbiddenView');
+		$actual = $this->controller->setConfig('view', 'someForbiddenView');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
@@ -153,7 +152,7 @@ class SettingsControllerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetPopoverWithForbiddenValue() {
-		$actual = $this->controller->setConfig('skipPopover','someForbiddenValue');
+		$actual = $this->controller->setConfig('skipPopover', 'someForbiddenValue');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());
