@@ -63,6 +63,8 @@ build/.sass-cache/
 ### Composer ###
 composer.phar
 vendor/
+vendor-bin/**/vendor
+vendor-bin/**/composer.lock
 
 # vim ex mode
 .vimrc
