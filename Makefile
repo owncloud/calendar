@@ -77,7 +77,6 @@ distclean: clean
 PHPUNIT=php -d zend.enable_gc=0  "$(PWD)/../../lib/composer/bin/phpunit"
 PHPUNITDBG=phpdbg -qrr -d memory_limit=4096M -d zend.enable_gc=0 "$(PWD)/../../lib/composer/bin/phpunit"
 PHP_CS_FIXER=php -d zend.enable_gc=0 vendor-bin/owncloud-codestyle/vendor/bin/php-cs-fixer
-PHP_CODESNIFFER=vendor-bin/php_codesniffer/vendor/bin/phpcs
 PHAN=php -d zend.enable_gc=0 vendor-bin/phan/vendor/bin/phan
 PHPSTAN=php -d zend.enable_gc=0 vendor-bin/phpstan/vendor/bin/phpstan
 BEHAT_BIN=vendor-bin/behat/vendor/bin/behat
