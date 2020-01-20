@@ -15,6 +15,7 @@
 'use strict';
 
 // get plugins
+const path = require('path');
 const gulp = require('gulp'),
 	ngAnnotate = require('gulp-ng-annotate'),
 	uglify = require('gulp-uglify'),
@@ -30,7 +31,7 @@ const gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	fs = require('fs');
 const gulpsync = require('gulp-sync')(gulp);
-const timezones = fs.readFileSync('./timezones/zones.json', 'UTF-8');
+const timezones = fs.readFileSync('./js/timezones/zones.json', 'UTF-8');
 
 // configure
 const buildTarget = 'app.js';
@@ -43,16 +44,16 @@ const vendorIETarget = 'vendor.ie.js';
 const vendorIETargetMin = 'vendor.ie.min.js';
 const vendorCssTarget = 'vendor.css';
 const vendorCssTargetMin = 'vendor.min.css';
-const karmaConfig = __dirname + '/../tests/js/config/karma.js';
-const destinationFolder = __dirname + '/public/';
-const cssDestinationFolder = __dirname + '/../css/public/';
+const karmaConfig = path.join(__dirname, 'tests/js/config/karma.js');
+const destinationFolder = path.join(__dirname, 'js/public/');
+const cssDestinationFolder = path.join(__dirname, './css/public/');
 
 const jsSources = [
-	'config/*.js',
-	'app/**/*.js'
+	'js/config/*.js',
+	'js/app/**/*.js'
 ];
 const cssSources = [
-	'../css/app/*.css'
+	'./css/app/*.css'
 ];
 const vendorSources = [
 	'node_modules/angular/angular.js',
@@ -61,7 +62,7 @@ const vendorSources = [
 	'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
 	'node_modules/fullcalendar/dist/fullcalendar.js',
 	'node_modules/fullcalendar/dist/locale-all.js',
-	'licenses/hsl_rgb_converter.js',
+	'js/licenses/hsl_rgb_converter.js',
 	'node_modules/hsl_rgb_converter/converter.js',
 	'node_modules/ical.js/build/ical.js',
 	'node_modules/jquery-timepicker/jquery.ui.timepicker.js',
@@ -71,12 +72,12 @@ const vendorSources = [
 const vendorCssSources = [
 	'node_modules/fullcalendar/dist/fullcalendar.css',
 	'node_modules/angular/angular-csp.css',
-	'licenses/jquery.timepicker.css',
+	'js/licenses/jquery.timepicker.css',
 	'node_modules/jquery-timepicker/jquery.ui.timepicker.css'
 ];
 
-const testSources = ['../tests/js/unit/**/*.js'];
-const lintJsSources = jsSources.concat(testSources).concat(['*.js']);
+const testSources = ['./tests/js/unit/**/*.js'];
+const lintJsSources = jsSources.concat(testSources).concat(['js/*.js']);
 const watchSources = lintJsSources.concat(cssSources);
 
 // tasks
