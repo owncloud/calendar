@@ -75,7 +75,11 @@ app.service('TimezoneService', function (TimezoneDataProvider, Timezone) {
 			return Promise.reject('Unknown timezone');
 		}
 
-		const ics = TimezoneDataProvider.zones[tzid].ics;
+		const components = TimezoneDataProvider.zones[tzid].ics;
+		let ics = "BEGIN:VTIMEZONE\r\nTZID:" + tzid + "\r\n";
+		components.forEach(component => ics += component + "\r\n");
+		ics += "END:VTIMEZONE";
+
 		return Promise.resolve(new Timezone(ics));
 	};
 
