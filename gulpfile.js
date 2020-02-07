@@ -208,7 +208,7 @@ gulp.task('_minifyIEJavaScriptVendor', () => {
 
 gulp.task('jslint', () => {
 	return gulp.src(lintJsSources)
-		.pipe(jshint('.jshintrc'))
+		.pipe(jshint('js/.jshintrc'))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail'));
 });
