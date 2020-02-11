@@ -156,16 +156,69 @@ else
 endif
 	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ $(app_name)
 
+# bin file definitions
+PHPUNIT=php -d zend.enable_gc=0  "$(PWD)/../../lib/composer/bin/phpunit"
+PHPUNITDBG=phpdbg -qrr -d memory_limit=4096M -d zend.enable_gc=0 "$(PWD)/../../lib/composer/bin/phpunit"
+PHP_CS_FIXER=php -d zend.enable_gc=0 vendor-bin/owncloud-codestyle/vendor/bin/php-cs-fixer
 
-# Command for running JS and PHP tests. Works for package.json files in the js/
-# and root directory. If phpunit is not installed systemwide, a copy is fetched
-# from the internet
+help: ## Show this help message
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's/  */ /' | column -t -s :
+
+##------------
+## Tests
+##------------
+
+# Command for running all tests.
 .PHONY: test
-test:
-	cd js && $(yarn) run test
-ifneq ("$(wildcard $(phpunit_oc10))","")
-	php $(phpunit_oc10) -c phpunit.xml --coverage-clover coverage.clover
-else
-	phpunit -c phpunit.xml --coverage-clover coverage.clover
-	# phpunit -c phpunit.integration.xml --coverage-clover build/php-unit.clover
-endif
+test: test-php-unit test-js
+
+.PHONY: test-php-codecheck
+test-php-codecheck:
+	# currently fails - as we use a private api
+	# $(occ) app:check-code $(app_name) -c private
+	$(occ) app:check-code $(app_name) -c strong-comparison
+	$(occ) app:check-code $(app_name) -c deprecation
+
+.PHONY: test-php-style
+test-php-style: ## Run php-cs-fixer and check owncloud code-style
+test-php-style: vendor-bin/owncloud-codestyle/vendor
+	$(PHP_CS_FIXER) fix -v --diff --diff-format udiff --dry-run --allow-risky yes
+
+.PHONY: test-php-style-fix
+test-php-style-fix: ## Run php-cs-fixer and fix code style issues
+test-php-style-fix: vendor-bin/owncloud-codestyle/vendor
+	$(PHP_CS_FIXER) fix -v --diff --diff-format udiff --allow-risky yes
+
+.PHONY: test-php-unit
+test-php-unit: ## Run php unit tests
+test-php-unit:
+	$(PHPUNIT) --configuration phpunit.xml --testsuite unit --coverage-clover coverage.clover
+
+.PHONY: test-php-unit-dbg
+test-php-unit-dbg: ## Run php unit tests using phpdbg
+test-php-unit-dbg:
+	$(PHPUNITDBG) --configuration phpunit.xml --testsuite unit
+
+.PHONY: test-js
+test-js: ## Test js files
+test-js:
+	$(yarn) run test
+
+#
+# Dependency management
+#--------------------------------------
+
+composer.lock: composer.json
+	@echo composer.lock is not up to date.
+
+vendor: composer.lock
+	composer install --no-dev
+
+vendor/bamarni/composer-bin-plugin: composer.lock
+	composer install
+
+vendor-bin/owncloud-codestyle/vendor: vendor/bamarni/composer-bin-plugin vendor-bin/owncloud-codestyle/composer.lock
+	composer bin owncloud-codestyle install --no-progress
+
+vendor-bin/owncloud-codestyle/composer.lock: vendor-bin/owncloud-codestyle/composer.json
+	@echo owncloud-codestyle composer.lock is not up to date.
