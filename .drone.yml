@@ -79,6 +79,67 @@ trigger:
 ---
 kind: pipeline
 type: docker
+name: javascript-tests
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/calendar
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/calendar
+    version: daily-master-qa
+
+- name: setup-server-calendar
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e calendar
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: js-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - apt update -y
+  - apt-get install xvfb libxrender1 libxtst6 libxi6 -y
+  - /usr/bin/Xvfb :99 &
+  - export DISPLAY=:99.0
+  - apt-get install firefox -y
+  - make test-js
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+depends_on:
+- coding-standard-php7.1
+- coding-standard-php7.2
+- coding-standard-php7.3
+
+---
+kind: pipeline
+type: docker
 name: phpunit-php7.1-sqlite
 
 platform:
@@ -677,6 +738,7 @@ trigger:
   - failure
 
 depends_on:
+- javascript-tests
 - phpunit-php7.1-sqlite
 - phpunit-php7.1-mariadb10.2
 - phpunit-php7.1-mysql5.5
