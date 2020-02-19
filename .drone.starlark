@@ -19,7 +19,15 @@ config = {
 		},
 	},
 
-	'javascript': False,
+	'javascript': {
+		'extraCommandsBeforeTestRun': [
+			'apt update -y',
+			'apt-get install xvfb libxrender1 libxtst6 libxi6 -y',
+			'/usr/bin/Xvfb :99 &',
+			'export DISPLAY=:99.0',
+			'apt-get install firefox -y',
+		],
+	},
 
 	'phpunit': {
 		'allDatabases' : {

@@ -52,6 +52,12 @@ appstore_package_name=$(appstore_artifact_directory)/$(app_name)
 yarn=$(shell which yarn 2> /dev/null)
 gcp=$(shell which gcp 2> /dev/null)
 
+# dependency folders (leave empty if not required)
+nodejs_deps=node_modules
+
+NODE_PREFIX=$(shell pwd)
+KARMA=$(NODE_PREFIX)/node_modules/.bin/karma
+
 ifeq (, $(gcp))
 	copy_command=cp
 else
@@ -90,7 +96,7 @@ build:
 # Installs yarn dependencies
 .PHONY: yarn
 yarn:
-	cd js && $(yarn) run build
+	$(yarn) run build
 
 # Removes the appstore build
 .PHONY: clean
@@ -164,6 +170,10 @@ PHP_CS_FIXER=php -d zend.enable_gc=0 vendor-bin/owncloud-codestyle/vendor/bin/ph
 help: ## Show this help message
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's/  */ /' | column -t -s :
 
+$(nodejs_deps): yarn.lock package.json
+	yarn install
+	touch $@
+
 ##------------
 ## Tests
 ##------------
@@ -200,9 +210,9 @@ test-php-unit-dbg:
 	$(PHPUNITDBG) --configuration phpunit.xml --testsuite unit
 
 .PHONY: test-js
-test-js: ## Test js files
-test-js:
-	$(yarn) run test
+test-js: ## Run JavaScript tests
+test-js: $(nodejs_deps)
+	$(KARMA) start tests/js/config/karma.js --single-run
 
 #
 # Dependency management
