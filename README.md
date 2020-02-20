@@ -1,6 +1,6 @@
 # ownCloud Calendar
 
-[![Build Status](https://travis-ci.org/owncloud/calendar.svg?branch=master)](https://travis-ci.org/owncloud/calendar)
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud/calendar/status.svg)](https://drone.owncloud.com/owncloud/calendar)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/owncloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/owncloud/calendar?branch=master)
