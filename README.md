@@ -39,4 +39,5 @@ Check out our [FAQ](https://github.com/owncloud/calendar/wiki/FAQs). If you don'
 * Safari 10+
 
 We don't support Internet Explorer 10 and below. Patches for IE9+ are accepted though.
+Readme
 
