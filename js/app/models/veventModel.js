@@ -97,11 +97,11 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 		};
 
 		/**
-		 * collect missing timezones
+		 * collect all timezones
 		 * @returns {Array}
 		 */
-		context.getMissingEventTimezones = () => {
-			const missingTimezones = [];
+		context.getAllTimezones = () => {
+			const timezones = [];
 			const propertiesToSearch = ['dtstart', 'dtend'];
 			const vevents = context.comp.getAllSubcomponents('vevent');
 			vevents.forEach(function (vevent) {
@@ -109,14 +109,14 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					if (vevent.hasProperty(propName)) {
 						const prop = vevent.getFirstProperty(propName);
 						const tzid = prop.getParameter('tzid');
-						if (tzid && !ICAL.TimezoneService.has(tzid) && missingTimezones.indexOf(tzid) === -1) {
-							missingTimezones.push(tzid);
+						if (tzid && timezones.indexOf(tzid) === -1) {
+							timezones.push(tzid);
 						}
 					}
 				});
 			});
 
-			return missingTimezones;
+			return timezones;
 		};
 
 		Object.defineProperties(iface, {
@@ -166,10 +166,10 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 				const iCalEnd = ICAL.Time.fromJSDate(end.toDate());
 				const fcEvents = [];
 
-				const missingTimezones = context.getMissingEventTimezones();
+				const allTimezones = context.getAllTimezones();
 				const errorSafeMissingTimezones = [];
-				missingTimezones.forEach((missingTimezone) => {
-					const promise = TimezoneService.get(missingTimezone)
+				allTimezones.forEach((timezone) => {
+					const promise = TimezoneService.get(timezone)
 						.then((tz) => tz)
 						.catch((reason) => null);
 					errorSafeMissingTimezones.push(promise);
