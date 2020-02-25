@@ -1,7 +1,7 @@
 describe('The VEvent factory', function () {
 	'use strict';
 
-	let VEvent, FcEvent, SimpleEvent, ICalFactory, StringUtility;
+	let VEvent, TimezoneService, FcEvent, SimpleEvent, ICalFactory, StringUtility;
 	let $q, $rootScope;
 
 	const ics_invalid = `ASHGDAS
@@ -586,11 +586,53 @@ END:VTIMEZONE
 		spyOn(ICAL.TimezoneService, 'register').and.callThrough();
 		spyOn(console, 'log');
 
+		var TimezoneDataProvider = {
+			aliases: {
+				"Africa/Asmera": {
+					"aliasTo": "Africa/Asmara"
+				},
+				"Africa/Timbuktu": {
+					"aliasTo": "Africa/Bamako"
+				},
+				"Etc/UTC": {
+					"aliasTo": "UTC"
+				},
+				"W. Europe Standard Time": {
+					"aliasTo": "Europe/Berlin"
+				},
+				"Z": {
+					"aliasTo": "UTC"
+				}
+			},
+			zones: {
+				"America/New_York": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:America/New_York\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nTZNAME:EDT\r\nDTSTART:19700308T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nTZNAME:EST\r\nDTSTART:19701101T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0404251",
+					"longitude": "-0740023"
+				},
+				"Europe/Berlin": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0523000",
+					"longitude": "+0132200"
+				},
+				"Europe/Busingen": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Busingen\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0474200",
+					"longitude": "+0084100"
+				},
+				"Europe/Vienna": {
+					"ics": "BEGIN:VTIMEZONE\r\nTZID:Europe/Vienna\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE",
+					"latitude": "+0481300",
+					"longitude": "+0162000"
+				}
+			}
+		};
+
 		$provide.value('FcEvent', FcEvent);
 		$provide.value('SimpleEvent', SimpleEvent);
 		$provide.value('ICalFactory', ICalFactory);
 		$provide.value('StringUtility', StringUtility);
-		$provide.value('TimezoneService', {});
+		$provide.value('TimezoneDataProvider', TimezoneDataProvider);
 	}));
 
 	beforeEach(inject(function (_$q_, _$rootScope_) {
@@ -604,8 +646,9 @@ END:VTIMEZONE
 		}
 	}));
 
-	beforeEach(inject(function (_VEvent_) {
+	beforeEach(inject(function (_VEvent_, _TimezoneService_) {
 		VEvent = _VEvent_;
+		TimezoneService = _TimezoneService_;
 	}));
 
 	afterEach(function() {

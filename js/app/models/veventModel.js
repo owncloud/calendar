@@ -171,7 +171,10 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 				allTimezones.forEach((timezone) => {
 					const promise = TimezoneService.get(timezone)
 						.then((tz) => tz)
-						.catch((reason) => null);
+						.catch((reason) => {
+							console.log(reason);
+							return null;
+						});
 					errorSafeMissingTimezones.push(promise);
 				});
 
@@ -198,6 +201,7 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 
 					if (!vevent.hasProperty('dtstart')) {
 						resolve([]);
+						return;
 					}
 
 					const dtstartProp = vevent.getFirstProperty('dtstart');
@@ -236,6 +240,9 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 					}
 
 					resolve(fcEvents);
+				}).catch(e => {
+					console.log(e);
+					reject(e);
 				});
 			});
 		};
