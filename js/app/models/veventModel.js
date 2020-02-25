@@ -41,13 +41,6 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			throw new TypeError('Given comp is not a valid calendar');
 		}
 
-		// read all timezones in the comp and register them
-		const vtimezones = comp.getAllSubcomponents('vtimezone');
-		vtimezones.forEach(function(vtimezone) {
-			const timezone = new ICAL.Timezone(vtimezone);
-			ICAL.TimezoneService.register(timezone.tzid, timezone);
-		});
-
 		if (!uri) {
 			const vevent = context.comp.getFirstSubcomponent('vevent');
 			context.uri = vevent.getFirstPropertyValue('uid');
