@@ -150,6 +150,7 @@ OC.L10N.register(
     "New calendar" : "Nieuwe agenda",
     "File is empty" : "Bestand is leeg",
     "Import scheduled" : "Import ingepland",
+    "%s shared the calendar <strong>%s</strong> with you" : "%s deelde de agenda <strong>%s</strong> met jou",
     "Embed" : "Inbedden",
     "Iframe to integrate" : "Iframe om te integreren",
     "Publish URL" : "Publiceren URL",
