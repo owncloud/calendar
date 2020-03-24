@@ -9,7 +9,7 @@
 * **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
 * **Attendees!** Invite people to your events.
 </description>
-	<version>1.6.3-rc1</version>
+	<version>1.6.4</version>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Raghu Nayyar, Bernhard Fröhler, Julian Müller</author>
 	<dependencies>
