@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.6.4] - 2020-03-24
+- Drop PHP 7.0
+  [#1047](https://github.com/owncloud/calendar/pull/1047)
+- Support PHP 7.3
+  [#1029](https://github.com/owncloud/calendar/pull/1029)
+- Update timezone database
+  [#1075](https://github.com/owncloud/calendar/pull/1075)  
+- Update ical.js to fix timezone calculation
+  [#1089](https://github.com/owncloud/calendar/pull/1089)
+
 ## [1.6.3] - 2019-08-16
 - Fix cancel button
   [#1007](https://github.com/owncloud/calendar/issues/1007)
