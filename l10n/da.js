@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Calendar" : "Kalender",
     "%s has published the calendar \"%s\"" : "%s har udgivet kalenderen \"%s\"",
+    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "Fjernserveren giver os ikke adgang til kalenderen  (HTTP {%s} error)",
+    "Error connecting to remote server" : "Kan ikke forbinde til fjern server",
     "Individual" : "Individuelt",
     "Group" : "Gruppe",
     "Resource" : "Ressource",
