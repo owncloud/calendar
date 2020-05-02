@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Calendario",
     "%s has published the calendar \"%s\"" : "%s ha publicado el calendario %s",
-    "Too many redirects. Aborting ..." : "Demasiadas redirecciones, Abortando ...",
+    "Too many redirects. Aborting ..." : "Demasiadas redirecciones. Abortando...",
     "The remote server did not give us access to the calendar (HTTP {%s} error)" : "El servidor remoto no permite el acceso al calendario (HTTP {%s} error)",
     "Error connecting to remote server" : "Error al conectarse al servidor remoto",
     "Error requesting resource on remote server. This could possibly be related to a certificate mismatch" : "Error a la peticionar el recurso en el servidor remoto. Esto podría estar relacionado con una falta de concordancia del certificado",
@@ -23,7 +23,7 @@ OC.L10N.register(
     "CalDAV address for clients" : "Dirección CalDAV para los clientes",
     "Error saving WebCal-calendar" : "Error salvando Calendario-WebCal",
     "WebDAV address for subscriptions" : "Dirección WebDAV para subcripciones",
-    "Email has been sent." : "El correo ha sido enviado.",
+    "Email has been sent." : "El correo electrónico ha sido enviado.",
     "There was an issue while sending your email." : "Ha ocurrido un error al enviar su email.",
     "group" : "grupo",
     "Details" : "Detalles",
