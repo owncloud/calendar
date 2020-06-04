@@ -109,6 +109,7 @@ clean:
 .PHONY: distclean
 distclean: clean
 	rm -rf vendor
+	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
 	rm -rf node_modules
 	rm -rf js/node_modules
 
