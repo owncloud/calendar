@@ -3083,9 +3083,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jstzdetect@georgehrke/jstimezonedetect:
-  version "1.0.6"
-  resolved "https://codeload.github.com/georgehrke/jstimezonedetect/tar.gz/d90d861a98a30a802cb1f4c7864854fe3a583134"
+jstzdetect@pellepim/jstimezonedetect:
+  version "1.0.7"
+  resolved "https://codeload.github.com/pellepim/jstimezonedetect/tar.gz/0508acd36d5243a9215ee99ac2cb0d723c2fef4e"
 
 karma-coverage@^2.0.1:
   version "2.0.1"
