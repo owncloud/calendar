@@ -91,7 +91,7 @@
     "{type} at the event's end" : "{type} ในช่วงที่เหตุการณ์จบลง",
     "{type} at {time}" : "{type} ตอน {time}",
     "{calendar} shared by {owner}" : "{calendar} ถูกแชร์โดย {owner}",
-    "Please enter a valid WebCal-URL" : "กรุณาใส่ลิงก์ WebCal ให้ถูกต้อง",
+    "Please enter a valid WebCal-URL" : "กรุณากรอกลิงก์ WebCal ให้ถูกต้อง",
     "Severe error in webcal proxy. Please contact administrator for more information." : "พบข้อผิดพลาดร้ายแรงในพร็อกซี webcal โปรดติดต่อผู้ดูแลระบบเพื่อขอข้อมูลเพิ่มเติม",
     "Title of the Event" : "ชื่อของกิจกรรม",
     "Starts" : "เริ่มต้น",
