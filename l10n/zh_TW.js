@@ -43,7 +43,7 @@ OC.L10N.register(
     "None" : "無",
     "Never" : "絕不",
     "Daily" : "每日",
-    "Weekly on {weekday}" : "{工作日}每週",
+    "Weekly on {weekday}" : " {weekday}每週",
     "Monthly on {day}" : "每月{day}",
     "Yearly on {day} of {month}" : "每年{month}的{day}",
     "Custom" : "自訂",
