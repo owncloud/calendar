@@ -1,5 +1,5 @@
 {
-  "name": "owncloud/activity",
+  "name": "owncloud/calendar",
   "config" : {
     "platform": {
       "php": "7.1"
