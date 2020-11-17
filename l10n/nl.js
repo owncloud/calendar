@@ -4,7 +4,7 @@ OC.L10N.register(
     "Calendar" : "Kalender",
     "%s has published the calendar \"%s\"" : "%s heeft agenda \"%s\" gepubliceerd",
     "Too many redirects. Aborting ..." : "Teveel redirects. Afbreking ...",
-    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "De externe server gaf ons geen toegang tot de kalender (HTTP fout: %s)",
+    "The remote server did not give us access to the calendar (HTTP {%s} error)" : "De externe server gaf ons geen toegang tot de kalender (HTTP fout: {%s})",
     "Error connecting to remote server" : "Fout bij verbinden met externe server",
     "Individual" : "Individueel",
     "Group" : "Groep",
