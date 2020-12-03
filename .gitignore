@@ -102,3 +102,6 @@ js/node_modules
 .php_cs.cache
 node_modules
 .phpunit.result.cache
+
+# SonarCloud scanner
+.scannerwork
