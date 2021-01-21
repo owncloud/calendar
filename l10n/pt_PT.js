@@ -161,6 +161,7 @@ OC.L10N.register(
     "End:" : "Fim:",
     "never" : "nunca",
     "event(s)" : "evento(s)",
+    "on" : "em",
     "Import Calendars" : "Importar Calendários",
     "Import canceled" : "Importação cancelada",
     "Analyzing calendar" : "A analisar o calendário",
