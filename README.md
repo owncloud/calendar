@@ -1,7 +1,9 @@
 # ownCloud Calendar
 
 [![Build Status](https://drone.owncloud.com/api/badges/owncloud/calendar/status.svg)](https://drone.owncloud.com/owncloud/calendar)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=alert_status)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=security_rating)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=coverage)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
 [![Code Coverage](https://scrutinizer-ci.com/g/owncloud/calendar/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/owncloud/calendar/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/owncloud/calendar/badge.svg?branch=master)](https://coveralls.io/github/owncloud/calendar?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
