@@ -4,7 +4,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=alert_status)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=security_rating)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=owncloud_calendar&metric=coverage)](https://sonarcloud.io/dashboard?id=owncloud_calendar)
-[![Dependency Status](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57333497a0ca35004cf77c92)
 
 **A calendar app for [ownCloud](https://owncloud.org)**  
 
