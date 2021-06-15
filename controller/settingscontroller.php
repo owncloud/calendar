@@ -51,8 +51,12 @@ class SettingsController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IUserSession $userSession,
+		IConfig $config
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;

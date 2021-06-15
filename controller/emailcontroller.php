@@ -67,8 +67,15 @@ class EmailController extends Controller {
 	 * @param IL10N $l10N
 	 * @param Defaults $defaults
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IMailer $mailer, IL10N $l10N, Defaults $defaults) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IUserSession $userSession,
+		IConfig $config,
+		IMailer $mailer,
+		IL10N $l10N,
+		Defaults $defaults
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;

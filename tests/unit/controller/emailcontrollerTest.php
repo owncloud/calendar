@@ -62,8 +62,15 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new EmailController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->mailer, $this->l10n, $this->defaults);
+		$this->controller = new EmailController(
+			$this->appName,
+			$this->request,
+			$this->userSession,
+			$this->config,
+			$this->mailer,
+			$this->l10n,
+			$this->defaults
+		);
 	}
 
 	/**

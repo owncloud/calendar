@@ -37,8 +37,11 @@ class ContactControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new ContactController($this->appName,
-			$this->request, $this->contacts);
+		$this->controller = new ContactController(
+			$this->appName,
+			$this->request,
+			$this->contacts
+		);
 	}
 
 	public function testSearchLocation() {
