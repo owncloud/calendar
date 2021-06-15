@@ -55,8 +55,12 @@ class SettingsControllerTest extends \PHPUnit\Framework\TestCase {
 			->method('getUID')
 			->will($this->returnValue('user123'));
 
-		$this->controller = new SettingsController($this->appName,
-			$this->request, $this->userSession, $this->config);
+		$this->controller = new SettingsController(
+			$this->appName,
+			$this->request,
+			$this->userSession,
+			$this->config
+		);
 	}
 
 	/**

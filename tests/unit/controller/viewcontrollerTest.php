@@ -62,15 +62,26 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new ViewController($this->appName, $this->request,
-			$this->userSession, $this->config, $this->urlGenerator);
+		$this->controller = new ViewController(
+			$this->appName,
+			$this->request,
+			$this->userSession,
+			$this->config,
+			$this->urlGenerator
+		);
 	}
 
 	/**
 	 * @dataProvider indexDataProvider
 	 */
-	public function testIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
-							  $expectsSupportsClass, $expectsWebcalWorkaround, $isIE) {
+	public function testIndex(
+		$isAssetPipelineEnabled,
+		$showAssetPipelineError,
+		$serverVersion,
+		$expectsSupportsClass,
+		$expectsWebcalWorkaround,
+		$isIE
+	) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -302,8 +313,13 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndex($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
-									$expectsSupportsClass, $isIE) {
+	public function testPublicIndex(
+		$isAssetPipelineEnabled,
+		$showAssetPipelineError,
+		$serverVersion,
+		$expectsSupportsClass,
+		$isIE
+	) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')
@@ -408,8 +424,13 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	/**
 	 * @dataProvider indexPublicDataProvider
 	 */
-	public function testPublicIndexWithBranding($isAssetPipelineEnabled, $showAssetPipelineError, $serverVersion,
-												$expectsSupportsClass, $isIE) {
+	public function testPublicIndexWithBranding(
+		$isAssetPipelineEnabled,
+		$showAssetPipelineError,
+		$serverVersion,
+		$expectsSupportsClass,
+		$isIE
+	) {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('version')

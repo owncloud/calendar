@@ -56,8 +56,13 @@ class ViewController extends Controller {
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName, IRequest $request, IUserSession $userSession,
-								IConfig $config, IURLGenerator $urlGenerator) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IUserSession $userSession,
+		IConfig $config,
+		IURLGenerator $urlGenerator
+	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;

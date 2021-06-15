@@ -100,6 +100,7 @@ js/public
 css/public
 js/node_modules
 .php_cs.cache
+.php-cs-fixer.cache
 node_modules
 .phpunit.result.cache
 

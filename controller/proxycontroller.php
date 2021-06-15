@@ -59,9 +59,13 @@ class ProxyController extends Controller {
 	 * @param IL10N $l10n
 	 * @param ILogger $logger
 	 */
-	public function __construct($appName, IRequest $request,
-								IClientService $client,
-								IL10N $l10n, ILogger $logger) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IClientService $client,
+		IL10N $l10n,
+		ILogger $logger
+	) {
 		parent::__construct($appName, $request);
 		$this->client = $client;
 		$this->l10n = $l10n;

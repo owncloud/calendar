@@ -88,8 +88,13 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new ProxyController($this->appName, $this->request,
-			$this->client, $this->l10n, $this->logger);
+		$this->controller = new ProxyController(
+			$this->appName,
+			$this->request,
+			$this->client,
+			$this->l10n,
+			$this->logger
+		);
 	}
 
 	public function testProxy() {
@@ -128,8 +133,11 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 				'stream' => true,
 				'allow_redirects' => false,
 			])
-			->will($this->throwException(new ClientException('Exception Message foo bar 42',
-				$this->exceptionRequest, $this->exceptionResponse)));
+			->will($this->throwException(new ClientException(
+				'Exception Message foo bar 42',
+				$this->exceptionRequest,
+				$this->exceptionResponse
+			)));
 		$this->exceptionResponse->expects($this->once())
 			->method('getStatusCode')
 			->will($this->returnValue(403));
@@ -163,8 +171,11 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 				'stream' => true,
 				'allow_redirects' => false,
 			])
-			->will($this->throwException(new ConnectException('Exception Message foo bar 42',
-				$this->exceptionRequest, $this->exceptionResponse)));
+			->will($this->throwException(new ConnectException(
+				'Exception Message foo bar 42',
+				$this->exceptionRequest,
+				$this->exceptionResponse
+			)));
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with($this->equalTo('Error connecting to remote server'))
@@ -195,8 +206,11 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 				'stream' => true,
 				'allow_redirects' => false,
 			])
-			->will($this->throwException(new RequestException('Exception Message foo bar 42',
-				$this->exceptionRequest, $this->exceptionResponse)));
+			->will($this->throwException(new RequestException(
+				'Exception Message foo bar 42',
+				$this->exceptionRequest,
+				$this->exceptionResponse
+			)));
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with($this->equalTo('Error requesting resource on remote server'))
@@ -227,8 +241,11 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 				'stream' => true,
 				'allow_redirects' => false,
 			])
-			->will($this->throwException(new RequestException('Exception Message foo bar 42',
-				$this->exceptionRequest, $this->exceptionResponse)));
+			->will($this->throwException(new RequestException(
+				'Exception Message foo bar 42',
+				$this->exceptionRequest,
+				$this->exceptionResponse
+			)));
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with($this->equalTo('Error requesting resource on remote server. This could possibly be related to a certificate mismatch'))
