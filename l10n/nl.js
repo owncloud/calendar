@@ -96,7 +96,7 @@ OC.L10N.register(
     "Hello," : "Hallo,",
     "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "We willen melden dat %s agenda {boldstart}%s{boldend} heeft gepubliceerd.",
     "Click here to access it" : "Klik hier om de agenda te openen",
-    "Cheers!" : "Proficiat!",
+    "Cheers!" : "Tot ziens!",
     "We wanted to inform you that %s has published the calendar %s." : "we willen melden dat %s agenda %s heeft gepubliceerd.",
     "Click on the link below to access it" : "Klik op de link hieronder om ernaartoe te gaan",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "Wegens een upstream bug kan de kalender nu de asset pipeline mogelijkheid niet ondersteunen.",
