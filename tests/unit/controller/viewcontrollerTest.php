@@ -82,57 +82,66 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 		$expectsWebcalWorkaround,
 		$isIE
 	) {
-		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue($serverVersion));
-
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('asset-pipeline.enabled')
-			->willReturn($isAssetPipelineEnabled);
-
 		if ($showAssetPipelineError) {
+			$this->config
+				->expects($this->exactly(2))
+				->method('getSystemValue')
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+				);
+
 			$actual = $this->controller->index();
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-			$this->config->expects($this->at(2))
+			$this->config
+				->expects($this->exactly(3))
 				->method('getSystemValue')
-				->with('version')
-				->willReturn($serverVersion);
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+					['version'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+					$serverVersion,
+				);
 
-			$this->config->expects($this->at(3))
+			$this->config
+				->expects($this->exactly(2))
 				->method('getAppValue')
-				->with($this->appName, 'installed_version')
-				->will($this->returnValue('42.13.37'));
+				->withConsecutive(
+					[$this->appName, 'installed_version'],
+					['core', 'shareapi_allow_links', 'yes'],
+				)
+				->willReturnOnConsecutiveCalls(
+					'42.13.37',
+					'yes',
+				);
 
-			$this->config->expects($this->at(4))
-				->method('getAppValue')
-				->with('core', 'shareapi_allow_links', 'yes')
-				->willReturn('yes');
-
-			$this->config->expects($this->at(5))
+			$this->config
+				->expects($this->exactly(4))
 				->method('getUserValue')
-				->with('user123', $this->appName, 'currentView', null)
-				->will($this->returnValue('someView'));
-
-			$this->config->expects($this->at(6))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'skipPopover', 'no')
-				->will($this->returnValue('someSkipPopoverValue'));
-
-			$this->config->expects($this->at(7))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'showWeekNr', 'no')
-				->will($this->returnValue('someShowWeekNrValue'));
-
-			$this->config->expects($this->at(8))
-				->method('getUserValue')
-				->with('user123', $this->appName, 'firstRun', null)
-				->will($this->returnValue('someFirstRunValue'));
+				->withConsecutive(
+					['user123', $this->appName, 'currentView', null],
+					['user123', $this->appName, 'skipPopover', 'no'],
+					['user123', $this->appName, 'showWeekNr', 'no'],
+					['user123', $this->appName, 'firstRun', null],
+				)
+				->willReturnOnConsecutiveCalls(
+					'someView',
+					'someSkipPopoverValue',
+					'someShowWeekNrValue',
+					'someFirstRunValue',
+				);
 
 			$this->userSession->expects($this->once())
 				->method('getUser')
@@ -190,50 +199,47 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 	 * @dataProvider indexFirstRunDetectionProvider
 	 */
 	public function testIndexFirstRunDetection($initialView, $expectedFirstRun, $expectsSetRequest) {
-		$this->config->expects($this->at(0))
+		$this->config
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue('10.0.3'));
+			->withConsecutive(
+				['version'],
+				['asset-pipeline.enabled'],
+				['version'],
+			)
+			->willReturnOnConsecutiveCalls(
+				'10.0.3',
+				false,
+				'10.0.3',
+			);
 
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('asset-pipeline.enabled')
-			->willReturn(false);
-
-		$this->config->expects($this->at(2))
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('10.0.3');
-
-		$this->config->expects($this->at(3))
+		$this->config
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with($this->appName, 'installed_version')
-			->will($this->returnValue('42.13.37'));
+			->withConsecutive(
+				[$this->appName, 'installed_version'],
+				['core', 'shareapi_allow_links', 'yes'],
+			)
+			->willReturnOnConsecutiveCalls(
+				'42.13.37',
+				'yes',
+			);
 
-		$this->config->expects($this->at(4))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
-
-		$this->config->expects($this->at(5))
+		$this->config
+			->expects($this->exactly(4))
 			->method('getUserValue')
-			->with('user123', $this->appName, 'currentView', null)
-			->will($this->returnValue($initialView));
-
-		$this->config->expects($this->at(6))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'skipPopover', 'no')
-			->will($this->returnValue('someSkipPopoverValue'));
-
-		$this->config->expects($this->at(7))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'showWeekNr', 'no')
-			->will($this->returnValue('someShowWeekNrValue'));
-
-		$this->config->expects($this->at(8))
-			->method('getUserValue')
-			->with('user123', $this->appName, 'firstRun', null)
-			->will($this->returnValue(null));
+			->withConsecutive(
+				['user123', $this->appName, 'currentView', null],
+				['user123', $this->appName, 'skipPopover', 'no'],
+				['user123', $this->appName, 'showWeekNr', 'no'],
+				['user123', $this->appName, 'firstRun', null],
+			)
+			->willReturnOnConsecutiveCalls(
+				$initialView,
+				'someSkipPopoverValue',
+				'someShowWeekNrValue',
+				null,
+			);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -274,7 +280,7 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 //		$this->assertEquals('main', $actual->getTemplateName());
 
 		if ($expectsSetRequest) {
-			$this->config->expects($this->at(9))
+			$this->config->expects($this->once())
 				->method('setUserValue')
 				->with('user123');
 		}
@@ -320,77 +326,92 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 		$expectsSupportsClass,
 		$isIE
 	) {
-		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue($serverVersion));
-
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('asset-pipeline.enabled')
-			->willReturn($isAssetPipelineEnabled);
-
 		if ($showAssetPipelineError) {
+			$this->config
+				->expects($this->exactly(2))
+				->method('getSystemValue')
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+				);
+
 			$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-			$this->config->expects($this->at(2))
+			$this->config
+				->expects($this->exactly(3))
 				->method('getSystemValue')
-				->with('version')
-				->willReturn($serverVersion);
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+					['version'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+					$serverVersion,
+				);
 
-			$this->config->expects($this->at(3))
+			$this->config
+				->expects($this->exactly(2))
 				->method('getAppValue')
-				->with($this->appName, 'installed_version')
-				->will($this->returnValue('42.13.37'));
-
-			$this->config->expects($this->at(4))
-				->method('getAppValue')
-				->with('core', 'shareapi_allow_links', 'yes')
-				->willReturn('yes');
+				->withConsecutive(
+					[$this->appName, 'installed_version'],
+					['core', 'shareapi_allow_links', 'yes'],
+				)
+				->willReturnOnConsecutiveCalls(
+					'42.13.37',
+					'yes',
+				);
 
 			$this->request->expects($this->once())
 				->method('isUserAgent')
 				->willReturn($isIE);
 
-			$this->request->expects($this->at(1))
+			$this->request
+				->expects($this->exactly(2))
 				->method('getServerProtocol')
-				->will($this->returnValue('fancy_protocol'));
+				->willReturnOnConsecutiveCalls(
+					'fancy_protocol',
+					'fancy_protocol',
+				);
 
-			$this->request->expects($this->at(2))
+			$this->request->expects($this->once())
 				->method('getServerHost')
 				->will($this->returnValue('owncloud-host.tld'));
 
-			$this->request->expects($this->at(3))
+			$this->request->expects($this->once())
 				->method('getRequestUri')
 				->will($this->returnValue('/request/uri/123/42'));
 
-			$this->urlGenerator->expects($this->at(0))
+			$this->urlGenerator->expects($this->once())
 				->method('imagePath')
 				->with('core', 'favicon-touch.png')
 				->will($this->returnValue('/core/img/foo'));
 
-			$this->urlGenerator->expects($this->at(1))
+			$this->urlGenerator
+				->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->with('/core/img/foo')
-				->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
+				->withConsecutive(
+					['/core/img/foo'],
+					['remote.php/dav/public-calendars/fancy_token_123?export'],
+				)
+				->willReturnOnConsecutiveCalls(
+					'fancy_protocol://foo.bar/core/img/foo',
+					'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				);
 
-			$this->urlGenerator->expects($this->at(2))
+			$this->urlGenerator->expects($this->once())
 				->method('linkTo')
 				->with('', 'remote.php')
 				->will($this->returnValue('remote.php'));
-
-			$this->urlGenerator->expects($this->at(3))
-				->method('getAbsoluteURL')
-				->with('remote.php/dav/public-calendars/fancy_token_123?export')
-				->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
-
-			$this->request->expects($this->at(4))
-				->method('getServerProtocol')
-				->will($this->returnValue('fancy_protocol'));
 
 			$actual = $this->controller->publicIndexForEmbedding('fancy_token_123');
 
@@ -431,77 +452,92 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 		$expectsSupportsClass,
 		$isIE
 	) {
-		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('version')
-			->will($this->returnValue($serverVersion));
-
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('asset-pipeline.enabled')
-			->willReturn($isAssetPipelineEnabled);
-
 		if ($showAssetPipelineError) {
+			$this->config
+				->expects($this->exactly(2))
+				->method('getSystemValue')
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+				);
+
 			$actual = $this->controller->publicIndexWithBranding('fancy_token_123');
 
 			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
 			$this->assertEquals([], $actual->getParams());
 			$this->assertEquals('main-asset-pipeline-unsupported', $actual->getTemplateName());
 		} else {
-			$this->config->expects($this->at(2))
+			$this->config
+				->expects($this->exactly(3))
 				->method('getSystemValue')
-				->with('version')
-				->willReturn($serverVersion);
+				->withConsecutive(
+					['version'],
+					['asset-pipeline.enabled'],
+					['version'],
+				)
+				->willReturnOnConsecutiveCalls(
+					$serverVersion,
+					$isAssetPipelineEnabled,
+					$serverVersion,
+				);
 
-			$this->config->expects($this->at(3))
+			$this->config
+				->expects($this->exactly(2))
 				->method('getAppValue')
-				->with($this->appName, 'installed_version')
-				->will($this->returnValue('42.13.37'));
-
-			$this->config->expects($this->at(4))
-				->method('getAppValue')
-				->with('core', 'shareapi_allow_links', 'yes')
-				->willReturn('yes');
+				->withConsecutive(
+					[$this->appName, 'installed_version'],
+					['core', 'shareapi_allow_links', 'yes'],
+				)
+				->willReturnOnConsecutiveCalls(
+					'42.13.37',
+					'yes',
+				);
 
 			$this->request->expects($this->once())
 				->method('isUserAgent')
 				->willReturn($isIE);
 
-			$this->request->expects($this->at(1))
+			$this->request
+				->expects($this->exactly(2))
 				->method('getServerProtocol')
-				->will($this->returnValue('fancy_protocol'));
+				->willReturnOnConsecutiveCalls(
+					'fancy_protocol',
+					'fancy_protocol',
+				);
 
-			$this->request->expects($this->at(2))
+			$this->request->expects($this->once())
 				->method('getServerHost')
 				->will($this->returnValue('owncloud-host.tld'));
 
-			$this->request->expects($this->at(3))
+			$this->request->expects($this->once())
 				->method('getRequestUri')
 				->will($this->returnValue('/request/uri/123/42'));
 
-			$this->urlGenerator->expects($this->at(0))
+			$this->urlGenerator->expects($this->once())
 				->method('imagePath')
 				->with('core', 'favicon-touch.png')
 				->will($this->returnValue('/core/img/foo'));
 
-			$this->urlGenerator->expects($this->at(1))
+			$this->urlGenerator
+				->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->with('/core/img/foo')
-				->will($this->returnValue('fancy_protocol://foo.bar/core/img/foo'));
+				->withConsecutive(
+					['/core/img/foo'],
+					['remote.php/dav/public-calendars/fancy_token_123?export'],
+				)
+				->willReturnOnConsecutiveCalls(
+					'fancy_protocol://foo.bar/core/img/foo',
+					'fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export',
+				);
 
-			$this->urlGenerator->expects($this->at(2))
+			$this->urlGenerator->expects($this->once())
 				->method('linkTo')
 				->with('', 'remote.php')
 				->will($this->returnValue('remote.php'));
-
-			$this->urlGenerator->expects($this->at(3))
-				->method('getAbsoluteURL')
-				->with('remote.php/dav/public-calendars/fancy_token_123?export')
-				->will($this->returnValue('fancy_protocol://foo.bar/remote.php/dav/public-calendars/fancy_token_123?export'));
-
-			$this->request->expects($this->at(4))
-				->method('getServerProtocol')
-				->will($this->returnValue('fancy_protocol'));
 
 			$actual = $this->controller->publicIndexWithBranding('fancy_token_123');
 

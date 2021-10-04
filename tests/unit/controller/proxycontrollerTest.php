@@ -270,32 +270,41 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->client->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($this->newClient));
-		$this->newClient->expects($this->at(0))
+
+		$this->newClient
+			->expects($this->exactly(2))
 			->method('get')
-			->with($testUrl, [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->response0->expects($this->at(0))
+			->withConsecutive(
+				[
+					$testUrl, [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+			)
+			->willReturnOnConsecutiveCalls(
+				$this->response0,
+				$this->response0,
+			);
+
+		$this->response0
+			->expects($this->exactly(2))
 			->method('getStatusCode')
-			->with()
-			->will($this->returnValue(301));
-		$this->response0->expects($this->at(1))
+			->willReturnOnConsecutiveCalls(
+				301,
+				200,
+			);
+
+		$this->response0->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456'));
-		$this->newClient->expects($this->at(1))
-			->method('get')
-			->with('http://def.abc/foobar?456', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->response0->expects($this->at(2))
-			->method('getStatusCode')
-			->with()
-			->will($this->returnValue(200));
 
 		$actual = $this->controller->proxy($testUrl);
 
@@ -312,27 +321,35 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->client->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($this->newClient));
-		$this->newClient->expects($this->at(0))
+
+		$this->newClient
+			->expects($this->exactly(2))
 			->method('get')
-			->with($testUrl, [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->response0->expects($this->at(0))
-			->method('getStatusCode')
-			->with()
-			->will($this->returnValue(307));
-		$this->newClient->expects($this->at(1))
-			->method('get')
-			->with('http://abc.def/foobar?123', [
-				'stream' => true,
-				'allow_redirects' => [
-					'max' => 5,
+			->withConsecutive(
+				[
+					$testUrl, [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
 				],
-			])
-			->will($this->returnValue($this->response1));
-		$this->response1->expects($this->at(0))
+				[
+					'http://abc.def/foobar?123', [
+						'stream' => true,
+						'allow_redirects' => [
+							'max' => 5,
+						],
+					]
+				],
+			)
+			->willReturnOnConsecutiveCalls(
+				$this->response0,
+				$this->response1,
+			);
+
+		$this->response0->expects($this->once())
+			->method('getStatusCode')
+			->will($this->returnValue(307));
+		$this->response1->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(200));
@@ -349,44 +366,53 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->client->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($this->newClient));
-		$this->newClient->expects($this->at(0))
+
+		$this->newClient
+			->expects($this->exactly(3))
 			->method('get')
-			->with($testUrl, [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->newClient->expects($this->at(1))
-			->method('get')
-			->with('http://def.abc/foobar?456', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response1));
-		$this->newClient->expects($this->at(2))
-			->method('get')
-			->with('http://xyz.abc/foobar?789', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response2));
-		$this->response0->expects($this->at(0))
+			->withConsecutive(
+				[
+					$testUrl, [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://xyz.abc/foobar?789', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+			)
+			->willReturnOnConsecutiveCalls(
+				$this->response0,
+				$this->response1,
+				$this->response2,
+			);
+
+		$this->response0->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response0->expects($this->at(1))
+		$this->response0->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456'));
-		$this->response1->expects($this->at(0))
+		$this->response1->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response1->expects($this->at(1))
+		$this->response1->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://xyz.abc/foobar?789'));
-		$this->response2->expects($this->at(0))
+		$this->response2->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(200));
@@ -406,29 +432,38 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->client->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($this->newClient));
-		$this->newClient->expects($this->at(0))
+
+		$this->newClient
+			->expects($this->exactly(2))
 			->method('get')
-			->with($testUrl, [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->newClient->expects($this->at(1))
-			->method('get')
-			->with('http://def.abc/foobar?456', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response1));
-		$this->response0->expects($this->at(0))
+			->withConsecutive(
+				[
+					$testUrl, [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+			)
+			->willReturnOnConsecutiveCalls(
+				$this->response0,
+				$this->response1,
+			);
+
+		$this->response0->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response0->expects($this->at(1))
+		$this->response0->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456'));
-		$this->response1->expects($this->at(0))
+		$this->response1->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(307));
@@ -448,93 +483,102 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->client->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($this->newClient));
-		$this->newClient->expects($this->at(0))
+
+		$this->newClient
+			->expects($this->exactly(6))
 			->method('get')
-			->with($testUrl, [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response0));
-		$this->newClient->expects($this->at(1))
-			->method('get')
-			->with('http://def.abc/foobar?456-0', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response1));
-		$this->newClient->expects($this->at(2))
-			->method('get')
-			->with('http://def.abc/foobar?456-1', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response2));
-		$this->newClient->expects($this->at(3))
-			->method('get')
-			->with('http://def.abc/foobar?456-2', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response3));
-		$this->newClient->expects($this->at(4))
-			->method('get')
-			->with('http://def.abc/foobar?456-3', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response4));
-		$this->newClient->expects($this->at(5))
-			->method('get')
-			->with('http://def.abc/foobar?456-4', [
-				'stream' => true,
-				'allow_redirects' => false,
-			])
-			->will($this->returnValue($this->response5));
-		$this->response0->expects($this->at(0))
+			->withConsecutive(
+				[
+					$testUrl, [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456-0', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456-1', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456-2', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456-3', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+				[
+					'http://def.abc/foobar?456-4', [
+						'stream' => true,
+						'allow_redirects' => false,
+					]
+				],
+			)
+			->willReturnOnConsecutiveCalls(
+				$this->response0,
+				$this->response1,
+				$this->response2,
+				$this->response3,
+				$this->response4,
+				$this->response5,
+			);
+
+		$this->response0->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response0->expects($this->at(1))
+		$this->response0->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-0'));
-		$this->response1->expects($this->at(0))
+		$this->response1->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response1->expects($this->at(1))
+		$this->response1->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-1'));
-		$this->response2->expects($this->at(0))
+		$this->response2->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response2->expects($this->at(1))
+		$this->response2->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-2'));
-		$this->response3->expects($this->at(0))
+		$this->response3->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response3->expects($this->at(1))
+		$this->response3->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-3'));
-		$this->response4->expects($this->at(0))
+		$this->response4->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response4->expects($this->at(1))
+		$this->response4->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-4'));
-		$this->response5->expects($this->at(0))
+		$this->response5->expects($this->once())
 			->method('getStatusCode')
 			->with()
 			->will($this->returnValue(301));
-		$this->response5->expects($this->at(1))
+		$this->response5->expects($this->once())
 			->method('getHeader')
 			->with('Location')
 			->will($this->returnValue('http://def.abc/foobar?456-5'));
