@@ -25,8 +25,8 @@ SELENIUM_STANDALONE_FIREFOX_DEBUG = "selenium/standalone-firefox-debug:3.8.1"
 SONARSOURCE_SONAR_SCANNER_CLI = "sonarsource/sonar-scanner-cli"
 THEGEEKLAB_DRONE_GITHUB_COMMENT = "thegeeklab/drone-github-comment:1"
 
-DEFAULT_NODEJS_VERSION = "14"
 DEFAULT_PHP_VERSION = "7.4"
+DEFAULT_NODEJS_VERSION = "14"
 
 dir = {
     "base": "/var/www/owncloud",
@@ -1542,7 +1542,7 @@ def getDbDatabase(db):
 def getNodeJsVersion():
     if "nodeJsVersion" not in config:
         # We use nodejs 14 as the default
-        return "14"
+        return DEFAULT_NODEJS_VERSION
     else:
         return config["nodeJsVersion"]
 
@@ -1634,8 +1634,8 @@ def installTestrunner(ctx, phpVersion, useBundledApp):
 def installExtraApps(phpVersion, extraApps):
     commandArray = []
     for app, command in extraApps.items():
-        commandArray.append("git clone https://github.com/owncloud/%s.git %s/apps/%s" % (app, dir["testrunner"], app))
-        commandArray.append("cp -r %s/apps/%s %s/apps/" % (dir["testrunner"], app, dir["server"]))
+        commandArray.append("ls %s/apps/%s || git clone https://github.com/owncloud/%s.git %s/apps/%s" % (dir["testrunner"], app, app, dir["testrunner"], app))
+        commandArray.append("ls %s/apps/%s || cp -r %s/apps/%s %s/apps/" % (dir["server"], app, dir["testrunner"], app, dir["server"]))
         if (command != ""):
             commandArray.append("cd %s/apps/%s" % (dir["server"], app))
             commandArray.append(command)
@@ -1968,7 +1968,7 @@ def githubComment(earlyFail):
             "pull": "if-not-exists",
             "settings": {
                 "message": ":boom: Acceptance tests pipeline <strong>${DRONE_STAGE_NAME}</strong> failed. The build has been cancelled.\\n\\n${DRONE_BUILD_LINK}/${DRONE_JOB_NUMBER}${DRONE_STAGE_NUMBER}",
-                "key": "pr-${DRONE_PULL_REQUEST}",  #TODO: we could delete the comment after a successful CI run
+                "key": "pr-${DRONE_PULL_REQUEST}",
                 "update": "true",
                 "api_key": {
                     "from_secret": "github_token",
