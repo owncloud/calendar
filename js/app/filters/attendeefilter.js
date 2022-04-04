@@ -30,7 +30,7 @@ app.filter('attendeeFilter', function() {
 		} else if (typeof attendee.parameters === 'object' && typeof attendee.parameters.cn === 'string') {
 			return attendee.parameters.cn;
 		} else if (typeof attendee.value === 'string' && attendee.value.startsWith('MAILTO:')) {
-			return attendee.value.substr(7);
+			return attendee.value.slice(7);
 		} else {
 			return attendee.value || '';
 		}
