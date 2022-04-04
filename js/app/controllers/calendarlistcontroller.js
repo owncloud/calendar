@@ -91,7 +91,7 @@ app.controller('CalendarListController', ['$scope', '$rootScope', '$window', 'Ha
 				let name = splittedICal.name || url;
 
 				if (name.length > 100) {
-					name = name.substr(0, 100);
+					name = name.slice(0, 100);
 				}
 
 				CalendarService.createWebCal(name, color, url)

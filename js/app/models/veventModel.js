@@ -329,7 +329,7 @@ app.factory('VEvent', function(TimezoneService, FcEvent, SimpleEvent, ICalFactor
 			var dateType = /[^:]*/.exec(el)[0];
 			var icsDate = null;
 
-			if (findTypes.indexOf(dateType) >= 0 && el.trim().substr(-3) === 'T::') { // is date without time
+			if (findTypes.indexOf(dateType) >= 0 && el.trim().slice(-3) === 'T::') { // is date without time
 				icsDate = el.replace(/[^0-9]/g, '');
 				ics = ics.replace(el, dateType + ';VALUE=DATE:' + icsDate);
 			}
