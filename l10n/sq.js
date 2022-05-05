@@ -135,7 +135,7 @@ OC.L10N.register(
     "Download" : "Shkarkoje",
     "Share with users or groups" : "Ndajeni me përdorues ose grupe",
     "can edit" : "mund të përpunojnë",
-    "Share link" : "Lidhje ndarjesh me të tjerë",
+    "Share link" : "Lidhje pjese",
     "Public access" : "Hyrje publike",
     "Email link to person" : "Dërgoja personit lidhjen me email",
     "Send" : "Dërgoje",
