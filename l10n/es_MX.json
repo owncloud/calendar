@@ -188,5 +188,5 @@
     "Primary CalDAV address" : "Dirección primaria de CalDAV",
     "iOS/OS X CalDAV address" : "Dirección CalDAV de iOS/OS X",
     "Subscribe" : "Suscribirse"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
