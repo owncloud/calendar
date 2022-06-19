@@ -81,10 +81,10 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->exceptionRequest = $this->getMockBuilder('GuzzleHttp\Message\RequestInterface')
+		$this->exceptionRequest = $this->getMockBuilder('\Psr\Http\Message\RequestInterface')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->exceptionResponse = $this->getMockBuilder('GuzzleHttp\Message\ResponseInterface')
+		$this->exceptionResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -173,8 +173,7 @@ class ProxyControllerTest extends \PHPUnit\Framework\TestCase {
 			])
 			->will($this->throwException(new ConnectException(
 				'Exception Message foo bar 42',
-				$this->exceptionRequest,
-				$this->exceptionResponse
+				$this->exceptionRequest
 			)));
 		$this->l10n->expects($this->once())
 			->method('t')
