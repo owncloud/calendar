@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.0.0] - 2022-07-05
+
+### Changed
+
+- [#39387](https://github.com/owncloud/core/issues/39387) - Update guzzle major version to 7
+- This version requires ownCloud 10.11.0 or above
+
 ## [1.6.4] - 2020-03-24
 - Drop PHP 7.0
   [#1047](https://github.com/owncloud/calendar/pull/1047)
@@ -218,7 +225,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Adjusted colors to Nextcloud
 - Properly display line breaks in agenda views
 
-[Unreleased]: https://github.com/owncloud/calendar/compare/v1.6.1...master
+[Unreleased]: https://github.com/owncloud/calendar/compare/v2.0.0...master
+[2.0.0]: https://github.com/owncloud/calendar/compare/v1.6.4...v2.0.0
+[1.6.4]: https://github.com/owncloud/calendar/compare/v1.6.3...v1.6.4
+[1.6.3]: https://github.com/owncloud/calendar/compare/v1.6.2...v1.6.3
+[1.6.2]: https://github.com/owncloud/calendar/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/owncloud/calendar/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/owncloud/calendar/compare/v1.5.7...v1.6.0
 [1.5.7]: https://github.com/owncloud/calendar/compare/v1.5.6...v1.5.7
