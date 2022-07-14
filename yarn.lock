@@ -168,10 +168,10 @@ angular-animate@^1.8.2:
   resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.8.2.tgz#a3045e523ffb8d7fcbebd3cb68d1fdd474665ced"
   integrity sha512-Jbr9+grNMs9Kj57xuBU3Ju3NOPAjS1+g2UAwwDv7su1lt0/PLDy+9zEwDiu8C8xJceoTbmBNKiWGPJGBdCQLlA==
 
-angular-mocks@^1.7.9:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.7.9.tgz#0a3b7e28b9a493b4e3010ed2b0f69a68e9b4f79b"
-  integrity sha512-LQRqqiV3sZ7NTHBnNmLT0bXtE5e81t97+hkJ56oU0k3dqKv1s6F+nBWRlOVzqHWPGFOiPS8ZJVdrS8DFzHyNIA==
+angular-mocks@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.8.3.tgz#c0dd05e5c3fc014e07af6289b23f0e817d7a4724"
+  integrity sha512-vqsT6zwu80cZ8RY7qRQBZuy6Fq5X7/N5hkV9LzNT0c8b546rw4ErGK6muW1u2JnDKYa7+jJuaGM702bWir4HGw==
 
 angular-sanitize@^1.8.2:
   version "1.8.2"
