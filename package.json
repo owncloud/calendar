@@ -36,7 +36,7 @@
     "gulp-wrap": "^0.15.0",
     "istanbul": "^0.4.5",
     "jasmine-core": "^3.5.0",
-    "jshint": "^2.13.4",
+    "jshint": "^2.13.5",
     "jshint-stylish": "^2.2.1",
     "karma": "^4.4.1",
     "karma-coverage": "^2.0.1",
