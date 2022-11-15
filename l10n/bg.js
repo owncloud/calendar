@@ -106,7 +106,7 @@ OC.L10N.register(
     "More ..." : "Още ...",
     "Create" : "Създаване",
     "Update" : "Актуализация",
-    "Close" : "Затвори",
+    "Close" : "Затваряне",
     "Location" : "Местоположение",
     "Description" : "Описание",
     "Event status" : "Статус на събитието",
