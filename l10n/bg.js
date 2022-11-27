@@ -148,7 +148,7 @@ OC.L10N.register(
     "Maybe you got a wrong link or the calendar was unshared?" : "Може би сте получили грешна връзка или календарът не е бил споделен?",
     "Edit event" : "Редакция на събитието",
     "Delete Event" : "Изтриване на събитието",
-    "Save Event" : "Запазване на събитието",
+    "Save Event" : "Запазване на събитие",
     "Time" : "Време",
     "Type" : "Тип",
     "Relative" : "Относително",
