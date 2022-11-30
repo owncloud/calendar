@@ -146,7 +146,7 @@ OC.L10N.register(
     "Go forward" : "Напред",
     "Calendar does not exist" : "Календарът не съществува",
     "Maybe you got a wrong link or the calendar was unshared?" : "Може би сте получили грешна връзка или календарът не е бил споделен?",
-    "Edit event" : "Редакция на събитието",
+    "Edit event" : "Редактиране на събитие",
     "Delete Event" : "Изтриване на събитието",
     "Save Event" : "Запазване на събитие",
     "Time" : "Време",
