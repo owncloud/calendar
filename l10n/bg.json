@@ -15,7 +15,7 @@
     "Optional" : "По избор",
     "Does not attend" : "Без присъствие",
     "{name} ({email})" : "{name} ({email})",
-    "You are in an unknown timezone ({tz}), falling back to UTC" : "Вие сте в неизвестна времева зона ({tz}), ще се върнете към UTC",
+    "You are in an unknown timezone ({tz}), falling back to UTC" : "Вие сте в непозната времева зона ({tz}), ще се върнете към UTC",
     "Please create a calendar first." : "Моля, първо създайте календар.",
     "New event" : "Ново събитие",
     "CalDAV address for clients" : "CalDAV адрес за клиенти",
