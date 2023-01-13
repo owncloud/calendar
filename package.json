@@ -55,7 +55,7 @@
     "angular-sanitize": "^1.8.3",
     "angular-ui-bootstrap": "^2.5.0",
     "autosize": "^5.0.2",
-    "fullcalendar": "^3.10.5",
+    "fullcalendar": "^6.0.3",
     "hsl_rgb_converter": "kayellpeee/hsl_rgb_converter",
     "ical.js": "DeepDiver1975/ical.js#timezone-fix-and-build",
     "jquery-timepicker": "fgelinas/timepicker#883bb2cd94",
