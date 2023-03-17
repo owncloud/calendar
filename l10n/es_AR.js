@@ -176,6 +176,7 @@ OC.L10N.register(
     "Analyzing calendar" : "Analizando calendario",
     "The file contains objects incompatible with the selected calendar" : "El archivo contiene objetos incompatibles con el calendario seleccionado",
     "New calendar" : "Calendario nuevo",
+    "File is empty" : "El archivo está vacío",
     "Import scheduled" : "Importación agendada",
     "%s shared the calendar <strong>%s</strong> with you" : "%s ha compartido <strong>%s</strong> contigo",
     "Embed" : "Embebido",
