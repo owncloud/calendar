@@ -166,6 +166,7 @@ OC.L10N.register(
     "Repeat every:" : "다음마다 반복:",
     "Repeat on:" : "지정한 요일에 반복:",
     "Repeat on every:" : "지정한 날에 반복:",
+    "of each month" : "매월",
     "End:" : "종료:",
     "never" : "없음",
     "event(s)" : "회",
