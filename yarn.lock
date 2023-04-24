@@ -183,6 +183,42 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     to-fast-properties "^2.0.0"
 
+"@fullcalendar/core@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-6.1.6.tgz#dba14c2e5a48044b7e932b0bcb20144b3699485c"
+  integrity sha512-Q/3pWgOv7qr/eVpuDz+05jxJZSg7Fdwh4XgQP8DlJFLp5aLlOiiKdkTUIO1BX7clQtYTm8P0v7FqMKbsFiQInw==
+  dependencies:
+    preact "~10.12.1"
+
+"@fullcalendar/daygrid@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.6.tgz#b60c88ad686b2546daa7eb7ef2369996d14753d2"
+  integrity sha512-HKxprePWXRyg1Shn7p0CWgggFZVwvs+Pg0Z9uSvx6a58wP1yTbOoJHhSVv5CDsfjnq1a0y6DsJbPP/V2LDl6bg==
+
+"@fullcalendar/interaction@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.6.tgz#9fe3f84a0b62e37013a5d842c8173fd5f72eb39a"
+  integrity sha512-6TjKbDHOkF3C9hIzIhxiTX5FCmNcaCeRk5CeKXHZiIi1Y8gQwIkUkwcZps5uj7PIvb3wNVw8FbF+RNRoloPUqQ==
+
+"@fullcalendar/list@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-6.1.6.tgz#5684e929f0d59aa0e85e65c0492f34170db9a3a1"
+  integrity sha512-1zWDrVqQxQl/DLHIhLtig1iz/Gnh7hyOe4gEHSg169Om/+wYf8MRgFy8bGBqIFP2eS3Rk7mY3HVLvrkBxmR+wg==
+
+"@fullcalendar/multimonth@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/multimonth/-/multimonth-6.1.6.tgz#64c17c511db12d8fd71f347437dd8d83d016527c"
+  integrity sha512-e/BGKTbVC00QFwkk3olKEYzkV+8sTFCxy6/oKm2CCfDKoWuu9jkCf5fgGhiflZ0Y7V0CLQzADuuZsFIxz9DDJA==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.6"
+
+"@fullcalendar/timegrid@~6.1.6":
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-6.1.6.tgz#9a3cb0e1d68106094b0462c93c1e5a869b2209c0"
+  integrity sha512-WqiGGmzNJeeIt4QjXuBlYTGHp4B+OUb7pYwREt1fer+9keNyG7dd48367pBdia8USk9B3Ep2oHC0aGypJGUFdA==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.6"
+
 "@gulp-sourcemaps/identity-map@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@gulp-sourcemaps/identity-map/-/identity-map-2.0.1.tgz#a6e8b1abec8f790ec6be2b8c500e6e68037c0019"
@@ -2161,10 +2197,17 @@ fsevents@~2.1.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
   integrity sha512-R4wDiBwZ0KzpgOWetKDug1FZcYhqYnUYKtfZYt4mD5SBz76q0KR4Q9o7GIPamsVPGmW3EYPPJ0dOOjvx32ldZA==
 
-fullcalendar@^3.10.5:
-  version "3.10.5"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.5.tgz#57a3a64d7d744181582bb9e1be32d1846e1db53a"
-  integrity sha512-JGWpECKgza/344bbF5QT0hBJpx04DZ/7QGPlR1ZbAwrG6Yz6mWEkQd+NnZUh1sK6HCBIPnPRW2x53aJxeLGvvQ==
+fullcalendar@^6.1.6:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-6.1.6.tgz#c674f29bf4e668873834ab68d04030fd62a6fec7"
+  integrity sha512-lVdpPmL5cGXFO6IF/HCMYezQ82mg3G1FjIH9UOsXYzCvnFymFwDNGHCRrhtgPnmjIkC2CNTqSwf4RzXoVYUoSA==
+  dependencies:
+    "@fullcalendar/core" "~6.1.6"
+    "@fullcalendar/daygrid" "~6.1.6"
+    "@fullcalendar/interaction" "~6.1.6"
+    "@fullcalendar/list" "~6.1.6"
+    "@fullcalendar/multimonth" "~6.1.6"
+    "@fullcalendar/timegrid" "~6.1.6"
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -4166,6 +4209,11 @@ postcss@^7.0.16:
   dependencies:
     picocolors "^0.2.1"
     source-map "^0.6.1"
+
+preact@~10.12.1:
+  version "10.12.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.12.1.tgz#8f9cb5442f560e532729b7d23d42fd1161354a21"
+  integrity sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==
 
 prelude-ls@~1.1.2:
   version "1.1.2"
