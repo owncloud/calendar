@@ -16,7 +16,7 @@
 		<owncloud min-version="10.11" max-version="10" />
 	</dependencies>
 	<documentation>
-		<user>https://doc.owncloud.org/server/10.0/user_manual/pim/calendar.html</user>
+		<user>https://doc.owncloud.com/webui/next/classic_ui/pim/</user>
 	</documentation>
 	<category>productivity</category>
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/calendar/screenshot.png</screenshot>
