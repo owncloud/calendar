@@ -32,7 +32,7 @@ OC.L10N.register(
     "Repeating" : "Wiederholen",
     "When shared show full event" : "wenn geteilt, zeige den vollständigen Termin an",
     "When shared show only busy" : "wenn geteilt, zeige nur den Status beschäftigt",
-    "When shared hide this event" : "wenn geteilt, wird das Ereignis verborgen",
+    "When shared hide this event" : "Wenn geteilt, Ereignis ausblenden",
     "Confirmed" : "Bestätigt",
     "Tentative" : "Vorläufig",
     "Cancelled" : "Abgebrochen",
