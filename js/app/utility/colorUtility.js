@@ -76,9 +76,9 @@ app.service('ColorUtility', function() {
 				var regex = new RegExp('^#([0-9a-f]{' + (colorString.length - 1) + '})$', 'i');
 				matchedString = colorString.match(regex);
 				return (Array.isArray(matchedString) && matchedString[1]) ? {
-					r: parseInt(matchedString[1].substr(0, 2), 16),
-					g: parseInt(matchedString[1].substr(2, 2), 16),
-					b: parseInt(matchedString[1].substr(4, 2), 16)
+					r: parseInt(matchedString[1].slice(0, 2), 16),
+					g: parseInt(matchedString[1].slice(2, 4), 16),
+					b: parseInt(matchedString[1].slice(4, 6), 16)
 				} : fallbackColor;
 
 			default:
