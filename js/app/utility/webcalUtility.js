@@ -57,7 +57,7 @@ app.service('WebCalUtility', function($rootScope) {
 	 */
 	this.downgradeURL = function(url) {
 		if (url.startsWith('https://')) {
-			return 'http://' + url.substr(8);
+			return 'http://' + url.slice(8);
 		}
 	};
 
@@ -70,7 +70,7 @@ app.service('WebCalUtility', function($rootScope) {
 		if (url.startsWith('http://') || url.startsWith('https://')) {
 			return url;
 		} else if (url.startsWith('webcal://')) {
-			return 'https://' + url.substr(9);
+			return 'https://' + url.slice(9);
 		} else {
 			return 'https://' + url;
 		}

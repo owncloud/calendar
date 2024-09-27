@@ -36,10 +36,10 @@ app.service('HashService', function ($location) {
 		}
 
 		if (hash.startsWith('#')) {
-			hash = hash.substr(1);
+			hash = hash.slice(1);
 		}
 		if (hash.startsWith('/')) {
-			hash = hash.substr(1);
+			hash = hash.slice(1);
 		}
 
 
@@ -57,9 +57,9 @@ app.service('HashService', function ($location) {
 		}
 
 		const questionMarkPosition = hash.indexOf('?');
-		context.hashId = hash.substr(0, questionMarkPosition);
+		context.hashId = hash.slice(0, questionMarkPosition !== -1 ? questionMarkPosition : 0);
 
-		const parameters = hash.substr(questionMarkPosition + 1);
+		const parameters = hash.slice(questionMarkPosition + 1);
 		parameters.split('&').forEach((part) => {
 			const [key, value] = part.split('=');
 			context.parameters.set(key, decodeURIComponent(value));

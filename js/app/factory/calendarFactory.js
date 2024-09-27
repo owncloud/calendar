@@ -59,7 +59,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			// but some browsers can't parse that *cough cough* Safari 9 *cough cough*
 			// Safari 10 seems to support this though
 			if (colorProp.length === 9) {
-				return colorProp.substr(0,7);
+				return colorProp.slice(0,7);
 			}
 			return colorProp;
 		} else {
@@ -114,7 +114,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			const index = owner.indexOf('/remote.php/dav/principals/users/');
 			if (index !== -1) {
 				// '/remote.php/dav/principals/users/'.length === 33
-				return owner.substr(index + 33);
+				return owner.slice(index + 33);
 			}
 		}
 
@@ -148,9 +148,9 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			let displayName = share.getElementsByTagNameNS(DavClient.NS_OWNCLOUD, 'common-name');
 			if (displayName.length === 0) {
 				if (href.startsWith(SHARE_USER_PREFIX)) {
-					displayName = href.substr(SHARE_USER_PREFIX.length);
+					displayName = href.slice(SHARE_USER_PREFIX.length);
 				} else {
-					displayName = href.substr(SHARE_GROUP_PREFIX.length);
+					displayName = href.slice(SHARE_GROUP_PREFIX.length);
 				}
 			} else {
 				displayName = displayName[0].textContent;
@@ -166,21 +166,21 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 			writable = writable.length !== 0;
 
 			if (href.startsWith(SHARE_USER_PREFIX)) {
-				if (href.substr(SHARE_USER_PREFIX.length) === owner) {
+				if (href.slice(SHARE_USER_PREFIX.length) === owner) {
 					// don't overwrite already present displayname
 					if (!ownerDisplayname) {
 						ownerDisplayname = displayName;
 					}
 				} else {
 					shares.users.push({
-						id: href.substr(SHARE_USER_PREFIX.length),
+						id: href.slice(SHARE_USER_PREFIX.length),
 						displayname: displayName,
 						writable: writable
 					});
 				}
 			} else if (href.startsWith(SHARE_GROUP_PREFIX)) {
 				shares.groups.push({
-					id: href.substr(SHARE_GROUP_PREFIX.length),
+					id: href.slice(SHARE_GROUP_PREFIX.length),
 					displayname: displayName,
 					writable: writable
 				});
@@ -219,12 +219,12 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		if (angular.isDefined(props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'])) {
 			published = true;
 			let publishURL = props['{' + DavClient.NS_CALENDARSERVER + '}publish-url'][0].textContent;
-			if (publishURL.substr(-1) === '/') {
-				publishURL = publishURL.substr(0, publishURL.length - 1);
+			if (publishURL.slice(-1) === '/') {
+				publishURL = publishURL.slice(0, -1);
 			}
 
 			const lastIndexOfSlash = publishURL.lastIndexOf('/');
-			publicToken = publishURL.substr(lastIndexOfSlash + 1);
+			publicToken = publishURL.slice(lastIndexOfSlash + 1);
 		}
 
 		return [published, publicToken];
@@ -299,7 +299,7 @@ app.service('CalendarFactory', function($window, DavClient, Calendar, WebCal, co
 		}
 
 		const slashIndex = userPrincipal.lastIndexOf('/');
-		return userPrincipal.substr(slashIndex + 1);
+		return userPrincipal.slice(slashIndex + 1);
 	};
 
 	/**
