@@ -112,7 +112,7 @@ app.service('VEventService', function(DavClient, StringUtility, XMLUtility, VEve
 				const props = obj.propStat[0].properties;
 				const calendarData = props[context.calendarDataPropName];
 				const etag = props[context.eTagPropName];
-				const uri = obj.href.substr(obj.href.lastIndexOf('/') + 1);
+				const uri = obj.href.slice(obj.href.lastIndexOf('/') + 1);
 
 				try {
 					const vevent = VEvent.fromRawICS(calendar, calendarData, uri, etag);

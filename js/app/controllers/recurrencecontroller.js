@@ -128,8 +128,8 @@ app.controller('RecurrenceController', function($scope) {
 		if(angular.isDefined($scope.properties.rrule.byday)) {
 			if($scope.custom.freq === 'MONTHLY') {
 				$scope.selected_month_recurrence = 'WEEK';
-				$scope.custom.interval = parseInt($scope.properties.rrule.byday[0].substr(0, $scope.properties.rrule.byday[0].length - 2));
-				$scope.custom.weekday = $scope.properties.rrule.byday[0].substr($scope.properties.rrule.byday[0].length - 2, $scope.properties.rrule.byday[0].length - 1);
+				$scope.custom.interval = parseInt($scope.properties.rrule.byday[0].slice(0, -2));
+				$scope.custom.weekday = $scope.properties.rrule.byday[0].slice(-2);
 			}
 			else {
 				angular.forEach($scope.properties.rrule.byday, function(value) {
