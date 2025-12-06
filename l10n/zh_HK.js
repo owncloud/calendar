@@ -116,6 +116,7 @@ OC.L10N.register(
     "Hello," : "您好,",
     "We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}." : "我们在此告知您%s发布了名为{boldstart}%s{boldend}的日历。",
     "Click here to access it" : "点击这里访问",
+    "Cheers!" : "太棒了！",
     "We wanted to inform you that %s has published the calendar %s." : "我们在此告知您%s发布了名为%s的日历。",
     "Click on the link below to access it" : "点击下面的链接访问",
     "Due to an upstream bug, the calendar is currently not able to provide support for the asset pipeline feature." : "由于上游的bug，日历目前无法提供资产管道功能的支持。",
