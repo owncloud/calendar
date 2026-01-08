@@ -49,7 +49,7 @@ app.service('DavClient', function($window) {
 	 * @returns {string}
 	 */
 	client.buildUrl = function(path) {
-		if (path.substr(0,1) !== '/') {
+		if (path.slice(0,1) !== '/') {
 			path = '/' + path;
 		}
 
