@@ -208,7 +208,6 @@ class ViewController extends Controller {
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version');
 		$webCalWorkaround = $runningOnServer91OrLater ? 'no' : 'yes';
 		$isIE = $this->request->isUserAgent([Request::USER_AGENT_IE]);
-//		$defaultColor = $this->config->getAppValue('theming', 'color', '#1d2d44');
 		$canSharePublicLink = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 
 		return [
