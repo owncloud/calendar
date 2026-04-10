@@ -256,28 +256,6 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->request->expects($this->once())
 			->method('isUserAgent')
 			->willReturn(false);
-//		$actual = $this->controller->index();
-//
-//		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $actual);
-//		$this->assertEquals([
-//			'appVersion' => '42.13.37',
-//			'initialView' => 'someView',
-//			'emailAddress' => 'test@bla.com',
-//			'skipPopover' => 'someSkipPopoverValue',
-//			'weekNumbers' => 'someShowWeekNrValue',
-//			'firstRun' => 'someFirstRunValue',
-//			'supportsClass' => $expectsSupportsClass,
-//			'defaultColor' => '#1d2d44',
-//			'webCalWorkaround' => $expectsWebcalWorkaround,
-//			'isPublic' => false,
-//			'isEmbedded' => false,
-//			'isIE' => $isIE,
-//			'token' => '',
-//			'shareeCanEditShares' => 'no',
-//			'shareeCanEditCalendarProperties' => 'no',
-//			'canSharePublicLink' => 'yes'
-//		], $actual->getParams());
-//		$this->assertEquals('main', $actual->getTemplateName());
 
 		if ($expectsSetRequest) {
 			$this->config->expects($this->once())
