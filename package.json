@@ -29,7 +29,7 @@
     "gulp-ng-annotate": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-strip-comments": "^2.6.0",
-    "gulp-strip-css-comments": "^1.2.0",
+    "gulp-strip-css-comments": "^3.0.0",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifycss": "^1.0.9",
