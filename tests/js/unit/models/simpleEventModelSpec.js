@@ -1553,9 +1553,9 @@ END:VCALENDAR`;
 
 		const simple = SimpleEvent(event);
 
-		expect(simple.dtstart.value.toString().substr(0, 24)).toEqual('Tue Oct 04 2016 09:00:00');
+		expect(simple.dtstart.value.toString().slice(0, 24)).toEqual('Tue Oct 04 2016 09:00:00');
 		delete simple.dtstart.value;
-		expect(simple.dtend.value.toString().substr(0, 24)).toEqual('Tue Oct 04 2016 11:30:00');
+		expect(simple.dtend.value.toString().slice(0, 24)).toEqual('Tue Oct 04 2016 11:30:00');
 		delete simple.dtend.value;
 
 		expect(simple.dtstart).toEqual({
@@ -1593,9 +1593,9 @@ END:VCALENDAR`;
 
 		const simple = SimpleEvent(event);
 
-		expect(simple.dtstart.value.toString().substr(0, 24)).toEqual('Sun Sep 25 2016 00:00:00');
+		expect(simple.dtstart.value.toString().slice(0, 24)).toEqual('Sun Sep 25 2016 00:00:00');
 		delete simple.dtstart.value;
-		expect(simple.dtend.value.toString().substr(0, 24)).toEqual('Mon Oct 10 2016 05:00:00');
+		expect(simple.dtend.value.toString().slice(0, 24)).toEqual('Mon Oct 10 2016 05:00:00');
 		delete simple.dtend.value;
 
 		expect(simple.dtstart).toEqual({
@@ -1632,9 +1632,9 @@ END:VCALENDAR`;
 
 		const simple = SimpleEvent(event);
 
-		expect(simple.dtstart.value.toString().substr(0, 24)).toEqual('Sat Nov 05 2016 23:59:00');
+		expect(simple.dtstart.value.toString().slice(0, 24)).toEqual('Sat Nov 05 2016 23:59:00');
 		delete simple.dtstart.value;
-		expect(simple.dtend.value.toString().substr(0, 24)).toEqual('Sat Nov 05 2016 23:59:00');
+		expect(simple.dtend.value.toString().slice(0, 24)).toEqual('Sat Nov 05 2016 23:59:00');
 		delete simple.dtend.value;
 
 		expect(simple.dtstart).toEqual({
@@ -1671,9 +1671,9 @@ END:VCALENDAR`;
 
 		const simple = SimpleEvent(event);
 
-		expect(simple.dtstart.value.toString().substr(0, 24)).toEqual('Tue Sep 27 2016 00:00:00');
+		expect(simple.dtstart.value.toString().slice(0, 24)).toEqual('Tue Sep 27 2016 00:00:00');
 		delete simple.dtstart.value;
-		expect(simple.dtend.value.toString().substr(0, 24)).toEqual('Wed Sep 28 2016 00:00:00');
+		expect(simple.dtend.value.toString().slice(0, 24)).toEqual('Wed Sep 28 2016 00:00:00');
 		delete simple.dtend.value;
 
 		expect(simple.dtstart).toEqual({
