@@ -2767,9 +2767,10 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
   integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
-hsl_rgb_converter@kayellpeee/hsl_rgb_converter:
+hsl_rgb_converter@o-klp/hsl_rgb_converter:
   version "1.0.0"
-  resolved "https://codeload.github.com/kayellpeee/hsl_rgb_converter/tar.gz/3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
+  uid "3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
+  resolved "https://codeload.github.com/o-klp/hsl_rgb_converter/tar.gz/3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
 
 html-escaper@^2.0.0:
   version "2.0.0"
@@ -3187,10 +3188,10 @@ istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-jasmine-core@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.5.0.tgz#132c23e645af96d85c8bca13c8758b18429fc1e4"
-  integrity sha512-nCeAiw37MIMA9w9IXso7bRaLl+c/ef3wnxsoSAlYrzS+Ot0zTG6nU8G/cIfGkqpkjX2wNaIW9RFG0TwIFnG6bA==
+jasmine-core@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-6.2.0.tgz#1e63642766d26e68afd2681d00ace3475004385a"
+  integrity sha512-b16WZG/pFEFj8qRW1ss7nDuNGYz9ji8BDGj7fJNrROauk5rj/diO3KPOuyIpcgUChdC+c0PfQ8iUk4nHE+EN4w==
 
 jquery-timepicker@fgelinas/timepicker#883bb2cd94:
   version "0.0.0"
