@@ -32,8 +32,8 @@ app.service('StringUtility', function () {
 			suffix = '.' + suffix;
 		}
 
-		return prefix + Math.random().toString(36).substr(2).toUpperCase() +
-			Math.random().toString(36).substr(2).toUpperCase() + suffix;
+		return prefix + Math.random().toString(36).slice(2).toUpperCase() +
+			Math.random().toString(36).slice(2).toUpperCase() + suffix;
 	};
 
 	this.uri = function(start, isAvailable) {
@@ -64,8 +64,8 @@ app.service('StringUtility', function () {
 		// === false because !undefined = true, possible infinite loop
 		do {
 			var positionLastDash = uri.lastIndexOf('-');
-			var firstPart = uri.substr(0, positionLastDash);
-			var lastPart = uri.substr(positionLastDash + 1);
+			var firstPart = uri.slice(0, positionLastDash !== -1 ? positionLastDash : 0);
+			var lastPart = uri.slice(positionLastDash + 1);
 
 			if (lastPart.match(/^\d+$/)) {
 				lastPart = parseInt(lastPart);
