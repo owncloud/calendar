@@ -2767,9 +2767,10 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
   integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
-hsl_rgb_converter@kayellpeee/hsl_rgb_converter:
+hsl_rgb_converter@o-klp/hsl_rgb_converter:
   version "1.0.0"
-  resolved "https://codeload.github.com/kayellpeee/hsl_rgb_converter/tar.gz/3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
+  uid "3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
+  resolved "https://codeload.github.com/o-klp/hsl_rgb_converter/tar.gz/3936a3896dd2f45a5c66317aab6f9175c9fde9fb"
 
 html-escaper@^2.0.0:
   version "2.0.0"
@@ -3207,9 +3208,9 @@ js-tokens@^3.0.2:
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
 js-yaml@3.x, js-yaml@^3.13.0:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
-  integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.15.0.tgz#586e5214eafe3e893756a41e979b50d89d3e4a67"
+  integrity sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
