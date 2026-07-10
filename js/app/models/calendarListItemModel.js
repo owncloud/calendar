@@ -181,7 +181,7 @@ app.factory('CalendarListItem', function($rootScope, $window, Calendar, WebCal, 
 			const searchFor = '(' + context.calendar.owner + ')';
 			const lastIndexOf = context.calendar.displayname.lastIndexOf(searchFor);
 
-			return context.calendar.displayname.substr(0, lastIndexOf - 1);
+			return context.calendar.displayname.slice(0, lastIndexOf > 0 ? lastIndexOf - 1 : 0);
 		};
 
 		//Properties for ng-model of calendar editor
