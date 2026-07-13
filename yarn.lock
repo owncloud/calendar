@@ -2861,10 +2861,15 @@ istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-jasmine-core@^3.5.0, jasmine-core@^3.6.0:
+jasmine-core@^3.6.0:
   version "3.99.1"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.99.1.tgz#5bfa4b2d76618868bfac4c8ff08bb26fffa4120d"
   integrity sha512-Hu1dmuoGcZ7AfyynN3LsfruwMbxMALMka+YtZeGoLuDEySVmVAPaonkNoBRIw/ectu8b9tVQCJNgp4a4knp+tg==
+
+jasmine-core@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-6.3.0.tgz#ff8e4e771a4c8e7bebd0966bc4625f000f78fa84"
+  integrity sha512-eMm5qBovNjNoGOcgE/W207+wrcK5zrQv0Rg/rWGboUJUmZp0dFCpHTyjpuDAfCwRCqg7f9U2q2jtv/aUuzdCQg==
 
 jquery-timepicker@fgelinas/timepicker#883bb2cd94:
   version "0.0.0"
