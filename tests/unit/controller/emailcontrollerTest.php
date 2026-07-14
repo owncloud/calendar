@@ -111,6 +111,48 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * On instances with an active front controller linkToRouteAbsolute() returns
+	 * the app base without the "/index.php/" segment, while the client still
+	 * builds the public link with it (OC.linkTo). Such a link must be accepted.
+	 */
+	public function testEmailPublicLinkAcceptsValidUrlWithFrontController() {
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+		$urlGenerator->method('linkToRouteAbsolute')
+			->with('calendar.view.index')
+			->willReturn('http://localhost/apps/calendar/');
+		$controller = new EmailController(
+			$this->appName,
+			$this->request,
+			$this->userSession,
+			$this->config,
+			$this->mailer,
+			$this->l10n,
+			$this->defaults,
+			$urlGenerator
+		);
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($this->dummyUser);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+
+		$message = $this->createCapturingMessage($capturedHtml);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$actual = $controller->sendEmailPublicLink(
+			'victim@target.com',
+			self::APP_BASE_URL . 'p/sometoken',
+			'My Calendar'
+		);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertSame(Http::STATUS_OK, $actual->getStatus());
+	}
+
+	/**
 	 * The calendar name must not be able to inject arbitrary HTML into the
 	 * mail body (phishing anchor from the report must be escaped).
 	 */
@@ -177,6 +219,7 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			'javascript scheme' => ['javascript:alert(1)'],
 			'same host but wrong app' => ['http://localhost/index.php/apps/evil/p/token'],
 			'same app but non-public route' => [self::APP_BASE_URL . 'v1/config'],
+			'traversal out of the public route' => [self::APP_BASE_URL . 'p/tok/../../../../evil'],
 		];
 	}
 

@@ -102,6 +102,9 @@ class EmailController extends Controller {
 	 */
 	public function sendEmailPublicLink($to, $url, $name) {
 		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		}
 		$username = $user->getDisplayName();
 
 		if (!$this->isValidPublicCalendarUrl($url)) {
@@ -168,22 +171,38 @@ class EmailController extends Controller {
 		}
 
 		// Base URL of the calendar app on this instance, e.g.
-		// https://cloud.example.com/index.php/apps/calendar/
+		// https://cloud.example.com/index.php/apps/calendar/ or, with a working
+		// front controller, https://cloud.example.com/apps/calendar/.
 		$appBase = $this->urlGenerator->linkToRouteAbsolute('calendar.view.index');
 		if (\substr($appBase, -1) !== '/') {
 			$appBase .= '/';
 		}
 
-		// The link must live below the calendar app base (same scheme, host,
-		// port and app path).
-		if (\strpos($url, $appBase) !== 0) {
+		// The link must live below the calendar app base (same scheme, host and
+		// port). The client always builds the public link with the "/index.php/"
+		// front-controller segment (OC.linkTo), while linkToRouteAbsolute() omits
+		// it when the front controller is active. Normalise that segment away on
+		// both sides so a legitimate link is not rejected on pretty-URL instances.
+		$normalize = static function ($value) {
+			return \str_replace('/index.php/', '/', $value);
+		};
+		$normalizedBase = $normalize($appBase);
+		$normalizedUrl = $normalize($url);
+		if (\strpos($normalizedUrl, $normalizedBase) !== 0) {
+			return false;
+		}
+
+		$path = \substr($normalizedUrl, \strlen($normalizedBase));
+
+		// Reject any traversal segment so the path cannot be normalised by the
+		// client into a different location under the same host.
+		if (\preg_match('~(^|/)\.\.(/|$)~', $path)) {
 			return false;
 		}
 
 		// The remainder must be one of the public sharing routes followed by a
 		// non-empty token, mirroring appinfo/routes.php:
 		//   p/{token}, p/{token}/{fancyName}, embed/{token}, public/{token}
-		$path = \substr($url, \strlen($appBase));
 		return (bool)\preg_match('~^(p|embed|public)/[^/?#]+~', $path);
 	}
 }
