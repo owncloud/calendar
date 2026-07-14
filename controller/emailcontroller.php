@@ -164,6 +164,13 @@ class EmailController extends Controller {
 			return false;
 		}
 
+		// A backslash never appears in a legitimate link, but browsers treat it
+		// as a path separator, so a payload like "p/x\..\.." would be normalised
+		// client-side into a different location. Reject outright.
+		if (\strpos($url, '\\') !== false) {
+			return false;
+		}
+
 		// Must be an absolute http(s) URL.
 		$scheme = \parse_url($url, PHP_URL_SCHEME);
 		if (!\in_array($scheme, ['http', 'https'], true)) {
@@ -195,14 +202,16 @@ class EmailController extends Controller {
 		$path = \substr($normalizedUrl, \strlen($normalizedBase));
 
 		// Reject any traversal segment so the path cannot be normalised by the
-		// client into a different location under the same host.
-		if (\preg_match('~(^|/)\.\.(/|$)~', $path)) {
+		// client into a different location under the same host. Decode once so
+		// percent-encoded variants (%2e%2e, ..%2f) are caught as well.
+		if (\preg_match('~(^|/)\.\.(/|$)~', \rawurldecode($path))) {
 			return false;
 		}
 
-		// The remainder must be one of the public sharing routes followed by a
-		// non-empty token, mirroring appinfo/routes.php:
+		// The remainder must be exactly one of the public sharing routes followed
+		// by a non-empty token, mirroring appinfo/routes.php. The pattern is fully
+		// anchored so no trailing path, query or fragment is allowed:
 		//   p/{token}, p/{token}/{fancyName}, embed/{token}, public/{token}
-		return (bool)\preg_match('~^(p|embed|public)/[^/?#]+~', $path);
+		return (bool)\preg_match('~^(p/[^/?#]+(/[^/?#]+)?|(embed|public)/[^/?#]+)$~', $path);
 	}
 }

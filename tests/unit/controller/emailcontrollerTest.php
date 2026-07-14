@@ -89,8 +89,10 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * A valid, same-origin public calendar link is accepted and an email is sent.
+	 *
+	 * @dataProvider provideAcceptedUrls
 	 */
-	public function testEmailPublicLinkAcceptsValidUrl() {
+	public function testEmailPublicLinkAcceptsValidUrl($url) {
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->dummyUser);
@@ -102,12 +104,40 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 
 		$actual = $this->controller->sendEmailPublicLink(
 			'victim@target.com',
-			self::APP_BASE_URL . 'p/sometoken',
+			$url,
 			'My Calendar'
 		);
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertSame(Http::STATUS_OK, $actual->getStatus());
+	}
+
+	public function provideAcceptedUrls() {
+		return [
+			'branding route' => [self::APP_BASE_URL . 'p/sometoken'],
+			'branding route with fancy name' => [self::APP_BASE_URL . 'p/sometoken/My-Calendar'],
+			'embed route' => [self::APP_BASE_URL . 'embed/sometoken'],
+			'legacy public route' => [self::APP_BASE_URL . 'public/sometoken'],
+		];
+	}
+
+	/**
+	 * Without an authenticated user the endpoint must not send mail.
+	 */
+	public function testEmailPublicLinkRejectsMissingUser() {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+		$this->mailer->expects($this->never())->method('send');
+
+		$actual = $this->controller->sendEmailPublicLink(
+			'victim@target.com',
+			self::APP_BASE_URL . 'p/sometoken',
+			'My Calendar'
+		);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertSame(Http::STATUS_UNAUTHORIZED, $actual->getStatus());
 	}
 
 	/**
@@ -175,6 +205,14 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 		);
 
 		$this->assertNotNull($capturedHtml, 'An HTML body should have been rendered');
+		// Guard against a false green: prove the real template actually rendered
+		// (the valid link is present) so the escaping assertions below are not
+		// passing vacuously on an empty/failed render.
+		$this->assertStringContainsString(
+			self::APP_BASE_URL . 'p/sometoken',
+			$capturedHtml,
+			'The rendered body should contain the real public calendar link'
+		);
 		$this->assertStringNotContainsString(
 			'<a href="https://attacker.example/phish">CLICK TO VERIFY</a>',
 			$capturedHtml,
@@ -189,6 +227,39 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			'&lt;a href=',
 			$capturedHtml,
 			'The injected HTML should appear escaped in the mail body'
+		);
+	}
+
+	/**
+	 * The user display name is interpolated into the mail body too and must be
+	 * escaped just like the calendar name.
+	 */
+	public function testEmailPublicLinkEscapesInjectedHtmlInUsername() {
+		$maliciousUser = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$maliciousUser->method('getDisplayName')
+			->willReturn('<a href="https://attacker.example/phish">Admin</a>');
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($maliciousUser);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+
+		$capturedHtml = null;
+		$message = $this->createCapturingMessage($capturedHtml);
+		$this->mailer->method('createMessage')->willReturn($message);
+
+		$this->controller->sendEmailPublicLink(
+			'victim@target.com',
+			self::APP_BASE_URL . 'p/sometoken',
+			'My Calendar'
+		);
+
+		$this->assertNotNull($capturedHtml, 'An HTML body should have been rendered');
+		$this->assertStringNotContainsString(
+			'<a href="https://attacker.example/phish">Admin</a>',
+			$capturedHtml,
+			'Injected anchor from the user display name must not appear unescaped in the mail body'
 		);
 	}
 
@@ -220,6 +291,20 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			'same host but wrong app' => ['http://localhost/index.php/apps/evil/p/token'],
 			'same app but non-public route' => [self::APP_BASE_URL . 'v1/config'],
 			'traversal out of the public route' => [self::APP_BASE_URL . 'p/tok/../../../../evil'],
+			// Host-confusion: a host that merely starts with the legit host.
+			'lookalike host suffix' => ['http://localhost.attacker.example/index.php/apps/calendar/p/token'],
+			'host prefix without separator' => ['http://localhostevil/index.php/apps/calendar/p/token'],
+			'protocol relative' => ['//attacker.example/index.php/apps/calendar/p/token'],
+			// Empty / missing token.
+			'empty token' => [self::APP_BASE_URL . 'p/'],
+			'route without token' => [self::APP_BASE_URL . 'p'],
+			// Traversal variants the plain slash guard would miss.
+			'backslash traversal' => [self::APP_BASE_URL . 'p/x\\..\\..\\..\\index.php\\s\\token'],
+			'encoded traversal' => [self::APP_BASE_URL . 'p/x/%2e%2e/%2e%2e/admin'],
+			// Trailing path / query / fragment after a valid token.
+			'trailing path after token' => [self::APP_BASE_URL . 'p/token/extra/segment'],
+			'query tail' => [self::APP_BASE_URL . 'p/token?next=https://evil.example'],
+			'fragment tail' => [self::APP_BASE_URL . 'p/token#https://evil.example'],
 		];
 	}
 
