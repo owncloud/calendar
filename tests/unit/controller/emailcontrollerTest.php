@@ -21,7 +21,11 @@
  */
 namespace OCA\Calendar\Controller;
 
+use OCP\AppFramework\Http;
+
 class EmailControllerTest extends \PHPUnit\Framework\TestCase {
+	private const APP_BASE_URL = 'http://localhost/index.php/apps/calendar/';
+
 	private $appName;
 	private $request;
 	private $config;
@@ -29,6 +33,7 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 	private $mailer;
 	private $l10n;
 	private $defaults;
+	private $urlGenerator;
 
 	private $dummyUser;
 
@@ -49,6 +54,7 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->dummyUser = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->dummyUser->method('getDisplayName')->willReturn('Alice');
 
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
 			->disableOriginalConstructor()
@@ -62,6 +68,13 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->with('calendar.view.index')
+			->willReturn(self::APP_BASE_URL);
+
 		$this->controller = new EmailController(
 			$this->appName,
 			$this->request,
@@ -69,27 +82,120 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 			$this->config,
 			$this->mailer,
 			$this->l10n,
-			$this->defaults
+			$this->defaults,
+			$this->urlGenerator
 		);
 	}
 
 	/**
-	 * @dataProvider indexEmailPublicLink
+	 * A valid, same-origin public calendar link is accepted and an email is sent.
 	 */
-	public function testEmailPublicLink($to, $url, $name) {
-		$this->userSession->expects($this->exactly(1))
+	public function testEmailPublicLinkAcceptsValidUrl() {
+		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->dummyUser));
+			->willReturn($this->dummyUser);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
-		$actual = $this->controller->sendEmailPublicLink($to, $url, $name);
+		$message = $this->createCapturingMessage($capturedHtml);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$actual = $this->controller->sendEmailPublicLink(
+			'victim@target.com',
+			self::APP_BASE_URL . 'p/sometoken',
+			'My Calendar'
+		);
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertSame(Http::STATUS_OK, $actual->getStatus());
 	}
 
-	public function indexEmailPublicLink() {
+	/**
+	 * The calendar name must not be able to inject arbitrary HTML into the
+	 * mail body (phishing anchor from the report must be escaped).
+	 */
+	public function testEmailPublicLinkEscapesInjectedHtmlInName() {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($this->dummyUser);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+
+		$capturedHtml = null;
+		$message = $this->createCapturingMessage($capturedHtml);
+		$this->mailer->method('createMessage')->willReturn($message);
+
+		$maliciousName = '<b>INJECTED</b><a href="https://attacker.example/phish">CLICK TO VERIFY</a>';
+
+		$this->controller->sendEmailPublicLink(
+			'victim@target.com',
+			self::APP_BASE_URL . 'p/sometoken',
+			$maliciousName
+		);
+
+		$this->assertNotNull($capturedHtml, 'An HTML body should have been rendered');
+		$this->assertStringNotContainsString(
+			'<a href="https://attacker.example/phish">CLICK TO VERIFY</a>',
+			$capturedHtml,
+			'Injected anchor from the calendar name must not appear unescaped in the mail body'
+		);
+		$this->assertStringNotContainsString(
+			'<b>INJECTED</b>',
+			$capturedHtml,
+			'Injected markup from the calendar name must be escaped'
+		);
+		$this->assertStringContainsString(
+			'&lt;a href=',
+			$capturedHtml,
+			'The injected HTML should appear escaped in the mail body'
+		);
+	}
+
+	/**
+	 * A URL that does not point at this instance's calendar public link must be
+	 * rejected so the endpoint cannot be abused to craft phishing mails.
+	 *
+	 * @dataProvider provideRejectedUrls
+	 */
+	public function testEmailPublicLinkRejectsForeignUrl($url) {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($this->dummyUser);
+		// A valid recipient guarantees the only possible rejection reason is the URL.
+		$this->mailer->method('validateMailAddress')->willReturn(true);
+		$this->mailer->expects($this->never())->method('send');
+
+		$actual = $this->controller->sendEmailPublicLink('victim@target.com', $url, 'My Calendar');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $actual->getStatus());
+	}
+
+	public function provideRejectedUrls() {
 		return [
-			['test@test.tld', 'myurl.tld', 'user123'],
-			['testtesttld', 'myurl.tld', 'user123'],
+			'foreign host' => ['https://attacker.example/phish'],
+			'no scheme' => ['myurl.tld'],
+			'javascript scheme' => ['javascript:alert(1)'],
+			'same host but wrong app' => ['http://localhost/index.php/apps/evil/p/token'],
+			'same app but non-public route' => [self::APP_BASE_URL . 'v1/config'],
 		];
+	}
+
+	/**
+	 * Builds a mail message mock that records the HTML body it is given.
+	 *
+	 * @param string|null $capturedHtml populated with the rendered HTML body
+	 * @return \PHPUnit\Framework\MockObject\MockObject
+	 */
+	private function createCapturingMessage(&$capturedHtml) {
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()
+			->getMock();
+		$message->method('setHtmlBody')->willReturnCallback(
+			function ($html) use (&$capturedHtml, $message) {
+				$capturedHtml = $html;
+				return $message;
+			}
+		);
+		return $message;
 	}
 }
