@@ -28,6 +28,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 
@@ -59,6 +60,11 @@ class EmailController extends Controller {
 	private $userSession;
 
 	/**
+	 * @var IURLGenerator
+	 */
+	private $urlGenerator;
+
+	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
 	 * @param IUserSession $userSession
@@ -66,6 +72,7 @@ class EmailController extends Controller {
 	 * @param IMailer $mailer
 	 * @param IL10N $l10N
 	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
 		$appName,
@@ -74,7 +81,8 @@ class EmailController extends Controller {
 		IConfig $config,
 		IMailer $mailer,
 		IL10N $l10N,
-		Defaults $defaults
+		Defaults $defaults,
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
@@ -82,18 +90,35 @@ class EmailController extends Controller {
 		$this->mailer = $mailer;
 		$this->l10n = $l10N;
 		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
+	 * Emails the public link of a calendar shared by the current user.
+	 *
+	 * The link is generated here from the caller-supplied public sharing
+	 * token, not accepted verbatim, so the endpoint cannot be abused to send
+	 * mail from the server identity pointing at an attacker-controlled URL
+	 * (phishing). The generated URL is same-origin and a real public sharing
+	 * route by construction.
+	 *
 	 * @param string $to
-	 * @param string $url
+	 * @param string $token public sharing token of the calendar
 	 * @param string $name
 	 * @return JSONResponse
 	 * @NoAdminRequired
 	 */
-	public function sendEmailPublicLink($to, $url, $name) {
+	public function sendEmailPublicLink($to, $token, $name) {
 		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		}
 		$username = $user->getDisplayName();
+
+		$url = $this->publicCalendarUrl($token);
+		if ($url === null) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
 
 		$subject = $this->l10n->t('%s has published the calendar "%s"', [$username, $name]);
 
@@ -132,5 +157,25 @@ class EmailController extends Controller {
 		$this->mailer->send($message);
 
 		return Http::STATUS_OK;
+	}
+
+	/**
+	 * Builds the absolute public link for a shared calendar from its sharing
+	 * token. The URL is produced by the router, so it is same-origin and a
+	 * genuine public sharing route by construction — there is no untrusted URL
+	 * to validate. The token itself is URL-encoded by the generator.
+	 *
+	 * @param string $token public sharing token
+	 * @return string|null the absolute public link, or null if the token is empty
+	 */
+	private function publicCalendarUrl($token) {
+		if (!\is_string($token) || $token === '') {
+			return null;
+		}
+
+		return $this->urlGenerator->linkToRouteAbsolute(
+			'calendar.view.public_index_with_branding',
+			['token' => $token]
+		);
 	}
 }

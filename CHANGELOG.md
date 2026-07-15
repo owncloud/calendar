@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+### Fixed
+
+- Prevent abuse of the public calendar "send mail" endpoint for phishing by
+  escaping the calendar name/user name in the mail body and generating the
+  public link on the server from the sharing token instead of accepting a
+  caller-supplied URL (OC10-123)
+
 
 ## [2.0.0] - 2022-07-05
 
