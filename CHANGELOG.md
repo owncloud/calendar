@@ -5,12 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+
+## [2.1.0] - 2026-08-02
+
+### Changed
+
+- [#1341](https://github.com/owncloud/calendar/pull/1341) - Add PHP 8.3 support
+- This version requires ownCloud 11 and PHP 8.3
+
 ### Fixed
 
 - Prevent abuse of the public calendar "send mail" endpoint for phishing by
   escaping the calendar name/user name in the mail body and generating the
   public link on the server from the sharing token instead of accepting a
   caller-supplied URL (OC10-123)
+- [#1242](https://github.com/owncloud/calendar/pull/1242) - Replace the deprecated `String.prototype.substr()`
 
 
 ## [2.0.0] - 2022-07-05
@@ -235,7 +244,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Adjusted colors to Nextcloud
 - Properly display line breaks in agenda views
 
-[Unreleased]: https://github.com/owncloud/calendar/compare/v2.0.0...master
+[Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.0...master
+[2.1.0]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/owncloud/calendar/compare/v1.6.4...v2.0.0
 [1.6.4]: https://github.com/owncloud/calendar/compare/v1.6.3...v1.6.4
 [1.6.3]: https://github.com/owncloud/calendar/compare/v1.6.2...v1.6.3
