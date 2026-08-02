@@ -71,7 +71,6 @@ endif
 # * the certificate is located in ~/.owncloud/calendar.crt
 occ=$(CURDIR)/../../occ
 phpunit_oc10=$(CURDIR)/../../lib/composer/bin/phpunit
-configdir=$(CURDIR)/../../config
 private_key=$(HOME)/.owncloud/certificates/$(app_name).key
 certificate=$(HOME)/.owncloud/certificates/$(app_name).crt
 sign=php -f $(occ) integrity:sign-app --privateKey="$(private_key)" --certificate="$(certificate)"
@@ -155,9 +154,7 @@ appstore: build
 	"CHANGELOG.md" \
 	$(appstore_build_directory)
 ifdef CAN_SIGN
-	mv $(configdir)/config.php $(configdir)/config-2.php
 	$(sign) --path="$(appstore_build_directory)"
-	mv $(configdir)/config-2.php $(configdir)/config.php
 else
 	@echo $(sign_skip_msg)
 endif
