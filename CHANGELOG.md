@@ -30,6 +30,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - [#1242](https://github.com/owncloud/calendar/pull/1242) - Replace the deprecated `String.prototype.substr()`
 
 
+## [2.0.1] - 2026-10-19
+
+### Fixed
+
+- [#1384](https://github.com/owncloud/calendar/pull/1384) - Validate the sharing token on the public calendar pages
+- [#1384](https://github.com/owncloud/calendar/pull/1384) - Use the default content security policy on the embedded calendar page
+
+
 ## [2.0.0] - 2022-07-05
 
 ### Changed
@@ -255,6 +263,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 [Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.1...master
 [2.1.1]: https://github.com/owncloud/calendar/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.1.0
+[2.0.1]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/owncloud/calendar/compare/v1.6.4...v2.0.0
 [1.6.4]: https://github.com/owncloud/calendar/compare/v1.6.3...v1.6.4
 [1.6.3]: https://github.com/owncloud/calendar/compare/v1.6.2...v1.6.3
