@@ -417,6 +417,9 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 				'canSharePublicLink' => 'yes'
 			], $actual->getParams());
 			$this->assertEquals('main', $actual->getTemplateName());
+
+			\preg_match('/script-src ([^;]*)/', $actual->getHeaders()['Content-Security-Policy'], $matches);
+			$this->assertNotContains('*', \explode(' ', $matches[1]));
 		}
 	}
 
@@ -557,5 +560,42 @@ class ViewControllerTest extends \PHPUnit\Framework\TestCase {
 			[false, false, '12.0.0', true, false],
 			[false, false, '12.0.0', true, true],
 		];
+	}
+
+	public function invalidPublicTokenProvider() {
+		$methods = [
+			'publicIndexWithBranding',
+			'publicIndexWithBrandingAndFancyName',
+			'publicIndexForEmbedding',
+			'publicIndexForEmbeddingLegacy',
+		];
+		$tokens = [
+			'',
+			'abc.def',
+			'abc+def',
+			'abc def',
+			'not-a-token!',
+			'äbc',
+			"abc\n",
+		];
+		$data = [];
+		foreach ($methods as $method) {
+			foreach ($tokens as $token) {
+				$data[] = [$method, $token];
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * @dataProvider invalidPublicTokenProvider
+	 */
+	public function testPublicIndexRejectsInvalidToken($method, $token) {
+		$this->config->expects($this->never())
+			->method('getSystemValue');
+
+		$actual = $this->controller->$method($token);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\NotFoundResponse', $actual);
 	}
 }

@@ -25,7 +25,7 @@ namespace OCA\Calendar\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -125,9 +125,13 @@ class ViewController extends Controller {
 	 *
 	 * @param string $token
 	 *
-	 * @return TemplateResponse
+	 * @return TemplateResponse|NotFoundResponse
 	 */
 	public function publicIndexWithBranding($token) {
+		if (!$this->isValidPublicToken($token)) {
+			return new NotFoundResponse();
+		}
+
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
@@ -158,9 +162,13 @@ class ViewController extends Controller {
 	 *
 	 * @param string $token
 	 *
-	 * @return TemplateResponse
+	 * @return TemplateResponse|NotFoundResponse
 	 */
 	public function publicIndexForEmbedding($token) {
+		if (!$this->isValidPublicToken($token)) {
+			return new NotFoundResponse();
+		}
+
 		if ($this->needsAssetPipelineWarning()) {
 			return new TemplateResponse('calendar', 'main-asset-pipeline-unsupported');
 		}
@@ -173,9 +181,6 @@ class ViewController extends Controller {
 		$response = new TemplateResponse('calendar', 'main', $params, 'public');
 
 		$response->addHeader('X-Frame-Options', 'ALLOW');
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedScriptDomain('*');
-		$response->setContentSecurityPolicy($csp);
 
 		return $response;
 	}
@@ -257,6 +262,15 @@ class ViewController extends Controller {
 			'downloadURL' => $downloadUrl,
 			'token' => $token,
 		];
+	}
+
+	/**
+	 * public calendar tokens are random alphanumeric strings
+	 * @param string $token
+	 * @return bool
+	 */
+	private function isValidPublicToken($token) {
+		return \is_string($token) && \preg_match('/^[A-Za-z0-9_-]+$/D', $token) === 1;
 	}
 
 	/**
