@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased] - XXXX-XX-XX
 
 
+## [2.1.1] - 2026-10-19
+
+### Fixed
+
+- [#1383](https://github.com/owncloud/calendar/pull/1383) - Validate the sharing token on the public calendar pages
+- [#1383](https://github.com/owncloud/calendar/pull/1383) - Use the default content security policy on the embedded calendar page
+
+
 ## [2.1.0] - 2026-08-02
 
 ### Changed
@@ -244,7 +252,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Adjusted colors to Nextcloud
 - Properly display line breaks in agenda views
 
-[Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.0...master
+[Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.1...master
+[2.1.1]: https://github.com/owncloud/calendar/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/owncloud/calendar/compare/v1.6.4...v2.0.0
 [1.6.4]: https://github.com/owncloud/calendar/compare/v1.6.3...v1.6.4
