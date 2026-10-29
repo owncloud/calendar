@@ -145,11 +145,11 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
-	 * An empty token cannot yield a public link, so no mail is sent.
+	 * An empty or malformed token cannot yield a public link, so no mail is sent.
 	 *
-	 * @dataProvider provideEmptyTokens
+	 * @dataProvider provideInvalidTokens
 	 */
-	public function testEmailPublicLinkRejectsEmptyToken($token) {
+	public function testEmailPublicLinkRejectsInvalidToken($token) {
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($this->dummyUser);
@@ -163,10 +163,12 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $actual->getStatus());
 	}
 
-	public function provideEmptyTokens() {
+	public function provideInvalidTokens() {
 		return [
 			'empty string' => [''],
 			'null' => [null],
+			'slash' => ['abc/def'],
+			'dot' => ['abc.def'],
 		];
 	}
 

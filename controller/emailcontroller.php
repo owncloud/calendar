@@ -166,10 +166,10 @@ class EmailController extends Controller {
 	 * to validate. The token itself is URL-encoded by the generator.
 	 *
 	 * @param string $token public sharing token
-	 * @return string|null the absolute public link, or null if the token is empty
+	 * @return string|null the absolute public link, or null if the token is empty or malformed
 	 */
 	private function publicCalendarUrl($token) {
-		if (!\is_string($token) || $token === '') {
+		if (!\is_string($token) || \preg_match('/^[A-Za-z0-9_-]+$/D', $token) !== 1) {
 			return null;
 		}
 
