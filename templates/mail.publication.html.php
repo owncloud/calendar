@@ -261,15 +261,17 @@
 										<p><?php
 											// Resolve the bold markers on the translator-controlled string
 											// first, then interpolate the HTML-escaped user values so neither
-											// the username nor the calendar name can inject markup.
+											// the username nor the calendar name can inject markup. Core 10
+											// runs vsprintf() on every translation, so the values are passed
+											// as placeholder tokens; without parameters it falls back to English.
 											$publicationLine = str_replace(
 												['{boldstart}', '{boldend}'],
 												['<b>', '</b>'],
-												$l->t("We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.")
+												$l->t("We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.", ['{username}', '{calendarname}'])
 											);
-											print_unescaped(\vsprintf($publicationLine, [
-												\OCP\Util::sanitizeHTML($_['username']),
-												\OCP\Util::sanitizeHTML($_['calendarname']),
+											print_unescaped(\strtr($publicationLine, [
+												'{username}' => \OCP\Util::sanitizeHTML($_['username']),
+												'{calendarname}' => \OCP\Util::sanitizeHTML($_['calendarname']),
 											])); ?></p>
 										<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
 											<tbody>

@@ -173,6 +173,50 @@ class EmailControllerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * The publication line must be rendered in the user's language, with the
+	 * user values still escaped.
+	 */
+	public function testEmailPublicLinkTranslatesPublicationLine() {
+		$realFactory = \OC::$server->getL10NFactory();
+		$factory = $this->createMock(\OCP\L10N\IFactory::class);
+		$factory->method('get')->willReturnCallback(
+			function ($app) use ($realFactory) {
+				return $realFactory->get($app, 'de');
+			}
+		);
+		\OC::$server->registerService('L10NFactory', function () use ($factory) {
+			return $factory;
+		});
+
+		try {
+			$this->userSession->expects($this->once())
+				->method('getUser')
+				->willReturn($this->dummyUser);
+			$this->mailer->method('validateMailAddress')->willReturn(true);
+
+			$capturedHtml = null;
+			$message = $this->createCapturingMessage($capturedHtml);
+			$this->mailer->method('createMessage')->willReturn($message);
+
+			$this->controller->sendEmailPublicLink(
+				'victim@target.com',
+				self::PUBLIC_TOKEN,
+				'<i>Team</i>'
+			);
+		} finally {
+			\OC::$server->registerService('L10NFactory', function () use ($realFactory) {
+				return $realFactory;
+			});
+		}
+
+		$this->assertStringNotContainsString('We wanted to inform you', $capturedHtml);
+		$this->assertStringContainsString(
+			'Alice den Kalender <b>&lt;i&gt;Team&lt;/i&gt;</b> veröffentlicht hat.',
+			$capturedHtml
+		);
+	}
+
+	/**
 	 * The calendar name must not be able to inject arbitrary HTML into the
 	 * mail body (phishing anchor from the report must be escaped).
 	 */
