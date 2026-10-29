@@ -259,11 +259,18 @@
 									<td>
 										<p><?php p($l->t('Hello,')); ?></p>
 										<p><?php
-											print_unescaped(str_replace(
+											// Resolve the bold markers on the translator-controlled string
+											// first, then interpolate the HTML-escaped user values so neither
+											// the username nor the calendar name can inject markup.
+											$publicationLine = str_replace(
 												['{boldstart}', '{boldend}'],
 												['<b>', '</b>'],
-												$l->t("We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.", [$_['username'], '<b>' . $_['calendarname'] . '</b>'])
-											)); ?></p>
+												$l->t("We wanted to inform you that %s has published the calendar {boldstart}%s{boldend}.")
+											);
+											print_unescaped(\vsprintf($publicationLine, [
+												\OCP\Util::sanitizeHTML($_['username']),
+												\OCP\Util::sanitizeHTML($_['calendarname']),
+											])); ?></p>
 										<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
 											<tbody>
 											<tr>
