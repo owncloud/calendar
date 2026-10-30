@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+### Fixed
+
+- Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
+  surrounding whitespace. Any other value, including `#rgba`, is shown in the
+  default color, and importing or subscribing to a calendar with such a color
+  picks a random color instead.
+
 
 ## [2.1.1] - 2026-10-19
 
