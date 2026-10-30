@@ -25,14 +25,14 @@ app.service('MailerService', ['$rootScope', 'DavClient',
 	function ($rootScope, DavClient) {
 		'use strict';
 
-		this.sendMail = function (dest, url, name) {
+		this.sendMail = function (dest, token, name) {
 			var headers = {
 				'Content-Type' : 'application/json; charset=utf-8',
 				requesttoken : oc_requesttoken
 			};
 			var mailBody = {
 				'to': dest,
-				'url': url,
+				'token': token,
 				'name': name
 			};
 			return DavClient.request('POST', $rootScope.baseUrl + 'public/sendmail', headers, JSON.stringify(mailBody));
