@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
 
 - [#1389](https://github.com/owncloud/calendar/pull/1389) - Generate the public calendar link on the server when it is sent by mail, and escape the calendar and user name in the mail
+- [#1389](https://github.com/owncloud/calendar/pull/1389) - Reject a malformed token in the public sendmail endpoint with a 400 instead of a 500
 - [#1391](https://github.com/owncloud/calendar/pull/1391) - Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
   surrounding whitespace. Any other value, including `#rgba`, is shown in the
   default color, and importing or subscribing to a calendar with such a color
