@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+
+## [2.1.2] - 2026-10-30
+
 ### Fixed
 
-- Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
+- [#1390](https://github.com/owncloud/calendar/pull/1390) - Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
   surrounding whitespace. Any other value, including `#rgba`, is shown in the
   default color, and importing or subscribing to a calendar with such a color
   picks a random color instead.
+- [#1388](https://github.com/owncloud/calendar/pull/1388) - Reject a malformed token in the public sendmail endpoint with a 400 instead of a 500
 
 
 ## [2.1.1] - 2026-10-19
@@ -35,6 +39,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   public link on the server from the sharing token instead of accepting a
   caller-supplied URL (OC10-123)
 - [#1242](https://github.com/owncloud/calendar/pull/1242) - Replace the deprecated `String.prototype.substr()`
+
+
+## [2.0.2] - 2026-10-30
+
+### Fixed
+
+- [#1389](https://github.com/owncloud/calendar/pull/1389) - Generate the public calendar link on the server when it is sent by mail, and escape the calendar and user name in the mail
+- [#1391](https://github.com/owncloud/calendar/pull/1391) - Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
+  surrounding whitespace. Any other value, including `#rgba`, is shown in the
+  default color, and importing or subscribing to a calendar with such a color
+  picks a random color instead.
 
 
 ## [2.0.1] - 2026-10-19
@@ -267,9 +282,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Adjusted colors to Nextcloud
 - Properly display line breaks in agenda views
 
-[Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.1...master
+[Unreleased]: https://github.com/owncloud/calendar/compare/v2.1.2...master
+[2.1.2]: https://github.com/owncloud/calendar/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/owncloud/calendar/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.1.0
+[2.0.2]: https://github.com/owncloud/calendar/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/owncloud/calendar/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/owncloud/calendar/compare/v1.6.4...v2.0.0
 [1.6.4]: https://github.com/owncloud/calendar/compare/v1.6.3...v1.6.4
