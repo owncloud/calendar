@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
 
 - Generate the public calendar link on the server when it is sent by mail, and escape the calendar and user name in the mail
+- Only accept `#rgb`, `#rrggbb` and `#rrggbbaa` as calendar colors, ignoring
+  surrounding whitespace. Any other value, including `#rgba`, is shown in the
+  default color, and importing or subscribing to a calendar with such a color
+  picks a random color instead.
 
 ## [2.0.1] - 2026-10-19
 

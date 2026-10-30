@@ -1044,6 +1044,44 @@ describe('CalendarFactory', function () {
 			writableProperties: true}]);
 	});
 
+	it('fallback to the instance color if the color is not a hex color', function() {
+		const invalidColors = [
+			'#f00 #0f0',
+			'transparent',
+			'red',
+			'rgb(255, 0, 0)',
+			'#78e77',
+			'#78e774f'
+		];
+
+		invalidColors.forEach(function(invalidColor) {
+			const calendarProperties = davService.parseMultiStatus(calendar_default.replace('>#78e774<', '>' + invalidColor + '<'));
+			const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+			expect(calendar[2].color).toEqual('#fefefe');
+		});
+	});
+
+	it('fallback to the instance color if a webcal color is not a hex color', function() {
+		const webcalProperties = davService.parseMultiStatus(webcal_default.replace('>#e774b5<', '>blue<'));
+		const webcal = CalendarFactory.webcal(privateCalendarServiceAPI, webcalProperties[0], '/remote.php/dav/principals/users/admin/', false);
+		expect(webcal[2].color).toEqual('#fefefe');
+	});
+
+	it('accept short and alpha hex colors', function() {
+		const colors = {
+			'#abc': '#abc',
+			'#78E774': '#78E774',
+			'#78e774ff': '#78e774',
+			' #78e774 ': '#78e774'
+		};
+
+		Object.keys(colors).forEach(function(color) {
+			const calendarProperties = davService.parseMultiStatus(calendar_default.replace('>#78e774<', '>' + color + '<'));
+			const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
+			expect(calendar[2].color).toEqual(colors[color]);
+		});
+	});
+
 	it('enable the calendar when it\'s owned by the user and enabled is not set', function() {
 		const calendarProperties = davService.parseMultiStatus(calendar_noenabled);
 		const calendar = CalendarFactory.calendar(privateCalendarServiceAPI, calendarProperties[0], '/remote.php/dav/principals/users/admin/', false);
