@@ -609,6 +609,50 @@ END:VCALENDAR`;
 		expect(SplittedICal).toHaveBeenCalledWith('Privat', '#FC2327');
 	});
 
+	it('should drop a calendar color that is not a hex color', function() {
+		const ical = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Privat
+X-APPLE-CALENDAR-COLOR:red
+BEGIN:VEVENT
+CREATED:20160809T163629Z
+UID:0AD16F58-01B3-463B-A215-FD09FC729A02
+DTEND:20160816T100000Z
+SUMMARY:Test
+DTSTART:20160816T090000Z
+DTSTAMP:20160809T163632Z
+END:VEVENT
+END:VCALENDAR`;
+
+		ICalSplitterUtility.split(ical);
+
+		expect(SplittedICal).toHaveBeenCalledWith('Privat', null);
+	});
+
+	it('should strip the alpha value from the calendar color', function() {
+		const ical = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Privat
+X-APPLE-CALENDAR-COLOR:#78e774ff
+BEGIN:VEVENT
+CREATED:20160809T163629Z
+UID:0AD16F58-01B3-463B-A215-FD09FC729A02
+DTEND:20160816T100000Z
+SUMMARY:Test
+DTSTART:20160816T090000Z
+DTSTAMP:20160809T163632Z
+END:VEVENT
+END:VCALENDAR`;
+
+		ICalSplitterUtility.split(ical);
+
+		expect(SplittedICal).toHaveBeenCalledWith('Privat', '#78e774');
+	});
+
 	it('should properly distinguish all three different kind of objects', function() {
 		const ical = `BEGIN:VCALENDAR
 VERSION:2.0

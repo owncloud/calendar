@@ -47,6 +47,38 @@ app.service('ColorUtility', function() {
 	};
 
 	/**
+	 * check whether a string is a hex color (#rgb, #rrggbb or #rrggbbaa)
+	 * @param colorString
+	 * @returns {boolean}
+	 */
+	this.isValidHexColor = function(colorString) {
+		return typeof colorString === 'string' && /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(colorString);
+	};
+
+	/**
+	 * turn a calendar color into #rgb or #rrggbb, or return the fallback if it is not a hex color
+	 * @param colorString
+	 * @param fallback
+	 * @returns {*}
+	 */
+	this.normalizeHexColor = function(colorString, fallback) {
+		if (typeof colorString !== 'string') {
+			return fallback;
+		}
+
+		const trimmed = colorString.trim();
+		if (!self.isValidHexColor(trimmed)) {
+			return fallback;
+		}
+
+		// some clients (like Apple Calendar) store an alpha value (#rrggbbaa), which not all browsers can parse
+		if (trimmed.length === 9) {
+			return trimmed.slice(0, 7);
+		}
+		return trimmed;
+	};
+
+	/**
 	 * extract decimal values from hex rgb string
 	 * @param colorString
 	 * @returns {*}

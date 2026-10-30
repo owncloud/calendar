@@ -19,7 +19,7 @@
  *
  */
 
-app.service('ICalSplitterUtility', function (ICalFactory, SplittedICal) {
+app.service('ICalSplitterUtility', function (ICalFactory, SplittedICal, ColorUtility) {
 	'use strict';
 
 	const calendarColorIdentifier = 'x-apple-calendar-color';
@@ -50,7 +50,8 @@ app.service('ICalSplitterUtility', function (ICalFactory, SplittedICal) {
 		});
 
 		const name = components.getFirstPropertyValue(calendarNameIdentifier);
-		const color = components.getFirstPropertyValue(calendarColorIdentifier);
+		const colorProp = components.getFirstPropertyValue(calendarColorIdentifier);
+		const color = ColorUtility.normalizeHexColor(colorProp, null);
 
 		const split = SplittedICal(name, color);
 		componentNames.forEach(function (componentName) {
