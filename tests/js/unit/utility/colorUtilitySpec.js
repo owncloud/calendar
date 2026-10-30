@@ -19,6 +19,39 @@ describe('ColorUtility shared tests', function () {
 		expect(ColorUtility.generateTextColorFromRGB(255, 255, 255)).toEqual('#000000');
 	});
 
+	it('should only accept hex colors', function () {
+		expect(ColorUtility.isValidHexColor('#abc')).toBe(true);
+		expect(ColorUtility.isValidHexColor('#78E774')).toBe(true);
+		expect(ColorUtility.isValidHexColor('#78e774ff')).toBe(true);
+
+		expect(ColorUtility.isValidHexColor(undefined)).toBe(false);
+		expect(ColorUtility.isValidHexColor(null)).toBe(false);
+		expect(ColorUtility.isValidHexColor('')).toBe(false);
+		expect(ColorUtility.isValidHexColor('red')).toBe(false);
+		expect(ColorUtility.isValidHexColor('#abcd')).toBe(false);
+		expect(ColorUtility.isValidHexColor('#78e77z')).toBe(false);
+		expect(ColorUtility.isValidHexColor('#78e774\n')).toBe(false);
+		expect(ColorUtility.isValidHexColor('#f00 #0f0')).toBe(false);
+	});
+
+	it('should normalize hex colors', function () {
+		expect(ColorUtility.normalizeHexColor('#abc', '#fefefe')).toEqual('#abc');
+		expect(ColorUtility.normalizeHexColor('#78E774', '#fefefe')).toEqual('#78E774');
+		expect(ColorUtility.normalizeHexColor('#78e774ff', '#fefefe')).toEqual('#78e774');
+		expect(ColorUtility.normalizeHexColor(' #abc', '#fefefe')).toEqual('#abc');
+		expect(ColorUtility.normalizeHexColor('#abc ', '#fefefe')).toEqual('#abc');
+		expect(ColorUtility.normalizeHexColor('#abc\r', '#fefefe')).toEqual('#abc');
+		expect(ColorUtility.normalizeHexColor('\n#78e774\n', '#fefefe')).toEqual('#78e774');
+
+		expect(ColorUtility.normalizeHexColor(undefined, '#fefefe')).toEqual('#fefefe');
+		expect(ColorUtility.normalizeHexColor(null, null)).toEqual(null);
+		expect(ColorUtility.normalizeHexColor('', '#fefefe')).toEqual('#fefefe');
+		expect(ColorUtility.normalizeHexColor('red', '#fefefe')).toEqual('#fefefe');
+		expect(ColorUtility.normalizeHexColor('#abcd', '#fefefe')).toEqual('#fefefe');
+		expect(ColorUtility.normalizeHexColor('#a bc', '#fefefe')).toEqual('#fefefe');
+		expect(ColorUtility.normalizeHexColor('rgb(255, 0, 0)', '#fefefe')).toEqual('#fefefe');
+	});
+
 	it('should extract RGB codes from HEX string', function () {
 		//short RGB
 		expect(ColorUtility.extractRGBFromHexString('#000')).toEqual({
